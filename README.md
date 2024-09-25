@@ -269,10 +269,10 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   http://localhost:8080/users/{UserID}/followed/list?order=name_asc
   http://localhost:8080/users/{UserID}/followed/list?order=name_desc
 ```
-| order      | Description |
-| :-------- :-------------------------------- |
-| `name_asc`   | **Alfabético ascendente.**  |
-| `name_desc`   | **Alfabético descendente.**  |
+| Order       | Description                       |
+| :-----------| :-------------------------------- |
+| `name_asc`  | **Alfabético ascendente.**        |
+| `name_desc` | **Alfabético descendente.**       |
 
 Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 
