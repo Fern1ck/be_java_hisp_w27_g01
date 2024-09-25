@@ -186,7 +186,7 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Dev:
 
--[@Emilia Lascano](https://github.com/EmiLascano)
+- [@Emilia Lascano](https://github.com/EmiLascano)
 
 #### Metodo GET
 
@@ -262,13 +262,16 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 - [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo GET
+
 - `Funcionalidad 8`: Ordenamiento alfabético ascendente y descendente.
+  
 ```
   http://localhost:8080/users/{UserID}/followers/list?order=name_asc
   http://localhost:8080/users/{UserID}/followers/list?order=name_desc
   http://localhost:8080/users/{UserID}/followed/list?order=name_asc
   http://localhost:8080/users/{UserID}/followed/list?order=name_desc
 ```
+
 | Order       | Description                       |
 | :-----------| :-------------------------------- |
 | `name_asc`  | **Alfabético ascendente.**        |
@@ -286,10 +289,10 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
   http://localhost:8080//products/followed/{userId}/list?order=date_asc
   http://localhost:8080/products/followed/{userId}/list?order=date_desc
 ```
-| order      | Description                    |
-| :-------- :-------------------------------- |
-| `date_asc`   | **Fecha ascendente (de más antigua a más nueva).**  |
-| `date_desc`   | **Fecha descendente (de más nueva a más antigua).**  |
+| Order       | Description                                          |
+| :-----------| :--------------------------------------------------- |
+| `date_asc`  | **Fecha ascendente (de más antigua a más nueva).**   |
+| `date_desc` | **Fecha descendente (de más nueva a más antigua).**  |
 
 Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
