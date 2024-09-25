@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "05bcb3a2-4a78-4912-b2f8-2b4f2ca4a322",
+		"name": "Social Meli",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38181492",
+		"_collection_link": "https://social-meli-01.postman.co/workspace/ce789d86-c031-4870-a5b5-c9750e695c98/collection/38181492-05bcb3a2-4a78-4912-b2f8-2b4f2ca4a322?action=share&source=collection_link&creator=38181492"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
