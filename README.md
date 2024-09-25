@@ -13,6 +13,10 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Funcionalidades del proyecto
 
+## Dev:
+
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+  
 - `Funcionalidad 1`: Poder realizar la acción de “Follow” (seguir) a un determinado usuario.
 
 #### Metodo POST
@@ -35,9 +39,10 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | `userId`      | `int` | **Required**. Número que identifica al usuario actual |
 | `userIdToFollow`      | `int` | **Required**. Número que identifica al usuario a seguir |
 
+
 ## Dev:
 
-- [@Stephanie Castillo](https://github.com/Stephaaniie)
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
   
 #### Metodo GET
 
@@ -81,18 +86,18 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
     "user_id": 234, 
     "user_name": "vendedor1", 
     "followers": [
-                    {
-                      "user_id": 4698,
-                      "user_name": "usuario1"
-                    },
-                    {
-                      "user_name": "usuario2" 
-                    },
-                    {
-                      "user_id": 2236,
-                      "user_name": "usuario3"
-                    }
-                    ]
+     {
+        "user_id": 4698,
+        "user_name": "usuario1"
+      },
+      {
+        "user_name": "usuario2" 
+       },
+       {
+         "user_id": 2236,
+         "user_name": "usuario3"
+       }
+    ]
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
@@ -100,8 +105,8 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Dev:
 
-- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
-
+- [@Delfina Glavas](https://github.com/delfi85)
+  
 #### Metodo GET
 
 - `Funcionalidad 4`: Obtener  un listado de todos los vendedores a los cuales sigue un determinado usuario (¿A quién sigo?)
@@ -137,7 +142,7 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Dev:
 
-- [@Delfina Glavas](https://github.com/delfi85)
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
 
 #### Metodo POST
 - `Funcionalidad 5`: Dar de alta una nueva publicación.
@@ -161,27 +166,27 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
         "price": 1500.50
       
     
-    | Response  |
-    | :-------- | 
-    | `Status Code 200 (todo OK) - bodyless or dto` | 
-    | `Status Code 400 (Bad Request) - bodyless or dto` | 
+| Response  |
+| :-------- | 
+| `Status Code 200 (todo OK) - bodyless or dto` | 
+| `Status Code 400 (Bad Request) - bodyless or dto` | 
 
-    | Parameter | Type     | Description                       |
-    | :-------- | :------- | :-------------------------------- |
-    | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
-    | `date`      | `LocalDate` | **Required**. Fecha de la publicación en formato dd-MM-yyyy. |
-    | `product_id`      | `int` | **Required**. Número identificatorio de un producto asociado a una publicación. |
-    | `product_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre de un producto. |
-    | `type`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto|
-    | `brand`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
-    | `color`      | `String` | **Required**. Cadena de caracteres que representa el color de un producto notes.|
-    | `note`      | `String` | **Required**. Cadena de caracteres para colocar notas u observaciones de un producto.|
-    | `category`      | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados|
-    | `price`      | `double` | **Required**. Precio del producto.|
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
+| `date`      | `LocalDate` | **Required**. Fecha de la publicación en formato dd-MM-yyyy. |
+| `product_id`      | `int` | **Required**. Número identificatorio de un producto asociado a una publicación. |
+| `product_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre de un producto. |
+| `type`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto|
+| `brand`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
+| `color`      | `String` | **Required**. Cadena de caracteres que representa el color de un producto notes.|
+| `note`      | `String` | **Required**. Cadena de caracteres para colocar notas u observaciones de un producto.|
+| `category`      | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados|
+| `price`      | `double` | **Required**. Precio del producto.|
 
 ## Dev:
 
-- [@Stephanie Castillo](https://github.com/Stephaaniie)
+-[@Emilia Lascano](https://github.com/EmiLascano)
 
 #### Metodo GET
 
@@ -238,8 +243,8 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Dev:
 
--[@Emilia Lascano](https://github.com/EmiLascano)
-
+- [@Emilia Lascano](https://github.com/EmiLascano)
+  
 #### Metodo POST
 - `Funcionalidad 7`: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.
 ```
@@ -254,8 +259,7 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | `userIdToUnfollow`      | `int` | **Required**. Número que identifica al usuario a dejar de seguir |
 
 ## Dev:
-
-- [@Emilia Lascano](https://github.com/EmiLascano)
+- [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo GET
 - `Funcionalidad 8`: Ordenamiento alfabético ascendente y descendente.
@@ -273,7 +277,8 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 
 ## Dev:
-- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+- [@Delfina Glavas](https://github.com/delfi85)
 
 #### Metodo GET
 - `Funcionalidad 9`: Ordenamiento por fecha ascendente y descendente.
@@ -281,7 +286,7 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
   http://localhost:8080//products/followed/{userId}/list?order=date_asc
   http://localhost:8080/products/followed/{userId}/list?order=date_desc
 ```
-| order      | Description |
+| order      | Description                    |
 | :-------- :-------------------------------- |
 | `date_asc`   | **Fecha ascendente (de más antigua a más nueva).**  |
 | `date_desc`   | **Fecha descendente (de más nueva a más antigua).**  |
@@ -289,8 +294,7 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
 ## Dev:
-
-- [@Delfina Glavas](https://github.com/delfi85)
+- [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo POST
 - `Funcionalidad 10`: Llevar a cabo la publicación de un nuevo producto en promoción.
@@ -336,7 +340,12 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
-## Dev:
+## Devs:
+
+- [@Delfina Glavas](https://github.com/delfi85)
+- [@Emilia Lascano](https://github.com/EmiLascano)
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
 - [@Fernando Baldrich](https://github.com/Fern1ck)
   
 #### Metodo GET
@@ -357,13 +366,7 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `user_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre del usuario. |
 | `promo_products_count`      | `int` | **Required**. Cantidad numérica de productos en promoción de un determinado usuario. |
 
-## Devs:
 
-- [@Delfina Glavas](https://github.com/delfi85)
-- [@Emilia Lascano](https://github.com/EmiLascano)
-- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
-- [@Stephanie Castillo](https://github.com/Stephaaniie)
-- [@Fernando Baldrich](https://github.com/Fern1ck)
   
 #### Metodo GET
 - `Funcionalidad 12`: Obtener un listado de todos los productos en promoción de un determinado vendedor (OPCIONAL).
