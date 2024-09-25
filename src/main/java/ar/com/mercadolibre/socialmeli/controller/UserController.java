@@ -3,10 +3,18 @@ package ar.com.mercadolibre.socialmeli.controller;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
     @Autowired
     private IUserService userService;
+
+    @GetMapping("/users/test")
+    public ResponseEntity<?> test(){
+        return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
 }
