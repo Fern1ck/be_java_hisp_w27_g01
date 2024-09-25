@@ -14,7 +14,5 @@ public class RepositoryImpl implements IRepository {
     private List<User> users;
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
-
-        users.forEach(System.out::println);
     }
 }
