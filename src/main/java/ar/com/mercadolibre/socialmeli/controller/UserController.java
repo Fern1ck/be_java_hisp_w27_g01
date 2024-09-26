@@ -1,7 +1,6 @@
 package ar.com.mercadolibre.socialmeli.controller;
 
 import ar.com.mercadolibre.socialmeli.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,8 +50,4 @@ public class UserController {
     }
 
 
-    @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<?> postByUser(@PathVariable int userId){
-        return new ResponseEntity<>(userService.postsOfFolloweds(userId), HttpStatus.OK);
-    }
 }

@@ -3,6 +3,7 @@ package ar.com.mercadolibre.socialmeli.service.impl;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedListDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameDTO;
@@ -16,6 +17,8 @@ import ar.com.mercadolibre.socialmeli.service.IUserService;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -157,61 +160,5 @@ public class UserServiceImpl implements IUserService {
         return new UserOkDTO("Status Code 200 (todo OK)");
 
     }
-
-
-    /**
-     * Obtener un listado de las publicaciones realizadas por los vendedores
-     */
-    public List<Post> postsByUser(int userId){
-        List<User> users= Utils.createDefaultUsers().stream().toList();
-
-        User user= users.stream()
-                .filter(u->u.getUserId().equals(userId))
-                .findFirst()
-                .orElseThrow(()->new NullPointerException("No existe el usuario"));
-
-
-        return user.getPosts();
-    }
-
-
-    /**
-     * lista de ids que un usuario sigue (vendedores)
-     */
-    public List<Integer> followedByUser(int userId){
-        User user= Utils.createDefaultUsers().stream().filter(u->u.getUserId().equals(userId)).findFirst().orElseThrow(()->new NotFoundException("No se encontro usuario"));
-        return user.getFollowedIds();
-    }
-
-
-    /**
-     * Obtener un listado de las publicaciones realizadas por uno de los los vendedores que un usuario sigue
-     */
-
-    public List<Post> postByUser(int userId) {
-        List<Integer> idsFolloweds= followedByUser(userId);
-        Integer idSeller= idsFolloweds.stream().filter(u->u.equals(userId)).findFirst().orElseThrow(()->new NotFoundException("No se encontro id: "+ userId + "de usuario"));
-        User userSeller= Utils.createDefaultUsers().stream().filter(u->u.getUserId().equals(idSeller)).findFirst().orElseThrow(()->new NotFoundException("No se encontro usuario"));
-        List<Post> post= userSeller.getPosts();
-
-       // ObjectMapper mapper= new ObjectMapper();
-        return userSeller.getPosts();
-    }
-
-    //listado de los posteos de los usuarios que sigue un usario
-    @Override
-    public List<List<PostDTO>> postsOfFolloweds(int userId){
-        User user= Utils.createDefaultUsers().stream().filter(u->u.getUserId().equals(userId)).findFirst().orElseThrow(()->new NotFoundException("No se encontro usuario"));
-        List<List<Post>> listsPostsFollowed= new ArrayList<>();
-        for(Integer i: user.getFollowedIds()){
-            listsPostsFollowed.add(postsByUser(i));
-        }
-        ObjectMapper mapper=new ObjectMapper();
-
-        return listsPostsFollowed.stream()
-                .map(posts -> mapper.convertValue(posts, new TypeReference<List<PostDTO>>() {}))
-                .collect(Collectors.toList());
-    }
-
 
 }

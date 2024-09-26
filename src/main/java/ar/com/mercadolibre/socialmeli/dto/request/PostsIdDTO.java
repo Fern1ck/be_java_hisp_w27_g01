@@ -1,27 +1,32 @@
-package ar.com.mercadolibre.socialmeli.dto;
+package ar.com.mercadolibre.socialmeli.dto.request;
 
 import ar.com.mercadolibre.socialmeli.entity.Product;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
-public class PostDTO {
-    //PostDTO sin promo
+@NoArgsConstructor
+public class PostsIdDTO {
 
     @JsonProperty("user_id")
-    private Integer UserId;
+    private Integer userId;
     @JsonProperty("post_id")
     private Integer postId;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
-    private ProductDTO product;
+
+    private Product product;
+
     private Integer category;
+
     private Double price;
-
-
 
 
 }
