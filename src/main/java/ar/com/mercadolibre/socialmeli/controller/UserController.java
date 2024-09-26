@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -21,6 +22,11 @@ public class UserController {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}/followers/list")
+    public ResponseEntity<?> getFollowerList(@PathVariable Integer userId){
+        return new ResponseEntity<>(userService.getFollowerList(userId), HttpStatus.OK);
+    }
+    
     @GetMapping("{userId}/followed/list")
     public ResponseEntity<?> getFollowedList(@PathVariable Integer userId) {
         return new ResponseEntity<>(userService.findByFollowed(userId), HttpStatus.OK);

@@ -1,5 +1,7 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserNameDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedListDTO;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -14,6 +16,7 @@ import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +54,27 @@ public class UserServiceImpl implements IUserService {
         return userFollowedDTOList;
     }
 
+    public UserFollowerListDTO getFollowerList(Integer userId){
+
+        if (userId == null || userId <= 0){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        if (!repository.idExist(userId)){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        List<UserNameDTO> followers = repository.getUsers().stream()
+                .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
+                .map(user -> new UserNameDTO(user.getUserId(), user.getUserName()))
+                .toList();
+
+        User user = repository.getUserById(userId);
+
+        return new UserFollowerListDTO(userId, user.getUserName(), followers);
+
+    }
+
     public UserFollowerCountDTO getFollowerCount(Integer userId){
 
         if (userId == null || userId <= 0){
@@ -69,7 +93,8 @@ public class UserServiceImpl implements IUserService {
 
         return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
     }
-    
+
+   
     @Override
     public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
         if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0) {

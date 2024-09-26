@@ -6,9 +6,13 @@ import java.util.List;
 
 public interface IRepository {
 
-    Boolean existId(Integer userId);
+    Boolean idExist(Integer userId);
+
+    public User getUserById(Integer userId);
 
     List<User> getUsers();
+    
+    Boolean existId(Integer userId);
 
     User findUserById(Integer userId);
 }
