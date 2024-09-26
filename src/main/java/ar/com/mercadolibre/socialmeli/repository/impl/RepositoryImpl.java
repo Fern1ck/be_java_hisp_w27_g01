@@ -11,8 +11,13 @@ import java.util.List;
 
 @Repository
 public class RepositoryImpl implements IRepository {
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
+    }
+
+    @Override
+    public User findUserById(Integer userId) {
+        return users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
     }
 }
