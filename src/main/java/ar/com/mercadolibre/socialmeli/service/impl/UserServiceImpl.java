@@ -13,9 +13,7 @@ import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +25,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserFollowedDTO> findByFollowed(Integer userId) {
+    public List<UserFollowedDTO> findByFollowed(Integer userId, String order) {
         User user = repository.getUserById(userId);
         if (user == null) {
             throw new NotFoundException("User ID: " + userId + " doesn't exist.");
@@ -48,12 +46,24 @@ public class UserServiceImpl implements IUserService {
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
+        if(order != null){
+            if(order.equals("name_asc")){
+                followedList = followedList.stream().sorted(Comparator.comparing(UserFollowedListDTO::getUserName)).toList();
+            }
+            else if(order.equals("name_desc")){
+                followedList = followedList.stream().sorted(Comparator.comparing(UserFollowedListDTO::getUserName).reversed()).toList();
+            }
+            else{
+                throw new BadRequestException("Order " + order + " not recognized.");
+            }
+        }
+
         List<UserFollowedDTO> userFollowedDTOList = new ArrayList<>();
         userFollowedDTOList.add(new UserFollowedDTO(user.getUserId(), user.getUserName(), followedList));
         return userFollowedDTOList;
     }
 
-    public UserFollowerListDTO getFollowerList(Integer userId){
+    public UserFollowerListDTO getFollowerList(Integer userId, String order){
 
         if (userId == null || userId <= 0){
             throw new BadRequestException("User ID: " + userId + " is invalid.");
@@ -68,6 +78,17 @@ public class UserServiceImpl implements IUserService {
                 .map(user -> new UserNameDTO(user.getUserId(), user.getUserName()))
                 .toList();
 
+        if(order != null){
+            if(order.equals("name_asc")){
+                followers = followers.stream().sorted(Comparator.comparing(UserNameDTO::getUserName)).toList();
+            }
+            else if(order.equals("name_desc")){
+                followers = followers.stream().sorted(Comparator.comparing(UserNameDTO::getUserName).reversed()).toList();
+            }
+            else{
+                throw new BadRequestException("Order " + order + " not recognized.");
+            }
+        }
         User user = repository.getUserById(userId);
 
         return new UserFollowerListDTO(userId, user.getUserName(), followers);
