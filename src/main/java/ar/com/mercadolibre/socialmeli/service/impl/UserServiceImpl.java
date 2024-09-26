@@ -30,7 +30,7 @@ public class UserServiceImpl implements IUserService {
                 .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
                 .count();
 
-        User user = repository.getUserById(userId);
+        User user = repository.findUserById(userId);
 
         return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
     }

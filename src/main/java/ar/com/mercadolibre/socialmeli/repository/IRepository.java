@@ -10,7 +10,5 @@ public interface IRepository {
 
     List<User> getUsers();
 
-    User getUserById(Integer userId);
-
     User findUserById(Integer userId);
 }

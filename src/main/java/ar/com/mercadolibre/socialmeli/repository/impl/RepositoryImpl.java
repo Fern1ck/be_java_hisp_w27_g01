@@ -24,13 +24,6 @@ public class RepositoryImpl implements IRepository {
     public List<User> getUsers(){
         return this.users;
     }
-
-    public User getUserById(Integer userId){
-        return this.users.stream()
-                .filter(user -> user.getUserId().equals(userId))
-                .findFirst()
-                .orElse(null);
-    }
     
     @Override
     public User findUserById(Integer userId) {
