@@ -32,7 +32,7 @@ public class User {
         this.followedIds.add(followedId);
     }
 
-    public boolean addPost(Post post) {
-        return this.posts.add(post);
+    public void addToPosts(Post post){
+        this.posts.add(post);
     }
 }

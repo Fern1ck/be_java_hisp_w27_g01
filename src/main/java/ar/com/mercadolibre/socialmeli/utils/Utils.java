@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public class Utils {
     public static List<User> createDefaultUsers(){
