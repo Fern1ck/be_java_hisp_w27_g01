@@ -27,7 +27,7 @@ public class User {
     private List<Integer> followedIds = new ArrayList<>();
     private List<Post> posts;
 
-    public void setFollowedId(Integer followedId) {
+    public void addFollowedId(Integer followedId) {
         this.followedIds.add(followedId);
     }
 }

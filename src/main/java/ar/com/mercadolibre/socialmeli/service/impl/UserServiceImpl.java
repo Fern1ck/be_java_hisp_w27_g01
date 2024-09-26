@@ -22,7 +22,7 @@ public class UserServiceImpl implements IUserService {
         if (user == null) {
             throw new BadRequestException("Status Code 400 (Bad Request) userId does not exist");
         }
-        user.setFollowedId(userIdToFollow);
+        user.addFollowedId(userIdToFollow);
 
         return new UserOkDTO("Status Code 200 (todo OK)");
     }
