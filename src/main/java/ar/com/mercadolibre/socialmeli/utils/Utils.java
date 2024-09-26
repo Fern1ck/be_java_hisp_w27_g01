@@ -1,8 +1,10 @@
 package ar.com.mercadolibre.socialmeli.utils;
 
+import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,5 +42,12 @@ public class Utils {
         users.add(user4);
         users.add(user5);
         return users;
+    }
+
+
+
+    public static Post changePostDtoToEntity(PostDTO postDTO){
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(postDTO, Post.class);
     }
 }

@@ -1,5 +1,6 @@
 package ar.com.mercadolibre.socialmeli.repository.impl;
 
+import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
@@ -41,5 +42,10 @@ public class RepositoryImpl implements IRepository {
     @Override
     public User findUserById(Integer userId) {
         return users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Boolean addPostToUser(User user, Post post) {
+        return user.addPost(post);
     }
 }

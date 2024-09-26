@@ -12,10 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    public User(Integer userId, String userName){
-        this.userId = userId;
-        this.userName = userName;
-    }
 
     @JsonProperty("user_id")
     private Integer userId;
@@ -25,9 +21,18 @@ public class User {
 
     @JsonProperty("followed_ids")
     private List<Integer> followedIds = new ArrayList<>();
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
+
+    public User(Integer userId, String userName){
+        this.userId = userId;
+        this.userName = userName;
+    }
 
     public void addFollowedId(Integer followedId) {
         this.followedIds.add(followedId);
+    }
+
+    public boolean addPost(Post post) {
+        return this.posts.add(post);
     }
 }
