@@ -50,11 +50,6 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
-    public User getUserById(Integer userId) {
-        return users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
-    }
-
-    @Override
     public Boolean addPostToUser(User user, Post post) {
         return user.addToPosts(post);
     }

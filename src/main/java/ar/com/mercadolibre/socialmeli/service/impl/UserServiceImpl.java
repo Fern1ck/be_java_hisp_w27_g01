@@ -121,7 +121,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         boolean existUser= repository.existId(userId);
-        User user = repository.findUserById(userId);
+        User user = repository.getUserById(userId);
         Integer idFollow = user.getFollowedIds().stream().filter(u->u.equals(userIdToUnfollow)).findFirst().orElseThrow(()->new NotFoundException("Not find id:" + userIdToUnfollow));
 
         if(existUser){

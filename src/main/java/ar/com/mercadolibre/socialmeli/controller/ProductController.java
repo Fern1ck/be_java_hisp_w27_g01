@@ -31,13 +31,12 @@ public class ProductController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<?> registerANewPublication(@RequestBody PostDTO publicationDTO){
+    public ResponseEntity<?> registerANewPublication(@RequestBody PostDTO publicationDTO) {
         return new ResponseEntity<>(productService.registerANewPublication(publicationDTO), HttpStatus.OK);
-      
+    }
     @PostMapping("promo-post")
     public ResponseEntity<?> createPromo(@RequestBody() CreatePromoRequestDTO requestDto){
-        CreatePromoResponseDTO dto = productService.createPromo(requestDto);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-
-    }
+            CreatePromoResponseDTO dto = productService.createPromo(requestDto);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
 }

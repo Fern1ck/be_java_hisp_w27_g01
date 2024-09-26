@@ -13,8 +13,6 @@ public interface IRepository {
 
     Boolean idExist(Integer userId);
 
-    User getUserById(Integer userId);
-  
     List<User> getUsers();
 
     Boolean addPostToUser(User user, Post post);

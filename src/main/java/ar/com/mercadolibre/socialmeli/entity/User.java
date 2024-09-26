@@ -36,9 +36,10 @@ public class User {
         this.followedIds.add(followedId);
     }
 
-    public void addToPosts(Post post){
-        this.posts.add(post);
-  
+    public Boolean addToPosts(Post post) {
+        return this.posts.add(post);
+    }
+
     public void removeFollowedId(Integer followedId){
         followedIds.remove(followedId);
     }
