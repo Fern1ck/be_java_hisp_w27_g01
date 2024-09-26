@@ -73,7 +73,6 @@ public class UserServiceImpl implements IUserService {
         }
         ObjectMapper mapper=new ObjectMapper();
 
-
         return listsPostsFollowed.stream()
                 .map(posts -> mapper.convertValue(posts, new TypeReference<List<PostDTO>>() {}))
                 .collect(Collectors.toList());
