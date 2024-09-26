@@ -15,4 +15,20 @@ public class RepositoryImpl implements IRepository {
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
     }
+
+    public List<User> getUsers(){
+        return this.users;
+    }
+
+    public Boolean idExist(Integer userId){
+        return this.users.stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
+    }
+
+    public User getUserById(Integer userId){
+        return this.users.stream()
+                .filter(user -> user.getUserId().equals(userId))
+                .findFirst()
+                .orElse(null);
+    }
 }
