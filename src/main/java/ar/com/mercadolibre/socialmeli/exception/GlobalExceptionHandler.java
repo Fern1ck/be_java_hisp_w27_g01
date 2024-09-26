@@ -10,7 +10,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<?> handleException(Exception ex){
-        ExceptionDTO dto = new ExceptionDTO("Ocurrió un error en el servidor");
+        ExceptionDTO dto = new ExceptionDTO(ex.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> notFound(NotFoundException ex){
+        ExceptionDTO dto = new ExceptionDTO(ex.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<?> badRequest(BadRequestException ex){
+        ExceptionDTO dto = new ExceptionDTO(ex.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
 }

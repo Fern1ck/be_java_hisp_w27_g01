@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     public User(Integer userId, String userName){
         this.userId = userId;
@@ -22,6 +24,14 @@ public class User {
     private String userName;
 
     @JsonProperty("followed_ids")
-    private List<Integer> followedIds;
+    private List<Integer> followedIds = new ArrayList<>();
     private List<Post> posts;
+
+    public void addFollowedId(Integer followedId) {
+        this.followedIds.add(followedId);
+    }
+
+    public void addToPosts(Post post){
+        this.posts.add(post);
+    }
 }
