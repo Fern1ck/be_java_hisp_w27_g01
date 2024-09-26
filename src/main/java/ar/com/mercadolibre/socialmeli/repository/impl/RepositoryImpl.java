@@ -7,11 +7,12 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Repository
 public class RepositoryImpl implements IRepository {
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
     }
@@ -25,10 +26,20 @@ public class RepositoryImpl implements IRepository {
                 .anyMatch(user -> user.getUserId().equals(userId));
     }
 
+    public Boolean existId(Integer userId){
+        return this.users.stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
+    }
+
     public User getUserById(Integer userId){
         return this.users.stream()
                 .filter(user -> user.getUserId().equals(userId))
                 .findFirst()
                 .orElse(null);
+    }
+    
+    @Override
+    public User findUserById(Integer userId) {
+        return users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
     }
 }

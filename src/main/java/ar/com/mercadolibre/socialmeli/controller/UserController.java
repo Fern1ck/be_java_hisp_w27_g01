@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -24,5 +25,20 @@ public class UserController {
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getFollowerList(@PathVariable Integer userId){
         return new ResponseEntity<>(userService.getFollowerList(userId), HttpStatus.OK);
+    }
+    
+    @GetMapping("{userId}/followed/list")
+    public ResponseEntity<?> getFollowedList(@PathVariable Integer userId) {
+        return new ResponseEntity<>(userService.findByFollowed(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}/followers/count")
+    public ResponseEntity<?> getFollowersCount(@PathVariable Integer userId){
+        return new ResponseEntity<>(userService.getFollowerCount(userId), HttpStatus.OK);
+    }
+    
+    @PostMapping("/{userId}/follow/{userIdToFollow}")
+    public ResponseEntity<?> followASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
+        return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 }

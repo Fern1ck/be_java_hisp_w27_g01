@@ -11,4 +11,8 @@ public interface IRepository {
     public User getUserById(Integer userId);
 
     List<User> getUsers();
+    
+    Boolean existId(Integer userId);
+
+    User findUserById(Integer userId);
 }
