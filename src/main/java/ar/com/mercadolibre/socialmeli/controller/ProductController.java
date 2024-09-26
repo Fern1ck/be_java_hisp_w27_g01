@@ -30,6 +30,7 @@ public class ProductController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+
     @PostMapping("/post")
     public ResponseEntity<?> registerANewPublication(@RequestBody PostDTO publicationDTO) {
         return new ResponseEntity<>(productService.registerANewPublication(publicationDTO), HttpStatus.OK);
@@ -41,8 +42,8 @@ public class ProductController {
         }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId){
-        return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId), HttpStatus.OK);
+    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId, @RequestParam(required = false) String order){
+        return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId, order), HttpStatus.OK);
     }
 
 }
