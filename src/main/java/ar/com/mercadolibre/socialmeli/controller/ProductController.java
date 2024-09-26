@@ -22,14 +22,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products/test")
-    public ResponseEntity<?> test(){
-
-        List<User> users;
-        users = Utils.createDefaultUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
-
     @PostMapping("/post")
     public ResponseEntity<?> registerANewPublication(@RequestBody PostDTO publicationDTO) {
         return new ResponseEntity<>(productService.registerANewPublication(publicationDTO), HttpStatus.OK);
