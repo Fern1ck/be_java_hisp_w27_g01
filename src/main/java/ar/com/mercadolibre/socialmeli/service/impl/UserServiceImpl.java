@@ -69,7 +69,7 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
-        if (!repository.idExist(userId)){
+        if (!repository.existId(userId)){
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 

@@ -39,11 +39,6 @@ public class RepositoryImpl implements IRepository {
         return this.users;
     }
 
-    public Boolean idExist(Integer userId){
-        return this.users.stream()
-                .anyMatch(user -> user.getUserId().equals(userId));
-    }
-
     public Boolean existId(Integer userId){
         return this.users.stream()
                 .anyMatch(user -> user.getUserId().equals(userId));
