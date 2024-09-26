@@ -12,18 +12,22 @@ import java.util.Objects;
 
 @Repository
 public class RepositoryImpl implements IRepository {
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
     }
 
-    @Override
-    public User findByUserId(Integer userId){
-        return users.stream().filter(user -> Objects.equals(user.getUserId(), userId)).findFirst().orElse(null);
+    public Boolean existId(Integer userId){
+        return this.users.stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
     }
 
+    public List<User> getUsers(){
+        return this.users;
+    }
+    
     @Override
-    public List<User> getAllUsers(){
-        return users;
+    public User findUserById(Integer userId) {
+        return users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
     }
 }

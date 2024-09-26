@@ -5,8 +5,11 @@ import ar.com.mercadolibre.socialmeli.dto.UserFollowedListDTO;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserOkDTO;
+import ar.com.mercadolibre.socialmeli.entity.User;
+import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
-import ar.com.mercadolibre.socialmeli.service.IProductService;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +26,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserFollowedDTO> findByFollowed(Integer userId){
-        User user = repository.findByUserId(userId);
+        User user = repository.findUserById(userId);
         if(user == null){
             throw new NotFoundException("El User Id: " + userId + ", no existe." );
         }
         List<Integer> follows = user.getFollowedIds();
-        List<User> allUsers = repository.getAllUsers();
+        List<User> allUsers = repository.getUsers();
 
         if(follows == null){
             throw new BadRequestException("El usuario con Id: " + user.getUserId() + ", no sigue a nadie.");
@@ -46,5 +49,38 @@ public class UserServiceImpl implements IUserService {
         List<UserFollowedDTO> userFollowedDTOList = new ArrayList<>();
         userFollowedDTOList.add(new UserFollowedDTO(user.getUserId(), user.getUserName(), followedList));
         return userFollowedDTOList;
+
+    public UserFollowerCountDTO getFollowerCount(Integer userId){
+
+        if (userId == null || userId <= 0){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        if (!repository.existId(userId)){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        long followerCount = repository.getUsers().stream()
+                .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
+                .count();
+
+        User user = repository.findUserById(userId);
+
+        return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
+    }
+    
+    @Override
+    public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
+        if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0) {
+            throw new BadRequestException("Status Code 400 (Bad Request)");
+        }
+        User user = repository.findUserById(userId);
+        if (user == null) {
+            throw new BadRequestException("Status Code 400 (Bad Request) userId does not exist");
+        }
+        user.addFollowedId(userIdToFollow);
+
+        return new UserOkDTO("Status Code 200 (todo OK)");
+
     }
 }
