@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
         return userFollowedDTOList;
     }
 
-    public UserFollowerCountDTO getFollowerCount(Integer userId){
+    public UserFollowerListDTO getFollowerList(Integer userId){
 
         if (userId == null || userId <= 0){
             throw new BadRequestException("Invalid ID");
@@ -72,7 +72,28 @@ public class UserServiceImpl implements IUserService {
         User user = repository.getUserById(userId);
 
         return new UserFollowerListDTO(userId, user.getUserName(), followers);
+
     }
+
+    public UserFollowerCountDTO getFollowerCount(Integer userId){
+
+        if (userId == null || userId <= 0){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        if (!repository.existId(userId)){
+            throw new BadRequestException("Invalid ID");
+        }
+
+        long followerCount = repository.getUsers().stream()
+                .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
+                .count();
+
+        User user = repository.findUserById(userId);
+
+        return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
+    }
+
    
     @Override
     public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
