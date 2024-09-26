@@ -5,15 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
-    public User(Integer userId, String userName){
-        this.userId = userId;
-        this.userName = userName;
-    }
 
     @JsonProperty("user_id")
     private Integer userId;
@@ -22,6 +20,27 @@ public class User {
     private String userName;
 
     @JsonProperty("followed_ids")
-    private List<Integer> followedIds;
-    private List<Post> posts;
+    private List<Integer> followedIds = new ArrayList<>();
+    private List<Post> posts = new ArrayList<>();
+
+    public User(Integer userId, String userName){
+        this.userId = userId;
+        this.userName = userName;
+    }
+
+    public void setFollowedIds(List<Integer> followedIds) {
+        this.followedIds = new ArrayList<>(followedIds);
+    }
+
+    public void addFollowedId(Integer followedId) {
+        this.followedIds.add(followedId);
+    }
+
+    public Boolean addToPosts(Post post) {
+        return this.posts.add(post);
+    }
+
+    public void removeFollowedId(Integer followedId){
+        followedIds.remove(followedId);
+    }
 }
