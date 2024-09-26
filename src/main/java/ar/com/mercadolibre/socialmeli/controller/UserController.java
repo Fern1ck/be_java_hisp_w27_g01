@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,5 +18,10 @@ public class UserController {
     @GetMapping("/users/test")
     public ResponseEntity<?> test(){
         return new ResponseEntity<>("ok", HttpStatus.OK);
+    }
+
+    @GetMapping("/products/followed/{userId}/list")
+    public ResponseEntity<?> postByUser(@PathVariable int userId){
+        return new ResponseEntity<>(userService.postsOfFolloweds(userId), HttpStatus.OK);
     }
 }
