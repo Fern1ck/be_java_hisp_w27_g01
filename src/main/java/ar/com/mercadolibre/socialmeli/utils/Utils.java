@@ -43,8 +43,4 @@ public class Utils {
         users.add(user5);
         return users;
     }
-
-    public static <T> void replaceIf(List<T> list, Predicate<? super T> pred, UnaryOperator<T> op) {
-        list.replaceAll(t -> pred.test(t) ? op.apply(t) : t);
-    }
 }

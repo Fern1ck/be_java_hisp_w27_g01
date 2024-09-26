@@ -24,4 +24,8 @@ public class User {
     @JsonProperty("followed_ids")
     private List<Integer> followedIds;
     private List<Post> posts;
+
+    public void addToPosts(Post post){
+        this.posts.add(post);
+    }
 }

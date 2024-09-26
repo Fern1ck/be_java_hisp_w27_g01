@@ -4,6 +4,6 @@ import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 
 public interface IRepository {
-    Integer createPost(Integer userId, Post post);
+    Integer createPost(User user, Post post);
     User getUserById(Integer id);
 }

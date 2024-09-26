@@ -18,14 +18,13 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
-    public Integer createPost(Integer userId, Post post) {
-        User updatedUser = getUserById(userId);
-        Integer createdId = updatedUser.getPosts().size() + 1;
+    public Integer createPost(User user, Post post) {
+        Integer createdId = user.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
         post.setPostId(createdId);
-        List<Post> posts = updatedUser.getPosts();
-        posts.add(post);
-        updatedUser.setPosts(posts);
-        users.replaceAll(user -> user.getUserId().equals(userId) ? updatedUser : user);
+
+        user.addToPosts(post);
+
+        users.replaceAll(u -> u.getUserId().equals(user.getUserId()) ? user : u);
         return createdId;
     }
 

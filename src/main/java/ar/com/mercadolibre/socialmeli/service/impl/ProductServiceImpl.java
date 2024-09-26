@@ -29,7 +29,7 @@ public class ProductServiceImpl implements IProductService {
         post.setPrice(requestDto.getPrice());
         post.setHasPromo(requestDto.isHasPromo());
         post.setDiscount(requestDto.getDiscount());
-        Integer createdId = repository.createPost(requestDto.getUserId(), post);
+        Integer createdId = repository.createPost(user, post);
 
         CreatePromoResponseDTO responseDto = new CreatePromoResponseDTO();
         responseDto.setCreatedId(createdId);
