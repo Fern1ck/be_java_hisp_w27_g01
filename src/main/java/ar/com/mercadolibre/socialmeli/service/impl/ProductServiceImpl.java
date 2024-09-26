@@ -1,6 +1,5 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
-
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
@@ -8,22 +7,18 @@ import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
-import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
-import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+
 import org.springframework.stereotype.Service;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -77,10 +72,9 @@ public class ProductServiceImpl implements IProductService {
         CreatePromoResponseDTO responseDto = new CreatePromoResponseDTO();
         responseDto.setCreatedId(createdId);
         return responseDto;
-
     }
 
-    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId){
+    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order){
         User user = repository.getUserById(userId);
 
         if (user == null){
@@ -99,7 +93,24 @@ public class ProductServiceImpl implements IProductService {
                 .filter(postDTO -> postDTO.getDate().isAfter(twoWeeksAgo))
                 .toList();
 
+        if(recentPost == null || recentPost.isEmpty()){
+            throw new BadRequestException("There aren't posts of minus two weeks.");
+        }
+
+        if (order != null) {
+            if (order.equalsIgnoreCase("date_asc")) {
+                recentPost = recentPost.stream()
+                        .sorted(Comparator.comparing(PostsIdDTO::getDate))
+                        .collect(Collectors.toList());
+            } else if (order.equalsIgnoreCase("date_desc")) {
+                recentPost = recentPost.stream()
+                        .sorted(Comparator.comparing(PostsIdDTO::getDate).reversed())
+                        .collect(Collectors.toList());
+            }
+        }
+
         return new PostsFollowersListDTO(userId, recentPost);
     }
 
-}
+    }
+

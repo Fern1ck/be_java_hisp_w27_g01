@@ -21,10 +21,12 @@ public class Post {
     private LocalDate date;
 
     private Integer category;
+
     private Double price;
 
     @JsonProperty("has_promo")
     private Boolean hasPromo;
 
     private Double discount;
+
 }
