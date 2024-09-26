@@ -41,4 +41,10 @@ public class UserController {
     public ResponseEntity<?> followASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
+
+    @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<?> unFollowASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
+        return new ResponseEntity<>(userService.unFollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
+    }
+
 }
