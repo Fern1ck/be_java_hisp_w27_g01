@@ -1,6 +1,7 @@
 package ar.com.mercadolibre.socialmeli.service;
 
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserOkDTO;

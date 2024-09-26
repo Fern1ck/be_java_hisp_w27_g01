@@ -39,4 +39,10 @@ public class ProductController {
             CreatePromoResponseDTO dto = productService.createPromo(requestDto);
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
+
+    @GetMapping("/followed/{userId}/list")
+    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId){
+        return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId), HttpStatus.OK);
+    }
+
 }

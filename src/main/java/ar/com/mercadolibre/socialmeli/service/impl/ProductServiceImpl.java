@@ -2,6 +2,8 @@ package ar.com.mercadolibre.socialmeli.service.impl;
 
 
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
@@ -13,8 +15,15 @@ import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -70,4 +79,27 @@ public class ProductServiceImpl implements IProductService {
         return responseDto;
 
     }
+
+    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId){
+        User user = repository.getUserById(userId);
+
+        if (user == null){
+            throw new BadRequestException("User ID: " + userId + " doesn´t exist.");
+        }
+        List<Integer> followedIds = user.getFollowedIds();
+        if (followedIds == null || followedIds.isEmpty()){
+            throw new BadRequestException("User ID: " + userId + " is not following anyone.");
+        }
+
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
+
+        List<PostsIdDTO> recentPost = repository.getUsers().stream()
+                .filter(u -> followedIds.contains(u.getUserId()))
+                .flatMap(u -> u.getPosts().stream().map(post -> new PostsIdDTO(u.getUserId(), post.getPostId() , post.getDate(), post.getProduct(), post.getCategory(), post.getPrice())))
+                .filter(postDTO -> postDTO.getDate().isAfter(twoWeeksAgo))
+                .toList();
+
+        return new PostsFollowersListDTO(userId, recentPost);
+    }
+
 }

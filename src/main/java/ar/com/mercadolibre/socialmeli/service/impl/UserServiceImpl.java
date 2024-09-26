@@ -2,15 +2,23 @@ package ar.com.mercadolibre.socialmeli.service.impl;
 
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedListDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserOkDTO;
+import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
+import ar.com.mercadolibre.socialmeli.utils.Utils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -115,7 +123,7 @@ public class UserServiceImpl implements IUserService {
         return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
     }
 
-   
+
     @Override
     public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
         if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0) {
