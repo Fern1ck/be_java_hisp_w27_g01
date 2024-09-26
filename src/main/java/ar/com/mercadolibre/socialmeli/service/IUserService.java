@@ -8,14 +8,13 @@ import java.util.List;
 
 public interface IUserService {
 
-    List<UserFollowedDTO> findByFollowed(Integer userId);
+    List<UserFollowedDTO> findByFollowed(Integer userId, String order);
 
     UserFollowerCountDTO getFollowerCount(Integer userId);
 
-    UserFollowerListDTO getFollowerList(Integer userId);
+    UserFollowerListDTO getFollowerList(Integer userId, String order);
     UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow);
 
     UserOkDTO unFollowASpecificUserById(Integer userId, Integer userIdToUnfollow);
-
 
 }
