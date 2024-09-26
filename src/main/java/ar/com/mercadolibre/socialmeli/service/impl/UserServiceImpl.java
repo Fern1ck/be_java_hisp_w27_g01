@@ -1,22 +1,18 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
-import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.UserNameDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedDTO;
 import ar.com.mercadolibre.socialmeli.dto.UserFollowedListDTO;
-import ar.com.mercadolibre.socialmeli.entity.User;
-import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
-import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserNameDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserOkDTO;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
+import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,20 +20,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements IUserService {
-    @Autowired
-    private IRepository repository;
+    private final IRepository repository;
+
+    public UserServiceImpl(IRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<UserFollowedDTO> findByFollowed(Integer userId) {
-        User user = repository.findUserById(userId);
+        User user = repository.getUserById(userId);
         if (user == null) {
-            throw new NotFoundException("El User Id: " + userId + ", no existe.");
+            throw new NotFoundException("User ID: " + userId + " doesn't exist.");
         }
         List<Integer> follows = user.getFollowedIds();
         List<User> allUsers = repository.getUsers();
 
         if (follows == null) {
-            throw new BadRequestException("El usuario con Id: " + user.getUserId() + ", no sigue a nadie.");
+            throw new BadRequestException("User with the ID: "  + user.getUserId() + " is not following anyone.");
         }
 
         List<UserFollowedListDTO> followedList = follows.stream()
@@ -57,11 +56,11 @@ public class UserServiceImpl implements IUserService {
     public UserFollowerListDTO getFollowerList(Integer userId){
 
         if (userId == null || userId <= 0){
-            throw new BadRequestException("Invalid ID");
+            throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
         if (!repository.idExist(userId)){
-            throw new BadRequestException("Invalid ID");
+            throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 
         List<UserNameDTO> followers = repository.getUsers().stream()
@@ -79,18 +78,18 @@ public class UserServiceImpl implements IUserService {
     public UserFollowerCountDTO getFollowerCount(Integer userId){
 
         if (userId == null || userId <= 0){
-            throw new BadRequestException("Invalid ID");
+            throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
         if (!repository.existId(userId)){
-            throw new BadRequestException("Invalid ID");
+            throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 
         long followerCount = repository.getUsers().stream()
                 .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
                 .count();
 
-        User user = repository.findUserById(userId);
+        User user = repository.getUserById(userId);
 
         return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
     }
@@ -99,15 +98,15 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
         if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0) {
-            throw new BadRequestException("Status Code 400 (Bad Request)");
+            throw new BadRequestException("Invalid IDs");
         }
-        User user = repository.findUserById(userId);
+        User user = repository.getUserById(userId);
         if (user == null) {
-            throw new BadRequestException("Status Code 400 (Bad Request) userId does not exist");
+            throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
         user.addFollowedId(userIdToFollow);
 
-        return new UserOkDTO("Status Code 200 (todo OK)");
+        return new UserOkDTO("OK");
 
     }
 
