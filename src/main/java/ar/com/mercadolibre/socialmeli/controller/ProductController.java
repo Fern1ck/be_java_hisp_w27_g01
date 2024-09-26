@@ -45,4 +45,8 @@ public class ProductController {
         return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId), HttpStatus.OK);
     }
 
+    @GetMapping("promo-post/count?user_id={userId}")
+    public ResponseEntity<?> promoProductsCountBySeller(@RequestParam int userId){
+        return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
+    }
 }

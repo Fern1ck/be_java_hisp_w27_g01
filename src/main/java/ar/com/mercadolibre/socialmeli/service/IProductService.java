@@ -6,6 +6,7 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PromoProductsCountDTO;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface IProductService {
     CreatePromoResponseDTO createPromo(CreatePromoRequestDTO dto);
 
     PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId);
+
+    PromoProductsCountDTO promoProductsCountBySeller(Integer userId);
 }

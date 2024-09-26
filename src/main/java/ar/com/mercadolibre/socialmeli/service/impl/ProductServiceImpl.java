@@ -7,6 +7,7 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PromoProductsCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -100,6 +101,11 @@ public class ProductServiceImpl implements IProductService {
                 .toList();
 
         return new PostsFollowersListDTO(userId, recentPost);
+    }
+
+    @Override
+    public PromoProductsCountDTO promoProductsCountBySeller(Integer userId) {
+        return null;
     }
 
 }
