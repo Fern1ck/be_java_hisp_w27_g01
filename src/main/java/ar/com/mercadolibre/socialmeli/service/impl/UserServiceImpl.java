@@ -74,6 +74,7 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+
     public UserFollowerCountDTO getFollowerCount(Integer userId){
 
         if (userId == null || userId <= 0){
@@ -108,4 +109,27 @@ public class UserServiceImpl implements IUserService {
         return new UserOkDTO("OK");
 
     }
+
+    @Override
+    public UserOkDTO unFollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
+        if (userId == null || userId <= 0 || !repository.existId(userId) ){
+            throw new BadRequestException("Invalid ID: "+userId);
+        }
+
+        if (userIdToUnfollow == null || userIdToUnfollow <= 0 || !repository.existId(userIdToUnfollow)){
+            throw new BadRequestException("Invalid ID: " +  userIdToUnfollow);
+        }
+
+        boolean existUser= repository.existId(userId);
+        User user = repository.findUserById(userId);
+        Integer idFollow = user.getFollowedIds().stream().filter(u->u.equals(userIdToUnfollow)).findFirst().orElseThrow(()->new NotFoundException("Not find id:" + userIdToUnfollow));
+
+        if(existUser){
+            user.removeFollowedId(idFollow);
+        }
+
+        return new UserOkDTO("Status Code 200 (todo OK)");
+
+    }
+
 }
