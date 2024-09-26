@@ -12,5 +12,5 @@ import java.util.List;
 public class UserFollowedDTO {
     private Integer userId;
     private String userName;
-    private List<UserFollowedListDTO> userFollowedListDTO;
+    private List<UserFollowedListDTO> followed;
 }
