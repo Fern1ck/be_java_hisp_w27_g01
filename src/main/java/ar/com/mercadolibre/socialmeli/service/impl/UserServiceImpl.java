@@ -25,15 +25,15 @@ public class UserServiceImpl implements IUserService {
     private IRepository repository;
 
     @Override
-    public List<UserFollowedDTO> findByFollowed(Integer userId){
+    public List<UserFollowedDTO> findByFollowed(Integer userId) {
         User user = repository.findUserById(userId);
-        if(user == null){
-            throw new NotFoundException("El User Id: " + userId + ", no existe." );
+        if (user == null) {
+            throw new NotFoundException("El User Id: " + userId + ", no existe.");
         }
         List<Integer> follows = user.getFollowedIds();
         List<User> allUsers = repository.getUsers();
 
-        if(follows == null){
+        if (follows == null) {
             throw new BadRequestException("El usuario con Id: " + user.getUserId() + ", no sigue a nadie.");
         }
 
@@ -49,6 +49,7 @@ public class UserServiceImpl implements IUserService {
         List<UserFollowedDTO> userFollowedDTOList = new ArrayList<>();
         userFollowedDTOList.add(new UserFollowedDTO(user.getUserId(), user.getUserName(), followedList));
         return userFollowedDTOList;
+    }
 
     public UserFollowerCountDTO getFollowerCount(Integer userId){
 
