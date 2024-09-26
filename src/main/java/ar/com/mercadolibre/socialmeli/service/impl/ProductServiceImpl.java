@@ -5,6 +5,7 @@ import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
+import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
@@ -13,14 +14,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductServiceImpl implements IProductService {
-    @Autowired
-    private IRepository repository;
+    private final IRepository repository;
+
+    public ProductServiceImpl(IRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public CreatePromoResponseDTO createPromo(CreatePromoRequestDTO requestDto) {
         User user = repository.getUserById(requestDto.getUserId());
         if(user == null){
-            throw new NotFoundException("El usuario no existe");
+            throw new BadRequestException("User ID: " + requestDto.getUserId() + " doesn´t exist.");
         }
 
         Post post = new Post();

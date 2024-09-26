@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Repository
@@ -31,5 +32,19 @@ public class RepositoryImpl implements IRepository {
     @Override
     public User getUserById(Integer id) {
         return users.stream().filter(u -> u.getUserId().equals(id)).findFirst().orElse(null);
+    }
+
+    public List<User> getUsers(){
+        return this.users;
+    }
+
+    public Boolean idExist(Integer userId){
+        return this.users.stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
+    }
+
+    public Boolean existId(Integer userId){
+        return this.users.stream()
+                .anyMatch(user -> user.getUserId().equals(userId));
     }
 }
