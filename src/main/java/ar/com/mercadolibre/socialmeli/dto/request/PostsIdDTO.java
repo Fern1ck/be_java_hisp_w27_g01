@@ -3,6 +3,7 @@ package ar.com.mercadolibre.socialmeli.dto.request;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonPropertyOrder({"user_id", "post_id", "date", "product", "category", "price"})
 public class PostsIdDTO {
 
     @JsonProperty("user_id")

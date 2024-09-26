@@ -19,8 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -78,53 +80,26 @@ public class ProductServiceImpl implements IProductService {
 
     }
 
+    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId){
+        User user = repository.getUserById(userId);
 
-    /**
-     * Obtener un listado de las publicaciones realizadas por uno de los los vendedores que un usuario sigue
-     */
-    public List<PostsIdDTO> postByUser(int userId) {
+        if (user == null){
+            throw new BadRequestException("User ID: " + userId + " doesn´t exist.");
+        }
+        List<Integer> followedIds = user.getFollowedIds();
+        if (followedIds == null || followedIds.isEmpty()){
+            throw new BadRequestException("User ID: " + userId + " is not following anyone.");
+        }
 
-        List<Post> posts=  repository.getUsers().stream().filter(u->u.getUserId().equals(userId)).findFirst().map(User::getPosts).orElseThrow(()->new BadRequestException("is bad request"));
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
 
-  //     ObjectMapper mapper= new ObjectMapper();
-       // return posts.stream().map(p->mapper.convertValue(p,PostsIdDTO.class)).toList();
-
-     /*   List<PostDTO> recentPosts = repository.getUsers().stream()
+        List<PostsIdDTO> recentPost = repository.getUsers().stream()
                 .filter(u -> followedIds.contains(u.getUserId()))
-                .flatMap(u -> u.getPosts().stream())
-                .filter(post -> post.getDate().isAfter(twoWeeksAgo))
-                .sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
-                .map(post -> new PostsIdDTO(userId, post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice()))
+                .flatMap(u -> u.getPosts().stream().map(post -> new PostsIdDTO(u.getUserId(), post.getPostId() , post.getDate(), post.getProduct(), post.getCategory(), post.getPrice())))
+                .filter(postDTO -> postDTO.getDate().isAfter(twoWeeksAgo))
                 .toList();
 
-        return recentPosts;*/
-
+        return new PostsFollowersListDTO(userId, recentPost);
     }
-
-
-    /**
-     * list of posts from users flolowed
-     */
-    @Override
-    public PostsFollowersListDTO postsFromFolloweds(int userId){
-        if(!repository.existId(userId)){
-            throw new NotFoundException("Not found id:" + userId);
-        }
-        if(userId<=0){
-            throw new BadRequestException("id Number incorrect");
-        }
-
-        PostsFollowersListDTO dto= new PostsFollowersListDTO();
-        dto.setUserId(userId);
-        User user= repository.getUserById(userId);
-        List<Integer> listFollowedsIds= user.getFollowedIds();
-
-        for(Integer i: listFollowedsIds) {
-            dto.setPosts(postByUser(i));
-        }
-
-        return dto;
-    }
-
 
 }

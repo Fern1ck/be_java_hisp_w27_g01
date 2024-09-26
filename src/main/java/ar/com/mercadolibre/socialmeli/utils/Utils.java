@@ -32,7 +32,7 @@ public class Utils {
         Post post2 = new Post(2, product2, LocalDate.of(2021, 7, 7), 200, 5000.00, false, 0.0 );
 
         Product product3 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
-        Post post3 = new Post(3, product3, LocalDate.of(2021, 8, 18), 300, 30000.00, true, 0.3);
+        Post post3 = new Post(3, product3, LocalDate.of(2024, 9, 18), 300, 30000.00, true, 0.3);
 
 
         user2.setPosts(List.of(post1, post3));

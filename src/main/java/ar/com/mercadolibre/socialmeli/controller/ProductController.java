@@ -40,9 +40,9 @@ public class ProductController {
             return new ResponseEntity<>(dto, HttpStatus.OK);
         }
 
-    @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<?> postByUser(@PathVariable int userId){
-        return new ResponseEntity<>(productService.postsFromFolloweds(userId), HttpStatus.OK);
+    @GetMapping("/followed/{userId}/list")
+    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId){
+        return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId), HttpStatus.OK);
     }
 
 }
