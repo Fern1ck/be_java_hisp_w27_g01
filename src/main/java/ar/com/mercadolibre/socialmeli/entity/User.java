@@ -27,7 +27,16 @@ public class User {
     private List<Integer> followedIds = new ArrayList<>();
     private List<Post> posts;
 
+    public void setFollowedIds(List<Integer> followedIds) {
+        this.followedIds = new ArrayList<>(followedIds);
+    }
+
     public void addFollowedId(Integer followedId) {
         this.followedIds.add(followedId);
+    }
+
+    public void removeFollowedId(Integer followedId){
+        followedIds.remove(followedId);
+
     }
 }

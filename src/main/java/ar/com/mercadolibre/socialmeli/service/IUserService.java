@@ -12,9 +12,10 @@ public interface IUserService {
 
     UserFollowerCountDTO getFollowerCount(Integer userId);
 
+    UserFollowerListDTO getFollowerList(Integer userId);
     UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow);
 
-    UserFollowerListDTO getFollowerList(Integer userId);
+    UserOkDTO unFollowASpecificUserById(Integer userId, Integer userIdToUnfollow);
 
 
 }
