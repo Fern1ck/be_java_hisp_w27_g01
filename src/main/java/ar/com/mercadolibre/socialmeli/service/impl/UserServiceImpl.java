@@ -126,29 +126,46 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
-        if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0) {
+        if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0 || userId.equals(userIdToFollow)) {
             throw new BadRequestException("Invalid IDs");
         }
         User user = repository.getUserById(userId);
+
+        User userToFollow = repository.getUserById(userIdToFollow);
+
+        if (userToFollow.getPosts() == null || userToFollow.getPosts().isEmpty()){
+            throw new BadRequestException("User to follow is not a seller");
+        }
+
+        if (user.getFollowedIds().contains(userToFollow)){
+            throw new BadRequestException("User ID: " + userId + " already follows User ID: " + userToFollow);
+        }
+
         if (user == null) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
+
         user.addFollowedId(userIdToFollow);
+
+        repository.updateUser(user);
 
         return new UserOkDTO("OK");
 
     }
 
     @Override
-    public UserOkDTO unFollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
+    public UserOkDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
         if (userId == null || userId <= 0 || !repository.existId(userId) ){
-            throw new BadRequestException("Invalid User ID: "+userId);
+            throw new BadRequestException("Invalid User ID: " +userId);
+        }
+
+        if (userId.equals(userIdToUnfollow)){
+            throw new BadRequestException("Invalid User and User ID to unfollow");
         }
 
         if (userIdToUnfollow == null || userIdToUnfollow <= 0 || !repository.existId(userIdToUnfollow)){
             throw new BadRequestException("Invalid User to Unfollow ID: " +  userIdToUnfollow);
         }
-
 
         User user = repository.getUserById(userId);
 
@@ -158,8 +175,9 @@ public class UserServiceImpl implements IUserService {
 
         user.removeFollowedId(userIdToUnfollow);
 
-        return new UserOkDTO("Status Code 200 (todo OK)");
+        repository.updateUser(user);
 
+        return new UserOkDTO("OK");
     }
 
 }
