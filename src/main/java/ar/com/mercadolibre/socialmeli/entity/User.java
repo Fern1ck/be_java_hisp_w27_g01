@@ -28,10 +28,6 @@ public class User {
         this.userName = userName;
     }
 
-    public void setFollowedIds(List<Integer> followedIds) {
-        this.followedIds = new ArrayList<>(followedIds);
-    }
-
     public void addFollowedId(Integer followedId) {
         this.followedIds.add(followedId);
     }
@@ -40,7 +36,7 @@ public class User {
         return this.posts.add(post);
     }
 
-    public void removeFollowedId(Integer followedId){
-        followedIds.remove(followedId);
+    public void removeFollowedId(Integer followedId) {
+        this.followedIds.remove(followedId);
     }
 }

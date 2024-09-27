@@ -1,13 +1,8 @@
 package ar.com.mercadolibre.socialmeli.controller;
 
 import ar.com.mercadolibre.socialmeli.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,16 +15,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/test")
-    public ResponseEntity<?> test(){
-        return new ResponseEntity<>("ok", HttpStatus.OK);
-    }
-
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getFollowerList(@PathVariable Integer userId, @RequestParam(required = false) String order){
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
     }
-    
+
     @GetMapping("{userId}/followed/list")
     public ResponseEntity<?> getFollowedList(@PathVariable Integer userId, @RequestParam(required = false) String order) {
         return new ResponseEntity<>(userService.findByFollowed(userId, order), HttpStatus.OK);
@@ -39,15 +29,16 @@ public class UserController {
     public ResponseEntity<?> getFollowersCount(@PathVariable Integer userId){
         return new ResponseEntity<>(userService.getFollowerCount(userId), HttpStatus.OK);
     }
-    
+
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<?> followASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<?> unFollowASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
-        return new ResponseEntity<>(userService.unFollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
+    public ResponseEntity<?> unfollowASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
+        return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
+
 
 }
