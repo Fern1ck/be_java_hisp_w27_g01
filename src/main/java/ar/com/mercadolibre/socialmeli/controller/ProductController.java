@@ -30,7 +30,6 @@ public class ProductController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-
     @PostMapping("/post")
     public ResponseEntity<?> registerANewPublication(@RequestBody PostDTO publicationDTO) {
         return new ResponseEntity<>(productService.registerANewPublication(publicationDTO), HttpStatus.OK);

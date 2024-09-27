@@ -19,11 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/test")
-    public ResponseEntity<?> test(){
-        return new ResponseEntity<>("ok", HttpStatus.OK);
-    }
-
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getFollowerList(@PathVariable Integer userId, @RequestParam(required = false) String order){
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
