@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "58a9e32a-b566-471e-8718-5423a34317a4",
+		"_postman_id": "53d5ee35-bb5d-4620-af83-495bcd274c00",
 		"name": "Social Meli",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38408711"
+		"_exporter_id": "38181492"
 	},
 	"item": [
 		{
@@ -24,8 +24,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/products/post",
-							"protocol": "http",
+							"raw": "localhost:8080/products/post",
 							"host": [
 								"localhost"
 							],
@@ -99,12 +98,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{local}}/users/products/followed/5/list",
+							"raw": "localhost:8080/products/followed/5/list",
 							"host": [
-								"{{local}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
-								"users",
 								"products",
 								"followed",
 								"5",
@@ -169,12 +168,22 @@
 					"response": []
 				},
 				{
-					"name": "Follow a specific user by id",
+					"name": "Follow a user",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "localhost:8080/users/1/follow/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"1",
+								"follow",
+								"2"
+							]
 						}
 					},
 					"response": []
@@ -185,7 +194,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/users/2/followed/list",
+							"raw": "localhost:8080/users/2/followed/list?order=name_asc",
 							"host": [
 								"localhost"
 							],
@@ -195,21 +204,29 @@
 								"2",
 								"followed",
 								"list"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "name_asc",
+									"description": "name_asc | name_desc"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Unfollowers list",
+					"name": "Unfollow a user",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{local}}/users/5/unfollow/2",
+							"raw": "localhost:8080/users/5/unfollow/2",
 							"host": [
-								"{{local}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"users",
 								"5",
