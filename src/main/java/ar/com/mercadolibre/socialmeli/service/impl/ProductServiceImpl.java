@@ -71,6 +71,7 @@ public class ProductServiceImpl implements IProductService {
         post.setProduct(requestDto.getProduct());
         post.setCategory(requestDto.getCategory());
         post.setPrice(requestDto.getPrice());
+        post.setDate(requestDto.getDate());
         post.setHasPromo(requestDto.isHasPromo());
         post.setDiscount(requestDto.getDiscount());
       
