@@ -6,7 +6,6 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PromoProductsCountDTO;
 
 
 public interface IProductService {

@@ -7,7 +7,6 @@ import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PromoProductsCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.entity.User;
