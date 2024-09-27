@@ -6,7 +6,9 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
+import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
@@ -112,5 +114,24 @@ public class ProductServiceImpl implements IProductService {
         return new PostsFollowersListDTO(userId, recentPost);
     }
 
+    @Override
+    public ProductPromoCountDTO promoProductsCountBySeller(Integer userId) {
+
+        if (!repository.existId(userId)){
+            throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
+        }
+
+        User user = repository.getUserById(userId);
+
+        Integer promoCount = Integer.parseInt(String.valueOf(user.getPosts().stream()
+                .filter(Post::getHasPromo)
+                .count()));
+
+        return new ProductPromoCountDTO(user.getUserId(), user.getUserName(), promoCount);
+
+
     }
+
+}
+
 
