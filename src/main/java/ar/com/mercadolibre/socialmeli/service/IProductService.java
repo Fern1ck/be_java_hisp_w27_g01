@@ -15,7 +15,7 @@ public interface IProductService {
 
     CreatePromoResponseDTO createPromo(CreatePromoRequestDTO dto);
 
-    PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId);
+    PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order);
 
     ProductPromoCountDTO promoProductsCountBySeller(Integer userId);
 }
