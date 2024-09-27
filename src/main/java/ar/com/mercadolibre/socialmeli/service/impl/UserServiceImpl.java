@@ -127,7 +127,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         if (!repository.existId(userIdToFollow)){
-            throw new BadRequestException("User to follow ID: " + userId + " doesn't exist.");
+            throw new BadRequestException("User to follow ID: " + userIdToFollow + " doesn't exist.");
         }
 
         User user = repository.getUserById(userId);

@@ -42,6 +42,9 @@ public class ProductServiceImpl implements IProductService {
         Post post = Utils.changePostDtoToEntity(postDTO);
         post.setPostId(id);
 
+        post.setHasPromo(false);
+        post.setDiscount(0.0);
+        
         if(userPost == null) {
             throw new BadRequestException("User not found");
         }
