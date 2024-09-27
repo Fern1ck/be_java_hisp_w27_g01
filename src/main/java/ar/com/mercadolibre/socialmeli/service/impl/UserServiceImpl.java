@@ -137,13 +137,15 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User to follow is not a seller");
         }
 
-        if (user.getFollowedIds().contains(userToFollow)){
-            throw new BadRequestException("User ID: " + userId + " already follows User ID: " + userToFollow);
-        }
-
         if (user == null) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
+
+        if (user.getFollowedIds().contains(userIdToFollow)){
+            throw new BadRequestException("User ID: " + userId + " already follows User ID: " + userIdToFollow);
+        }
+
+
 
         user.addFollowedId(userIdToFollow);
 

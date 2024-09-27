@@ -38,9 +38,14 @@ public class ProductServiceImpl implements IProductService {
             throw new BadRequestException("PublicationDTO is null");
         }
 
+        User userPost = repository.getUserById(postDTO.getUserId());
+
+        Integer id =  userPost.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
+
         Post post = Utils.changePostDtoToEntity(postDTO);
 
-        User userPost = repository.getUserById(postDTO.getUserId());
+        post.setPostId(id);
+
 
         if(userPost == null) {
             throw new BadRequestException("User not found");

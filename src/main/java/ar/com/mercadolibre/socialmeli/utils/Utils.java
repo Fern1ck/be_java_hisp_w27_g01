@@ -22,8 +22,8 @@ public class Utils {
         User user3 = new User(3, "Stephanie Castillo");
         User user4 = new User(4, "Maria Emilia");
         User user5 = new User(5, "Delfina Glavas");
-        user4.addFollowedId(4);
-        user4.addFollowedId(2);
+        user5.addFollowedId(2);
+        user5.addFollowedId(4);
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2021, 9, 16), 100, 15000.00, false, 0.0 );
