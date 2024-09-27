@@ -32,10 +32,12 @@ public class RepositoryImpl implements IRepository {
         return users.stream().filter(u -> u.getUserId().equals(id)).findFirst().orElse(null);
     }
 
+    @Override
     public List<User> getUsers() {
         return this.users;
     }
 
+    @Override
     public Boolean existId(Integer userId){
         return this.users.stream()
                 .anyMatch(user -> user.getUserId().equals(userId));

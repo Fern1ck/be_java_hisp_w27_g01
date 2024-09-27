@@ -1,26 +1,25 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
-import ar.com.mercadolibre.socialmeli.dto.CreatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
-import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
+import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
-
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import java.time.LocalDate;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -39,13 +38,9 @@ public class ProductServiceImpl implements IProductService {
         }
 
         User userPost = repository.getUserById(postDTO.getUserId());
-
         Integer id =  userPost.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
-
         Post post = Utils.changePostDtoToEntity(postDTO);
-
         post.setPostId(id);
-
 
         if(userPost == null) {
             throw new BadRequestException("User not found");
@@ -56,6 +51,7 @@ public class ProductServiceImpl implements IProductService {
         if (!isOk) {
             throw new BadRequestException("Post already exists");
         }
+
         return new PostOkDTO("OK");
     }
 
@@ -63,6 +59,7 @@ public class ProductServiceImpl implements IProductService {
     public CreatePromoResponseDTO createPromo(CreatePromoRequestDTO requestDto) {
       
         User user = repository.getUserById(requestDto.getUserId());
+
         if(user == null){
             throw new BadRequestException("User ID: " + requestDto.getUserId() + " doesn´t exist.");
         }
@@ -79,16 +76,21 @@ public class ProductServiceImpl implements IProductService {
 
         CreatePromoResponseDTO responseDto = new CreatePromoResponseDTO();
         responseDto.setCreatedId(createdId);
+
         return responseDto;
     }
 
+    @Override
     public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order){
+
         User user = repository.getUserById(userId);
 
         if (user == null){
             throw new BadRequestException("User ID: " + userId + " doesn´t exist.");
         }
+
         List<Integer> followedIds = user.getFollowedIds();
+
         if (followedIds == null || followedIds.isEmpty()){
             throw new BadRequestException("User ID: " + userId + " is not following anyone.");
         }
@@ -134,8 +136,6 @@ public class ProductServiceImpl implements IProductService {
                 .count()));
 
         return new ProductPromoCountDTO(user.getUserId(), user.getUserName(), promoCount);
-
-
     }
 
 }

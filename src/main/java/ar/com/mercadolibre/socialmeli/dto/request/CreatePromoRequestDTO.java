@@ -1,4 +1,4 @@
-package ar.com.mercadolibre.socialmeli.dto;
+package ar.com.mercadolibre.socialmeli.dto.request;
 
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;
