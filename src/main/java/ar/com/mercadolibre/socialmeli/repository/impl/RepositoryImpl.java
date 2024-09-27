@@ -1,20 +1,17 @@
 package ar.com.mercadolibre.socialmeli.repository.impl;
 
 import ar.com.mercadolibre.socialmeli.entity.Post;
-import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 @Repository
 public class RepositoryImpl implements IRepository {
     private List<User> users;
+
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
     }
@@ -35,7 +32,7 @@ public class RepositoryImpl implements IRepository {
         return users.stream().filter(u -> u.getUserId().equals(id)).findFirst().orElse(null);
     }
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return this.users;
     }
 
@@ -48,4 +45,16 @@ public class RepositoryImpl implements IRepository {
     public Boolean addPostToUser(User user, Post post) {
         return user.addToPosts(post);
     }
+
+    @Override
+    public void updateUser(User user){
+        users.stream()
+                .filter(u -> u.getUserId().equals(user.getUserId()))
+                .findFirst()
+                .ifPresent(u -> {
+                    int index = users.indexOf(u);
+                    users.set(index, user);
+                });
+    }
+
 }

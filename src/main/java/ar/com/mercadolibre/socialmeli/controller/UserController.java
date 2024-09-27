@@ -15,11 +15,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/test")
-    public ResponseEntity<?> test(){
-        return new ResponseEntity<>("ok", HttpStatus.OK);
-    }
-
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getFollowerList(@PathVariable Integer userId, @RequestParam(required = false) String order){
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
@@ -42,7 +37,7 @@ public class UserController {
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
-        return new ResponseEntity<>(userService.unFollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
+        return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 
 
