@@ -17,4 +17,6 @@ public interface IRepository {
 
     Boolean existId(Integer userId);
 
+    void updateUser(User user);
+
 }

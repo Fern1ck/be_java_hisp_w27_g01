@@ -46,4 +46,15 @@ public class RepositoryImpl implements IRepository {
         return user.addToPosts(post);
     }
 
+    @Override
+    public void updateUser(User user){
+        users.stream()
+                .filter(u -> u.getUserId().equals(user.getUserId()))
+                .findFirst()
+                .ifPresent(u -> {
+                    int index = users.indexOf(u);
+                    users.set(index, user);
+                });
+    }
+
 }

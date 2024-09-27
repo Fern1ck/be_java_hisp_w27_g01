@@ -18,11 +18,12 @@ public class Utils {
 
         User user1 = new User(1, "Fernando Baldrich");
         User user2 = new User(2, "Matias Gregorat");
-        user2.setFollowedIds(List.of(4));
+        user2.addFollowedId(4);
         User user3 = new User(3, "Stephanie Castillo");
         User user4 = new User(4, "Maria Emilia");
         User user5 = new User(5, "Delfina Glavas");
-        user5.setFollowedIds(List.of(2, 4));
+        user4.addFollowedId(4);
+        user4.addFollowedId(2);
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2021, 9, 16), 100, 15000.00, false, 0.0 );
@@ -33,8 +34,9 @@ public class Utils {
         Product product3 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
         Post post3 = new Post(3, product3, LocalDate.of(2024, 9, 18), 300, 30000.00, true, 0.3);
 
-        user2.setPosts(List.of(post1, post3));
-        user4.setPosts(List.of(post2));
+        user2.addToPosts(post1);
+        user2.addToPosts(post3);
+        user4.addToPosts(post2);
 
         users.add(user1);
         users.add(user2);
