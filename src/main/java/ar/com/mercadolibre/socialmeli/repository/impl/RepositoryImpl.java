@@ -59,4 +59,10 @@ public class RepositoryImpl implements IRepository {
                 });
     }
 
+    @Override
+    public Boolean removePost(Post post){
+        return users.stream().anyMatch(user -> user.getPosts().remove(post));
+    }
+
+
 }

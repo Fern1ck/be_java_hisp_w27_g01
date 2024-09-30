@@ -25,4 +25,10 @@ public class GlobalExceptionHandler {
         ExceptionDTO dto = new ExceptionDTO(ex.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ArrayIsEmpty.class)
+    public ResponseEntity<?> arrayIsEmptyRequest(ArrayIsEmpty ex){
+        ExceptionDTO dto = new ExceptionDTO(ex.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
 }

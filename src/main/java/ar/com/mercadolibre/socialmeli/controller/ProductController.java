@@ -37,4 +37,10 @@ public class ProductController {
     public ResponseEntity<?> promoProductsCountBySeller(@RequestParam (required = true, name = "user_id") int userId){
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete-post/{userId}/{postId}")
+    public ResponseEntity<?> getHidePost(@PathVariable Integer userId,@PathVariable Integer postId){
+        return new ResponseEntity<>(productService.deletePost(userId, postId), HttpStatus.OK);
+    }
+
 }

@@ -19,4 +19,6 @@ public interface IRepository {
 
     void updateUser(User user);
 
+    Boolean removePost(Post post);
+
 }
