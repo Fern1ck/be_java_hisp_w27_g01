@@ -138,7 +138,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public SellerPromoDTO getPostListBySeller(Integer userId, Boolean withPromo) {
+    public ProductPostsHistoryDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
 
         if(userId==null|| userId<0){
             throw new BadRequestException("User ID: " + userId + " is invalid");
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements IProductService {
                     .toList();
         }
 
-        return new SellerPromoDTO(user.getUserId(), user.getUserName(), postsDTO);
+        return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
     }
 
 

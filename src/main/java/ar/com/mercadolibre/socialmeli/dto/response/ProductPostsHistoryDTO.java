@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonPropertyOrder({"user_id", "user_name", "posts"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SellerPromoDTO {
+public class ProductPostsHistoryDTO {
     @JsonProperty("user_id")
     private Integer userId;
     @JsonProperty("user_name")
