@@ -7,6 +7,7 @@ import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
@@ -128,7 +129,6 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductPromoCountDTO promoProductsCountBySeller(Integer userId) {
-
         if (!repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
@@ -143,6 +143,31 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public List<SearchDTO> search(String query, Integer userId) {
+        if (userId != null && !repository.existId(userId)){
+            throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
+        }
+
+        
+        List<User> usuarios = repository.getUsers();
+
+        if(userId != null){
+            usuarios = usuarios.stream().filter(u -> u.getUserId().equals(userId)).findFirst().stream().toList();
+        }
+
+        return usuarios.stream()
+                .flatMap(user -> user.getPosts().stream()
+                        .filter(post -> compareQuery(post.getProduct().getProductName(), query) || compareQuery(post.getProduct().getBrand(), query))
+                        .map(post -> new SearchDTO(post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId())))
+                .toList();
+
+     
+    }
+
+    private Boolean compareQuery(String str, String query){
+        return Utils.limpiarTildes(str).toLowerCase().contains(Utils.limpiarTildes(query).toLowerCase());
+    }
+
     public ProductPostsHistoryDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
 
         if(userId==null|| userId<0){
@@ -220,7 +245,6 @@ public class ProductServiceImpl implements IProductService {
             throw new BadRequestException("User ID: " + promo.getUserId() + " doesn´t exist.");
         }
     }
-
 }
 
 

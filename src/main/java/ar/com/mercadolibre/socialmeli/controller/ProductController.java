@@ -25,21 +25,26 @@ public class ProductController {
     }
 
     @PostMapping("promo-post")
-    public ResponseEntity<?> createPromo(@RequestBody() CreatePromoRequestDTO requestDto){
+    public ResponseEntity<?> createPromo(@RequestBody() CreatePromoRequestDTO requestDto) {
         CreatePromoResponseDTO dto = productService.createPromo(requestDto);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId, @RequestParam(required = false) String order){
+    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId, @RequestParam(required = false) String order) {
         return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/promo-post/count")
-    public ResponseEntity<?> promoProductsCountBySeller(@RequestParam (required = true, name = "user_id") int userId){
+    public ResponseEntity<?> promoProductsCountBySeller(@RequestParam(required = true, name = "user_id") int userId) {
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
     }
-
+  
+    @GetMapping("/search")
+    public ResponseEntity<?> searchByProductName(@RequestParam String query, @RequestParam(required = false, name = "user_id") Integer userId){
+        return new ResponseEntity<>(productService.search(query, userId), HttpStatus.OK);
+    }
+  
     @GetMapping("/promo-post/{userId}/history")
     public ResponseEntity<?> getSellerPostListHistory(@PathVariable Integer userId, @RequestParam(required = false, name = "with_promo") Boolean withPromo){
      return new ResponseEntity<>(productService.getSellerPostListHistory(userId, withPromo), HttpStatus.OK);
