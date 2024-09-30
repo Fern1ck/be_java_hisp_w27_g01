@@ -510,7 +510,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 - [@Emilia Lascano](https://github.com/Fern1ck)
 
 #### Metodo GET
-- `Funcionalidad 17`: Obtener un listado de todos los productos de un determinado vendedor, con la posibilidad de filtrar por posteos que tienen descuento y posteos que no tienen descuentos.
+
 ```
   http://localhost:8080/products/promo-post/3/history
   http://localhost:8080/products/promo-post/3/history?with_promo=true
@@ -522,10 +522,11 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `true`     | **Devuelve solo los posts que tienen descuento.**        |
 | `false`    | **Devuelve solo los posts que no tienen descuentos.**    |
 
-```
+
 
 | Response  |
 | :-------- | 
+```
     "user_id": 234,
     "user_name": "vendedor1",
     "posts": [
@@ -563,7 +564,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
     "has_promo": false,
     "discount": 0.0
     }]
-
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -580,5 +581,6 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `price`      | `double` | **Required**. Precio del producto.|
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
+
 </details>
  
