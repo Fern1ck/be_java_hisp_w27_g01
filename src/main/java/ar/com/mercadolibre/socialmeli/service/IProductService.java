@@ -19,6 +19,6 @@ public interface IProductService {
 
     ProductPromoCountDTO promoProductsCountBySeller(Integer userId);
 
-    PostFollowDTO deletePost(Integer userId, Integer postId);
+    PostOkDTO deletePost(Integer userId, Integer postId);
 
 }

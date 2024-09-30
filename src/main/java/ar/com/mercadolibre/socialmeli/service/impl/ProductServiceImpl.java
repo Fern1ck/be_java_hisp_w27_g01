@@ -1,6 +1,5 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
-import ar.com.mercadolibre.socialmeli.dto.PostFollowDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
@@ -10,7 +9,6 @@ import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
-import ar.com.mercadolibre.socialmeli.exception.ArrayIsEmpty;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.IRepository;
@@ -144,26 +142,20 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public PostFollowDTO deletePost(Integer userId, Integer postId){
-
+    public PostOkDTO deletePost(Integer userId, Integer postId){
 
         if (!repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
-
 
         User user = repository.getUserById(userId);
         Post postFind = user.getPosts().stream().filter(post -> post.getPostId().equals(postId)).findFirst().orElse(null);
         if(postFind == null){
             throw new NotFoundException("Post ID: " + postId + " doesn´t exist.");
         }
-        Boolean postDelete = repository.removePost(postFind);
-        if(user.getPosts().isEmpty() || !postDelete){
-            throw new ArrayIsEmpty("User ID: " + userId + ", no longer has posts to display.");
-        }
-        return new PostFollowDTO(user.getUserId(), user.getPosts());
+        repository.removePost(postFind);
+        return new PostOkDTO("OK");
     }
-
 
 }
 
