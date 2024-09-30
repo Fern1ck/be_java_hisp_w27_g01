@@ -678,27 +678,31 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 </details>
 
+## Información del proyecto
+
 <details>
- <summary> Informacción del proyecto. </summary>
-  
-Información técnica por favor visita el siguiente enlace [Click acá](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Esp.%20de%20Req.%20t%C3%A9cnicos%20funcionales%20-%20W27%20-%20G01%20-%20Sprint%20N%C2%BA%201%20-%20Spring.docx.pdf).
+ <summary> Información técnica </summary>
+
+## Introducción
+
+La ficha técnica es un documento que describe las características principales, la composición y las aplicaciones de un proyecto, aportando información detallada sobre los aspectos del mismo.
+
+En el siguiente enlace se encuentra la documentación técnica del proyecto [Click acá](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Esp.%20de%20Req.%20t%C3%A9cnicos%20funcionales%20-%20W27%20-%20G01%20-%20Sprint%20N%C2%BA%201%20-%20Spring.docx.pdf).
   
 </details>
 
 </details>
 
 <details>
- <summary> Postman </summary>
-  
-# Colección de peticiones.
+ <summary> Colección de peticiones </summary>
 
-### Introducción
+## Introducción
 
 Para hacer pruebas con la API de SocialMeli será necesario disponer de una herramienta que permita hacer peticiones HTTP e interactuar con ésta. En este caso, recomendamos la herramienta Postman ya que permite gestionar y configurar de forma sencilla una colección de peticiones, por lo que será muy sencillo realizar las operaciones necesarias.
 
 Postman nos permite definir un catálogo de peticiones, posteriormente podemos exportar e importar para compartirlas con otras personas. 
 
-# Instalación y configuración de Postman
+## Instalación y configuración de Postman
 
 1. Descargar [Postman](https://www.getpostman.com/) e instalar.
 
@@ -713,3 +717,14 @@ Postman nos permite definir un catálogo de peticiones, posteriormente podemos e
 7. Finalmente podras poner a prueba cada funcionalidad del proyecto.
   
 </details>
+
+<details>
+ <summary> Trello </summary>
+  
+## Introducción
+
+Trello sirve para organizar, coordinar y gestionar cualquier tipo de tareas, ya bien sean proyectos laborales, tareas del día a día, planificación y ejecución de viajes e itinerarios, entre otras actividades que requieran establecer listas de actividades a llevar a cabo.
+
+Para seguir el cronograma de trabajo empleado por el equipo por favor revisar el siguiente enlace [Click acá](https://trello.com/b/SO9rx038/equipo1-wave27)
+
+ </details>
