@@ -678,3 +678,6 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 </details>
 
+## Informacción del proyecto
+
+Para información técnica por favor visita el siguiente enlace [Click acá](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Esp.%20de%20Req.%20t%C3%A9cnicos%20funcionales%20-%20W27%20-%20G01%20-%20Sprint%20N%C2%BA%201%20-%20Spring.docx.pdf).
