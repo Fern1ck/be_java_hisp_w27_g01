@@ -1,12 +1,13 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
-import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.*;
+
+import ar.com.mercadolibre.socialmeli.dto.response.*;
+
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
@@ -17,6 +18,7 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements IProductService {
 
-    private IRepository repository;
+   private IRepository repository;
 
     public ProductServiceImpl(IRepository repository) {
         this.repository = repository;
@@ -127,7 +129,6 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductPromoCountDTO promoProductsCountBySeller(Integer userId) {
-
         if (!repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
@@ -157,6 +158,107 @@ public class ProductServiceImpl implements IProductService {
         return new PostOkDTO("OK");
     }
 
+    public List<SearchDTO> search(String query, Integer userId) {
+        if (userId != null && !repository.existId(userId)){
+            throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
+        }
+
+        
+        List<User> usuarios = repository.getUsers();
+
+        if(userId != null){
+            usuarios = usuarios.stream().filter(u -> u.getUserId().equals(userId)).findFirst().stream().toList();
+        }
+
+        return usuarios.stream()
+                .flatMap(user -> user.getPosts().stream()
+                        .filter(post -> compareQuery(post.getProduct().getProductName(), query) || compareQuery(post.getProduct().getBrand(), query))
+                        .map(post -> new SearchDTO(post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId())))
+                .toList();
+
+     
+    }
+
+    private Boolean compareQuery(String str, String query){
+        return Utils.limpiarTildes(str).toLowerCase().contains(Utils.limpiarTildes(query).toLowerCase());
+    }
+
+    public ProductPostsHistoryDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
+
+        if(userId==null|| userId<0){
+            throw new BadRequestException("User ID: " + userId + " is invalid.");
+        }
+
+        User user = repository.getUserById(userId);
+
+        if(user==null){
+            throw new BadRequestException("User ID: " + userId + " doesn't exist.");
+        }
+        if(user.getPosts().isEmpty()){
+            throw new BadRequestException("User ID: " + userId + " doesn't has Posts.");
+        }
+
+        List<Post> posts = user.getPosts();
+        List<PostsIdPromoDTO> postsDTO = new ArrayList<>();
+
+        if (Boolean.TRUE.equals(withPromo)) {
+            postsDTO = posts.stream()
+                    .filter(post -> Boolean.TRUE.equals(post.getHasPromo()))
+                    .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
+                    .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
+        }
+        
+        if (Boolean.FALSE.equals(withPromo)) {
+            postsDTO = posts.stream()
+                    .filter(post -> Boolean.FALSE.equals(post.getHasPromo()))
+                    .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
+                    .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
+        }
+        
+        postsDTO = posts.stream()
+                    .map(post -> {
+
+                        return new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount());
+                    })
+                    .toList();
+
+        return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
+    }
+
+    public PostOkDTO activatePromo(ActivatePromoRequestDTO promo){
+
+        validatePromoRequest(promo);
+
+        User user = repository.getUserById(promo.getUserId());
+
+        Post post = user.getPosts().stream()
+                .filter(p -> p.getPostId().equals(promo.getPostId()))
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException("Post ID: " + promo.getPostId() + " doesn´t exist."));
+
+        post.setHasPromo(true);
+        post.setDiscount(promo.getDiscount());
+
+        repository.updatePost(user, post);
+
+        return new PostOkDTO("OK");
+    }
+
+    private void validatePromoRequest(ActivatePromoRequestDTO promo) {
+        if (promo.getUserId() == null || promo.getPostId() == null || promo.getDiscount() == null) {
+            throw new BadRequestException("User_id, Post_id, and Discount must not be null");
+        }
+
+        if (promo.getDiscount() >= 0.51) {
+            throw new BadRequestException("Discount cannot be higher than 50%");
+        }
+
+        if (!repository.existId(promo.getUserId())) {
+            throw new BadRequestException("User ID: " + promo.getUserId() + " doesn´t exist.");
+        }
+    }
 }
 
 

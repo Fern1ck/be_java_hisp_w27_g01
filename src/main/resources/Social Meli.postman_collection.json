@@ -138,6 +138,34 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Search by Product Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products/search/test",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"search",
+								"test"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1",
+									"description": "Este parámetro es opcional",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
