@@ -162,7 +162,7 @@ public class ProductServiceImpl implements IProductService {
             throw new BadRequestException("User_id, Post_id, and Discount must not be null");
         }
 
-        if (promo.getDiscount() >= 51) {
+        if (promo.getDiscount() >= 0.51) {
             throw new BadRequestException("Discount cannot be higher than 50%");
         }
 
