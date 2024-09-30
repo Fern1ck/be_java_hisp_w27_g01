@@ -418,3 +418,24 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+<details>
+<summary>Funcionalidad 16`: Eliminar una publicación.</summary>
+## Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### Metodo DELETE
+- `Funcionalidad 16`: Eliminar una publicación.
+```
+  http://localhost:8080/products/post/{userId}/{postId}
+```
+| Response                                        |
+|:------------------------------------------------| 
+| `Status Code 200 (todo OK) - bodyless or dto`   | 
+| `Status Code 404 (Not Found) - bodyless or dto` | 
+
+| Parameter | Type     | Description                                                                                                  |
+|:----------| :------- |:-------------------------------------------------------------------------------------------------------------|
+| `userId`  | `int` | **Required**. Número que identifica a cada usuario.                                                          |
+| `postId`  | `int` | **Required**. Número identificatorio de una publicación asociado a una lista de publicaciones en un usuario. |
+
+</details>

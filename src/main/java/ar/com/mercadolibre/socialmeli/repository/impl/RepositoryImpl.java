@@ -64,5 +64,4 @@ public class RepositoryImpl implements IRepository {
         return users.stream().anyMatch(user -> user.getPosts().remove(post));
     }
 
-
 }
