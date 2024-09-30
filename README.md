@@ -460,24 +460,25 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
     "price": 15000.50, 
     "has_promo": true,
     "discount": 0.25
-    }
+    },
     {
-      "post_id": 18,
-      "date": "29-04-2021",
+      "post_id": 32,
+      "date": "01-05-2021",
       "product": 
       {
-          "product_id": 1,
-          "product_name": "Silla Gamer",
+          "product_id": 2,
+          "product_name": "Headset RGB Inalámbrico",
           "type": "Gamer",
           "brand": "Racer",
-          "color": "Red & Black",
-          "notes": "Special Edition"
+          "color": "Green with RGB",
+          "notes": "Sin Batería"
       },
-    "category": "100", 
-    "price": 15000.50, 
+    "category": "120", 
+    "price": 2800.69, 
     "has_promo": false,
     "discount": 0.0
     }]
+```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
