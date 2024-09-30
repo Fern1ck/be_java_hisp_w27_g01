@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
     public static List<User> createDefaultUsers(){
+
         List<User> users = new ArrayList<>();
         List<PostFollowDTO> postFollowDTOS = new ArrayList<>();
 
@@ -56,4 +58,5 @@ public class Utils {
         String cadenaNormalize = Normalizer.normalize(str, Normalizer.Form.NFD);
         return cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
     }
+
 }

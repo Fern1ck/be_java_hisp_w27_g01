@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "53d5ee35-bb5d-4620-af83-495bcd274c00",
+		"_postman_id": "5869a1d8-2738-4b0c-afbe-2792d6ba926d",
 		"name": "Social Meli",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38181492"
+		"_exporter_id": "38175171"
 	},
 	"item": [
 		{
@@ -140,12 +140,16 @@
 					"response": []
 				},
 				{
-					"name": "Search by Product Name",
+
+					"name": "Search by date",
+
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/products/search/test",
+							"raw": "http://localhost:8080/products/search/date?date_start=16/09/2021&date_end=18/09/2024",
+							"protocol": "http",
+
 							"host": [
 								"localhost"
 							],
@@ -153,14 +157,17 @@
 							"path": [
 								"products",
 								"search",
-								"test"
+								"date"
 							],
 							"query": [
 								{
-									"key": "userId",
-									"value": "1",
-									"description": "Este parámetro es opcional",
-									"disabled": true
+									"key": "date_start",
+									"value": "16/09/2021"
+								},
+								{
+									"key": "date_end",
+									"value": "18/09/2024"
+
 								}
 							]
 						}

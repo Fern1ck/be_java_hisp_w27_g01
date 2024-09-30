@@ -6,9 +6,12 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/products")
@@ -38,6 +41,16 @@ public class ProductController {
     @GetMapping("/promo-post/count")
     public ResponseEntity<?> promoProductsCountBySeller(@RequestParam(required = true, name = "user_id") int userId) {
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/search/date")
+    public ResponseEntity<?> searchProductsPostsByDate(@RequestParam(name = "date_start", required = true)
+                                                           @DateTimeFormat(pattern = "dd/MM/yyyy")
+                                                           LocalDate dateStart,
+                                                       @RequestParam(name = "date_end", required = false)
+                                                           @DateTimeFormat(pattern = "dd/MM/yyyy")
+                                                       LocalDate dateEnd) {
+        return new ResponseEntity<>(productService.searchProductsPostsByDate(dateStart, dateEnd), HttpStatus.OK);
     }
 
     @DeleteMapping("/post/{userId}/{postId}")

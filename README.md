@@ -13,11 +13,12 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 ## Funcionalidades del proyecto
 
+<details>
+<summary> Funcionalidad 1: Poder realizar la acción de “Follow” (seguir) a un determinado usuario. </summary>
+
 ## Dev:
 
 - [@Stephanie Castillo](https://github.com/Stephaaniie)
-  
-- `Funcionalidad 1`: Poder realizar la acción de “Follow” (seguir) a un determinado usuario.
 
 #### Metodo POST
 
@@ -39,14 +40,16 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | `userId`      | `int` | **Required**. Número que identifica al usuario actual |
 | `userIdToFollow`      | `int` | **Required**. Número que identifica al usuario a seguir |
 
+</details>
 
+<details>
+<summary>Funcionalidad 2: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor.</summary>
 ## Dev:
 
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
-  
+
 #### Metodo GET
 
-- `Funcionalidad 2`: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor.
 ```
   http://localhost:8080/users/{userId}/followers/count
 ```
@@ -66,13 +69,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
 
+</details>
+
+<details>
+<summary>Funcionalidad 3: Obtener un listado de todos los usuarios que siguen a un determinado vendedor (¿Quién me sigue?).</summary>
+
 ## Dev:
 
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
   
 #### Metodo GET
 
-- `Funcionalidad 3`: Obtener un listado de todos los usuarios que siguen a un determinado vendedor (¿Quién me sigue?).
 ```
   http://localhost:8080/users/{userId}/followers/list
 ```
@@ -103,13 +110,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | :-------- | :------- | :-------------------------------- |
 | `userId`  | `int`    | **Required**. Número que identifica a cada usuario. |
 
+</details>
+
+<details>
+<summary>Funcionalidad 4: Obtener  un listado de todos los vendedores a los cuales sigue un determinado usuario (¿A quién sigo?).</summary>
+
 ## Dev:
 
 - [@Delfina Glavas](https://github.com/delfi85)
   
 #### Metodo GET
 
-- `Funcionalidad 4`: Obtener  un listado de todos los vendedores a los cuales sigue un determinado usuario (¿A quién sigo?)
 ```
   http://localhost:8080/users/{userId}/followed/list
 ```
@@ -135,17 +146,24 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
                     "user_id": 6631,
                     "user_name": "vendedor3"
                   }
+
                 ]
+
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
+
+</details>
+
+<details>
+<summary>Funcionalidad 5: Dar de alta una nueva publicación.</summary>
 
 ## Dev:
 
 - [@Stephanie Castillo](https://github.com/Stephaaniie)
 
 #### Metodo POST
-- `Funcionalidad 5`: Dar de alta una nueva publicación.
+
 ```
   http://localhost:8080/products/post
 ```
@@ -184,13 +202,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | `category`      | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados|
 | `price`      | `double` | **Required**. Precio del producto.|
 
+</details>
+
+<details>
+<summary>Funcionalidad 6: Obtener un listado de las publicaciones realizadas por los vendedores que un usuario sigue en las últimas dos semanas (para esto tener en cuenta ordenamiento por fecha, publicaciones más recientes primero).</summary>
+
 ## Dev:
 
 - [@Emilia Lascano](https://github.com/EmiLascano)
 
 #### Metodo GET
 
-- `Funcionalidad 6`: Obtener un listado de las publicaciones realizadas por los vendedores que un usuario sigue en las últimas dos semanas (para esto tener en cuenta ordenamiento por fecha, publicaciones más recientes primero).
 ```
   http://localhost:8080/products/followed/{userId}/list
 ```
@@ -240,13 +262,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
+</details>
+
+<details>
+<summary>Funcionalidad 7: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.</summary>
 
 ## Dev:
 
 - [@Emilia Lascano](https://github.com/EmiLascano)
   
 #### Metodo POST
-- `Funcionalidad 7`: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.
+
 ```
   http://localhost:8080/users/{userId}/unfollow/{userIdToUnfollow}
 ```
@@ -258,13 +284,16 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
 | `userIdToUnfollow`      | `int` | **Required**. Número que identifica al usuario a dejar de seguir |
 
+</details>
+
+<details>
+<summary>Funcionalidad 8: Ordenamiento alfabético ascendente y descendente.</summary>
+
 ## Dev:
 - [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo GET
-
-- `Funcionalidad 8`: Ordenamiento alfabético ascendente y descendente.
-  
+ 
 ```
   http://localhost:8080/users/{UserID}/followers/list?order=name_asc
   http://localhost:8080/users/{UserID}/followers/list?order=name_desc
@@ -279,12 +308,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 
+</details>
+
+<details>
+<summary>Funcionalidad 9: Ordenamiento por fecha ascendente y descendente.</summary>
+
 ## Dev:
 
 - [@Delfina Glavas](https://github.com/delfi85)
 
 #### Metodo GET
-- `Funcionalidad 9`: Ordenamiento por fecha ascendente y descendente.
+
 ```
   http://localhost:8080//products/followed/{userId}/list?order=date_asc
   http://localhost:8080/products/followed/{userId}/list?order=date_desc
@@ -295,12 +329,16 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 | `date_desc` | **Fecha descendente (de más nueva a más antigua).**  |
 
 Nota: Este ordenamiento aplica solo para la funcionalidad 6.
+</details>
+
+<details>
+<summary>Funcionalidad 10: Llevar a cabo la publicación de un nuevo producto en promoción.</summary>
 
 ## Dev:
 - [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo POST
-- `Funcionalidad 10`: Llevar a cabo la publicación de un nuevo producto en promoción.
+
 ```
   http://localhost:8080/products/promo-post
 ```
@@ -343,6 +381,11 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+</details>
+
+<details>
+<summary>Funcionalidad 11: Obtener la cantidad de productos en promoción de un determinado vendedor.</summary>
+
 ## Devs:
 
 - [@Delfina Glavas](https://github.com/delfi85)
@@ -352,7 +395,7 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 - [@Fernando Baldrich](https://github.com/Fern1ck)
   
 #### Metodo GET
-- `Funcionalidad 11`: Obtener la cantidad de productos en promoción de un determinado vendedor.
+
 ```
   http://localhost:8080/products/promo-post/count?user_id={userId}
 ```
@@ -369,54 +412,7 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `user_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre del usuario. |
 | `promo_products_count`      | `int` | **Required**. Cantidad numérica de productos en promoción de un determinado usuario. |
 
-
-  
-#### Metodo GET
-- `Funcionalidad 12`: Obtener un listado de todos los productos en promoción de un determinado vendedor (OPCIONAL).
-```
-  http://localhost:8080/products/promo-post/list?user_id={userId}
-```
-| Response  |
-| :-------- | 
-
-    "user_id": 234,
-    "user_name": "vendedor1",
-    "posts": [
-    {
-      “user_id”: 234,
-      "post_id": 18,
-      "date": "29-04-2021",
-      "product": 
-      {
-          "product_id": 1,
-          "product_name": "Silla Gamer",
-          "type": "Gamer",
-          "brand": "Racer",
-          "color": "Red & Black",
-          "notes": "Special Edition"
-      },
-    "category": "100", 
-    "price": 15000.50, 
-    "has_promo": true,
-    "discount": 0.25
-    }]
-    
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
-| `user_name`      | `int` | **Required**. Cadena de caracteres que representa el nombre del usuario. |
-| `post_id`      | `int` | **Required**. Número identificatorio de cada una de las publicaciones. |
-| `date`      | `LocalDate` | **Required**. Fecha de la publicación en formato dd-MM-yyyy. |
-| `product_id`      | `int` | **Required**. Número identificatorio de un producto asociado a una publicación. |
-| `product_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre de un producto. |
-| `type`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
-| `brand`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
-| `color`      | `String` | **Required**. Cadena de caracteres que representa el color de un producto notes. |
-| `note`      | `String` | **Required**. Cadena de caracteres para colocar notas u observaciones de un producto. |
-| `category`      | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados. |
-| `price`      | `double` | **Required**. Precio del producto.|
-| `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
-| `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
+</details>
 
 <details>
 <summary> Funcionalidad 13: Buscar productos por nombre o marca, opcionalmente pasandole un ID de usuario</summary>
@@ -476,6 +472,82 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `price`        | `double` | **Required**. Precio del producto.                                                                                                      |
 | `has_promo`    | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no.                                                 |
 | `discount`     | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento.                                       |
+
+</details>
+
+
+<details>
+  <summary> Funcionalidad 14: Obtener un listado de las publicaciones realizadas por los vendedores según las fechas ingresadas.</summary>
+
+
+### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+
+#### Metodo GET
+
+
+```
+  http://localhost:8080/products/search/date?date_start=16/09/2021&date_end=18/09/2024
+```
+
+| Response  |
+| :-------- | 
+
+    [
+      {
+          "user_id": 2,
+          "post_id": 1,
+          "date": "16-09-2021",
+          "product": {
+              "type": "Gamer",
+              "brand": "Racer",
+              "color": "Red",
+              "notes": "Special Edition",
+              "product_id": 1,
+              "product_name": "Silla gamer"
+          },
+          "category": 100,
+          "price": 15000.0
+      },
+      {
+          "user_id": 2,
+          "post_id": 3,
+          "date": "18-09-2024",
+          "product": {
+              "type": "Monitor",
+              "brand": "Samsung",
+              "color": "Negro",
+              "notes": "Ultra HD",
+              "product_id": 3,
+              "product_name": "Monitor 4K"
+          },
+          "category": 300,
+          "price": 30000.0
+      },
+      {
+          "user_id": 4,
+          "post_id": 2,
+          "date": "17-09-2024",
+          "product": {
+              "type": "Periférico",
+              "brand": "Logitech",
+              "color": "Negro",
+              "notes": "RGB",
+              "product_id": 2,
+              "product_name": "Teclado mecánico"
+          },
+          "category": 200,
+          "price": 5000.0
+      }
+    ]
+
+
+| Parameter    | Type     | Description                                                                                                                                      |
+|:-------------| :------- |:-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `date_start` | `LocalDate` | **Required**. Fecha que marca el inicio temporal del cúal el usuario quiere empezar la búsqueda de posteos de los vendedores. Formato dd-MM-yyyy.|
+| `date_end`   | `LocalDate` |  Fecha que marca el fin temporal del cúal el usuario quiere finalizar la búsqueda de posteos de los vendedores. (En caso de que el usuario no ingrese este dato se tomará como fin de búsqueda la fecha actual). Formato dd-MM-yyyy .|
+
 
 </details>
 
