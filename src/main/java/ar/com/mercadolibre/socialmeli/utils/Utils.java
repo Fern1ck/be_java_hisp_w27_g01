@@ -7,6 +7,7 @@ import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import org.modelmapper.ModelMapper;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,11 @@ public class Utils {
     public static Post changePostDtoToEntity(PostDTO postDTO){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(postDTO, Post.class);
+    }
+
+    public static String limpiarTildes(String str){
+        String cadenaNormalize = Normalizer.normalize(str, Normalizer.Form.NFD);
+        return cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
     }
 
 }

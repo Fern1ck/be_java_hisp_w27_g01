@@ -140,13 +140,16 @@
 					"response": []
 				},
 				{
+
 					"name": "Search by date",
+
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/products/search/date?date_start=16/09/2021&date_end=18/09/2024",
 							"protocol": "http",
+
 							"host": [
 								"localhost"
 							],
@@ -164,6 +167,7 @@
 								{
 									"key": "date_end",
 									"value": "18/09/2024"
+
 								}
 							]
 						}
