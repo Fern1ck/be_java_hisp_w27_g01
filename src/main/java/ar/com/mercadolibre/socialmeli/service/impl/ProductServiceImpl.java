@@ -17,6 +17,7 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public class ProductServiceImpl implements IProductService {
     public ProductServiceImpl(IRepository repository) {
         this.repository = repository;
     }
-  
+
     @Override
     public PostOkDTO registerANewPublication(PostDTO postDTO) {
 
@@ -38,14 +39,14 @@ public class ProductServiceImpl implements IProductService {
         }
 
         User userPost = repository.getUserById(postDTO.getUserId());
-        Integer id =  userPost.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
+        Integer id = userPost.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
         Post post = Utils.changePostDtoToEntity(postDTO);
         post.setPostId(id);
 
         post.setHasPromo(false);
         post.setDiscount(0.0);
-        
-        if(userPost == null) {
+
+        if (userPost == null) {
             throw new BadRequestException("User not found");
         }
 
@@ -60,10 +61,10 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public CreatePromoResponseDTO createPromo(CreatePromoRequestDTO requestDto) {
-      
+
         User user = repository.getUserById(requestDto.getUserId());
 
-        if(user == null){
+        if (user == null) {
             throw new BadRequestException("User ID: " + requestDto.getUserId() + " doesn´t exist.");
         }
 
@@ -74,7 +75,7 @@ public class ProductServiceImpl implements IProductService {
         post.setDate(requestDto.getDate());
         post.setHasPromo(requestDto.isHasPromo());
         post.setDiscount(requestDto.getDiscount());
-      
+
         Integer createdId = repository.createPost(user, post);
 
         CreatePromoResponseDTO responseDto = new CreatePromoResponseDTO();
@@ -84,17 +85,17 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order){
+    public PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order) {
 
         User user = repository.getUserById(userId);
 
-        if (user == null){
+        if (user == null) {
             throw new BadRequestException("User ID: " + userId + " doesn´t exist.");
         }
 
         List<Integer> followedIds = user.getFollowedIds();
 
-        if (followedIds == null || followedIds.isEmpty()){
+        if (followedIds == null || followedIds.isEmpty()) {
             throw new BadRequestException("User ID: " + userId + " is not following anyone.");
         }
 
@@ -102,11 +103,11 @@ public class ProductServiceImpl implements IProductService {
 
         List<PostsIdDTO> recentPost = repository.getUsers().stream()
                 .filter(u -> followedIds.contains(u.getUserId()))
-                .flatMap(u -> u.getPosts().stream().map(post -> new PostsIdDTO(u.getUserId(), post.getPostId() , post.getDate(), post.getProduct(), post.getCategory(), post.getPrice())))
+                .flatMap(u -> u.getPosts().stream().map(post -> new PostsIdDTO(u.getUserId(), post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice())))
                 .filter(postDTO -> postDTO.getDate().isAfter(twoWeeksAgo))
                 .toList();
 
-        if(recentPost == null || recentPost.isEmpty()){
+        if (recentPost == null || recentPost.isEmpty()) {
             throw new BadRequestException("There aren't posts of minus two weeks.");
         }
 
@@ -128,7 +129,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductPromoCountDTO promoProductsCountBySeller(Integer userId) {
 
-        if (!repository.existId(userId)){
+        if (!repository.existId(userId)) {
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
 
@@ -141,6 +142,27 @@ public class ProductServiceImpl implements IProductService {
         return new ProductPromoCountDTO(user.getUserId(), user.getUserName(), promoCount);
     }
 
+    @Override
+    public List<PostsIdDTO> searchProductsPostsByDate(LocalDate dateStart, LocalDate dateEnd) {
+
+        if (dateStart == null) { throw new BadRequestException("Start date cannot be null");}
+
+        if (dateEnd == null) { dateEnd = LocalDate.now();}
+
+        List<PostsIdDTO> postsIdDTOs = new ArrayList<>();
+
+        LocalDate finalDateEnd = dateEnd;
+
+        repository.getUsers().stream()
+                .filter(user -> !user.getPosts().isEmpty())
+                .forEach(user -> {
+                    List<PostsIdDTO> userPosts = user.getPosts().stream()
+                            .filter(post -> (post.getDate().isAfter(dateStart) || post.getDate().isEqual(dateStart)) && (post.getDate().isBefore(finalDateEnd) || post.getDate().isEqual(finalDateEnd)))
+                            .map(post -> new PostsIdDTO( user.getUserId(), post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice()))
+                            .toList();
+                    postsIdDTOs.addAll(userPosts);
+                });
+        return postsIdDTOs;
+    }
+
 }
-
-

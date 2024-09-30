@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+
     public static List<User> createDefaultUsers(){
+
         List<User> users = new ArrayList<>();
         List<PostFollowDTO> postFollowDTOS = new ArrayList<>();
 
@@ -49,6 +51,6 @@ public class Utils {
     public static Post changePostDtoToEntity(PostDTO postDTO){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(postDTO, Post.class);
-        
-}
+    }
+
 }
