@@ -15,7 +15,6 @@ import java.util.List;
 public class PostsFollowersListDTO {
     @JsonProperty("user_id")
     private Integer userId;
-
     private List<PostsIdDTO> posts;
 
 }
