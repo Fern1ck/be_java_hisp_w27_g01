@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e2f5d8ce-cf7e-4c05-828f-b27d44ae827b",
+		"_postman_id": "578aa4ef-4586-4b43-8702-772905388b20",
 		"name": "Social Meli",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38178063"
+		"_exporter_id": "38181492"
 	},
 	"item": [
 		{
@@ -108,6 +108,35 @@
 								"followed",
 								"5",
 								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Product Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/products/search?query=ams&user_id=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "ams"
+								},
+								{
+									"key": "user_id",
+									"value": "2"
+								}
 							]
 						}
 					},
