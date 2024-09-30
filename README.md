@@ -418,13 +418,14 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+<details>
+<summary> Funcionalidad 13: Buscar productos por nombre o marca, opcionalmente pasandole un ID de usuario</summary>
 ## Dev:
 
 - [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### Metodo GET
 
-- `Funcionalidad 13`: Buscar productos por nombre o marca, opcionalmente pasandole un ID de usuario
 ```
   http://localhost:8080/products/search?query={query}&user_id={user_id}
 ```
@@ -474,3 +475,5 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `price`        | `double` | **Required**. Precio del producto.                                                                                                      |
 | `has_promo`    | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no.                                                 |
 | `discount`     | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento.                                       |
+
+</details>
