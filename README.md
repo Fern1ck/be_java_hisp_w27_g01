@@ -48,7 +48,7 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 - `Funcionalidad 2`: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor.
 ```
-  http://localhost:8080/users/{userId}/followers/count}
+  http://localhost:8080/users/{userId}/followers/count
 ```
 
 ```http
@@ -418,3 +418,59 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+## Dev:
+
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+#### Metodo GET
+
+- `Funcionalidad 13`: Buscar productos por nombre o marca, opcionalmente pasandole un ID de usuario
+```
+  http://localhost:8080/products/search?query={query}&user_id={user_id}
+```
+
+```http
+  Ejemplo: localhost:8080/products/search?query=ams
+  Ejemplo: localhost:8080/products/search?query=ams&user_id=2
+```
+
+| Response  |
+| :-------- | 
+
+    [
+      {
+        "post_id": 3,
+        "user_id": 2,
+        "product": {
+          "type": "Monitor",
+          "brand": "Samsung",
+          "color": "Negro",
+          "notes": "Ultra HD",
+          "product_id": 3,
+          "product_name": "Monitor 4K"
+        },
+        "date": "18-09-2024",
+        "category": 300,
+        "price": 30000.0,
+        "discount": 0.3,
+        "has_promo": true
+      }
+    ]
+
+La respuesta es una lista con objetos con las siguientes propiedades:
+
+| Parameter      | Type     | Description                                                                                                                             |
+|:---------------| :------- |:----------------------------------------------------------------------------------------------------------------------------------------|
+| `postId`       | `int` | **Required**. Número que identifica a cada post.                                                                                        |
+| `userId`       | `int` | **Required**. Número que identifica a cada usuario.                                                                                     |
+| `post_id`      | `int` | **Required**. Número identificatorio de cada una de las publicaciones.                                                                  |
+| `date`         | `LocalDate` | **Required**. Fecha de la publicación en formato dd-MM-yyyy.                                                                            |
+| `product_id`   | `int` | **Required**. Número identificatorio de un producto asociado a una publicación.                                                         |
+| `type`         | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto.                                                               |
+| `brand`        | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto.                                                               |
+| `color`        | `String` | **Required**. Cadena de caracteres que representa el color de un producto notes.                                                        |
+| `note`         | `String` | **Required**. Cadena de caracteres para colocar notas u observaciones de un producto.                                                   |
+| `category`     | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados. |
+| `price`        | `double` | **Required**. Precio del producto.                                                                                                      |
+| `has_promo`    | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no.                                                 |
+| `discount`     | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento.                                       |

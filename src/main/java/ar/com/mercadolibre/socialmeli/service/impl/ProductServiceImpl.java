@@ -7,6 +7,7 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostsIdDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
@@ -17,6 +18,7 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -127,7 +129,6 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductPromoCountDTO promoProductsCountBySeller(Integer userId) {
-
         if (!repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
@@ -141,6 +142,41 @@ public class ProductServiceImpl implements IProductService {
         return new ProductPromoCountDTO(user.getUserId(), user.getUserName(), promoCount);
     }
 
+    @Override
+    public List<SearchDTO> search(String query, Integer userId) {
+        if (userId != null && !repository.existId(userId)){
+            throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
+        }
+
+        //List<SearchDTO> dtosADevolver = new ArrayList<>();
+        List<User> usuarios = repository.getUsers();
+
+        if(userId != null){
+            usuarios = usuarios.stream().filter(u -> u.getUserId().equals(userId)).findFirst().stream().toList();
+        }
+
+        //for(User user : usuarios){
+        //    for(Post post : user.getPosts()){
+        //        //Se normaliza quitando tildes, y la comparación se realiza en minúsculas
+        //            if(compareQuery(post.getProduct().getProductName(), query) || compareQuery(post.getProduct().getBrand(), query)){
+        //            SearchDTO dto = new SearchDTO(post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId());
+        //            dtosADevolver.add(dto);
+        //        }
+        //    }
+        //}
+
+        return usuarios.stream()
+                .flatMap(user -> user.getPosts().stream()
+                        .filter(post -> compareQuery(post.getProduct().getProductName(), query) || compareQuery(post.getProduct().getBrand(), query))
+                        .map(post -> new SearchDTO(post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId())))
+                .toList();
+
+        //return dtosADevolver;
+    }
+
+    private Boolean compareQuery(String str, String query){
+        return Utils.limpiarTildes(str).toLowerCase().contains(Utils.limpiarTildes(query).toLowerCase());
+    }
 }
 
 
