@@ -1,8 +1,10 @@
 package ar.com.mercadolibre.socialmeli.controller;
 
+import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +38,10 @@ public class ProductController {
     @GetMapping("/promo-post/count")
     public ResponseEntity<?> promoProductsCountBySeller(@RequestParam (required = true, name = "user_id") int userId){
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/posts/activate-promo")
+    public ResponseEntity<?> activatePromoForPost(@RequestBody ActivatePromoRequestDTO requestDTO) {
+        return new ResponseEntity<>(productService.activatePromo(requestDTO), HttpStatus.OK);
     }
 }

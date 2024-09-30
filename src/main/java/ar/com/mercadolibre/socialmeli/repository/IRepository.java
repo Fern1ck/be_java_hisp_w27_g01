@@ -19,4 +19,6 @@ public interface IRepository {
 
     void updateUser(User user);
 
+    void updatePost(User user, Post post);
+
 }
