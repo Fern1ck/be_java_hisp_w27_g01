@@ -418,12 +418,15 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+
+<details>
+<summary> Funcionalidad 15: Activar una promocion de un posteo existente. </summary> 
+
 ## Dev:
 
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
 
 #### Metodo PUT
-- `Funcionalidad 15`: Activar una promocion de un posteo existente.
 ```
   http://localhost:8080/products/posts/activate-promo
 ```
@@ -438,3 +441,4 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | :-------- | 
 | `Status Code 200 (todo OK) - bodyless or dto` | 
 | `Status Code 400 (Bad Request) - bodyless or dto` | 
+</details>
