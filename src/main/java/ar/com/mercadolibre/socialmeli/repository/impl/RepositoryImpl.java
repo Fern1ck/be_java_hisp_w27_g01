@@ -59,4 +59,21 @@ public class RepositoryImpl implements IRepository {
                 });
     }
 
+    @Override
+    public void updatePost(User user, Post post) {
+        users.stream()
+                .filter(u -> u.getUserId().equals(user.getUserId()))
+                .findFirst()
+                .ifPresent(u -> {
+                    u.getPosts().stream()
+                            .filter(p -> p.getPostId().equals(post.getPostId()))
+                            .findFirst()
+                            .ifPresent(existingPost -> {
+                                int postIndex = u.getPosts().indexOf(existingPost);
+                                u.getPosts().set(postIndex, post);
+                            });
+                    int userIndex = users.indexOf(u);
+                    users.set(userIndex, u);
+                });
+    }
 }

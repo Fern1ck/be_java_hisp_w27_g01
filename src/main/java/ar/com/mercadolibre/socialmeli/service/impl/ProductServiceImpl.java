@@ -1,7 +1,12 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
 import ar.com.mercadolibre.socialmeli.dto.request.*;
+
 import ar.com.mercadolibre.socialmeli.dto.response.*;
+
+import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
@@ -183,7 +188,38 @@ public class ProductServiceImpl implements IProductService {
         return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
     }
 
+    public PostOkDTO activatePromo(ActivatePromoRequestDTO promo){
 
+        validatePromoRequest(promo);
+
+        User user = repository.getUserById(promo.getUserId());
+
+        Post post = user.getPosts().stream()
+                .filter(p -> p.getPostId().equals(promo.getPostId()))
+                .findFirst()
+                .orElseThrow(() -> new BadRequestException("Post ID: " + promo.getPostId() + " doesn´t exist."));
+
+        post.setHasPromo(true);
+        post.setDiscount(promo.getDiscount());
+
+        repository.updatePost(user, post);
+
+        return new PostOkDTO("OK");
+    }
+
+    private void validatePromoRequest(ActivatePromoRequestDTO promo) {
+        if (promo.getUserId() == null || promo.getPostId() == null || promo.getDiscount() == null) {
+            throw new BadRequestException("User_id, Post_id, and Discount must not be null");
+        }
+
+        if (promo.getDiscount() >= 0.51) {
+            throw new BadRequestException("Discount cannot be higher than 50%");
+        }
+
+        if (!repository.existId(promo.getUserId())) {
+            throw new BadRequestException("User ID: " + promo.getUserId() + " doesn´t exist.");
+        }
+    }
 
 }
 

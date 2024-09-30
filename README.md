@@ -419,6 +419,30 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
 <details>
+<summary> Funcionalidad 15: Activar una promocion de un posteo existente. </summary> 
+
+## Dev:
+
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Metodo PUT
+```
+  http://localhost:8080/products/posts/activate-promo
+```
+
+| Parameter  | Type     | Description                                         |
+|:-----------|:---------|:----------------------------------------------------|
+| `user_id`  | `int`    | **Required**. Número que identifica a cada usuario. |
+| `post_id`  | `int`    | **Required**. Número que identifica al posteo.      |
+| `discount` | `double` | **Required**. Número que el descuento a aplicar.    |
+
+| Response  |
+| :-------- | 
+| `Status Code 200 (todo OK) - bodyless or dto` | 
+| `Status Code 400 (Bad Request) - bodyless or dto` | 
+</details>
+
+<details>
  <summary> Funcionalidad 17: Obtener un listado de todos los productos de un determinado vendedor, con la posibilidad de filtrar por posteos que tienen descuento y posteos que no tienen descuentos. </summary>
 
 ## Dev:
@@ -497,6 +521,6 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `price`      | `double` | **Required**. Precio del producto.|
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
-
- 
 </details>
+ 
+
