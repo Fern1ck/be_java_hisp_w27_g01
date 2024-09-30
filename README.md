@@ -418,7 +418,6 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
-
 <details>
 <summary> Funcionalidad 15: Activar una promocion de un posteo existente. </summary> 
 
@@ -442,3 +441,86 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `Status Code 200 (todo OK) - bodyless or dto` | 
 | `Status Code 400 (Bad Request) - bodyless or dto` | 
 </details>
+
+<details>
+ <summary> Funcionalidad 17: Obtener un listado de todos los productos de un determinado vendedor, con la posibilidad de filtrar por posteos que tienen descuento y posteos que no tienen descuentos. </summary>
+
+## Dev:
+- [@Emilia Lascano](https://github.com/Fern1ck)
+
+#### Metodo GET
+- `Funcionalidad 17`: Obtener un listado de todos los productos de un determinado vendedor, con la posibilidad de filtrar por posteos que tienen descuento y posteos que no tienen descuentos.
+```
+  http://localhost:8080/products/promo-post/3/history
+  http://localhost:8080/products/promo-post/3/history?with_promo=true
+  http://localhost:8080/products/promo-post/3/history?with_promo=false
+```
+| with_promo | Description                                              |
+|:-----------|:---------------------------------------------------------|
+| null       | **Devuelve todos los posts, sin aplicar ningún filtro.** |
+| `true`     | **Devuelve solo los posts que tienen descuento.**        |
+| `false`    | **Devuelve solo los posts que no tienen descuentos.**    |
+
+```
+
+| Response  |
+| :-------- | 
+
+    "user_id": 234,
+    "user_name": "vendedor1",
+    "posts": [
+    {
+      "post_id": 18,
+      "date": "29-04-2021",
+      "product": 
+      {
+          "product_id": 1,
+          "product_name": "Silla Gamer",
+          "type": "Gamer",
+          "brand": "Racer",
+          "color": "Red & Black",
+          "notes": "Special Edition"
+      },
+    "category": "100", 
+    "price": 15000.50, 
+    "has_promo": true,
+    "discount": 0.25
+    },
+    {
+      "post_id": 32,
+      "date": "01-05-2021",
+      "product": 
+      {
+          "product_id": 2,
+          "product_name": "Headset RGB Inalámbrico",
+          "type": "Gamer",
+          "brand": "Racer",
+          "color": "Green with RGB",
+          "notes": "Sin Batería"
+      },
+    "category": "120", 
+    "price": 2800.69, 
+    "has_promo": false,
+    "discount": 0.0
+    }]
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
+| `user_name`      | `int` | **Required**. Cadena de caracteres que representa el nombre del usuario. |
+| `post_id`      | `int` | **Required**. Número identificatorio de cada una de las publicaciones. |
+| `date`      | `LocalDate` | **Required**. Fecha de la publicación en formato dd-MM-yyyy. |
+| `product_id`      | `int` | **Required**. Número identificatorio de un producto asociado a una publicación. |
+| `product_name`      | `String` | **Required**. Cadena de caracteres que representa el nombre de un producto. |
+| `type`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
+| `brand`      | `String` | **Required**. Cadena de caracteres que representa el tipo de un producto. |
+| `color`      | `String` | **Required**. Cadena de caracteres que representa el color de un producto notes. |
+| `note`      | `String` | **Required**. Cadena de caracteres para colocar notas u observaciones de un producto. |
+| `category`      | `int` | **Required**. Identificador que sirve para conocer la categoría a la que pertenece un producto. Por ejemplo: 100: Sillas, 58: Teclados. |
+| `price`      | `double` | **Required**. Precio del producto.|
+| `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
+| `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
+</details>
+ 
+

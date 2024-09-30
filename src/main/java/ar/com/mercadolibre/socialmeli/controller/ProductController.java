@@ -40,6 +40,11 @@ public class ProductController {
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
     }
 
+    @GetMapping("/promo-post/{userId}/history")
+    public ResponseEntity<?> getSellerPostListHistory(@PathVariable Integer userId, @RequestParam(required = false, name = "with_promo") Boolean withPromo){
+     return new ResponseEntity<>(productService.getSellerPostListHistory(userId, withPromo), HttpStatus.OK);
+    }
+
     @PutMapping("/posts/activate-promo")
     public ResponseEntity<?> activatePromoForPost(@RequestBody ActivatePromoRequestDTO requestDTO) {
         return new ResponseEntity<>(productService.activatePromo(requestDTO), HttpStatus.OK);

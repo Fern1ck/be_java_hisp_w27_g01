@@ -1,6 +1,9 @@
 package ar.com.mercadolibre.socialmeli.service.impl;
 
 import ar.com.mercadolibre.socialmeli.dto.request.*;
+
+import ar.com.mercadolibre.socialmeli.dto.response.*;
+
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
@@ -14,6 +17,7 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements IProductService {
 
-    private IRepository repository;
+   private IRepository repository;
 
     public ProductServiceImpl(IRepository repository) {
         this.repository = repository;
@@ -136,6 +140,52 @@ public class ProductServiceImpl implements IProductService {
                 .count()));
 
         return new ProductPromoCountDTO(user.getUserId(), user.getUserName(), promoCount);
+    }
+
+    @Override
+    public ProductPostsHistoryDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
+
+        if(userId==null|| userId<0){
+            throw new BadRequestException("User ID: " + userId + " is invalid.");
+        }
+
+        User user = repository.getUserById(userId);
+
+        if(user==null){
+            throw new BadRequestException("User ID: " + userId + " doesn't exist.");
+        }
+        if(user.getPosts().isEmpty()){
+            throw new BadRequestException("User ID: " + userId + " doesn't has Posts.");
+        }
+
+        List<Post> posts = user.getPosts();
+        List<PostsIdPromoDTO> postsDTO = new ArrayList<>();
+
+        // if withPromo es true, include only posts with promotion.
+        if (Boolean.TRUE.equals(withPromo)) {
+            postsDTO = posts.stream()
+                    .filter(post -> Boolean.TRUE.equals(post.getHasPromo()))
+                    .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
+                    .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
+        }
+        // if withPromo is false, include only posts without promotion.
+        if (Boolean.FALSE.equals(withPromo)) {
+            postsDTO = posts.stream()
+                    .filter(post -> Boolean.FALSE.equals(post.getHasPromo()))
+                    .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
+                    .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
+        }
+        // if withPromo is null, return posts without considering promotion.
+        postsDTO = posts.stream()
+                    .map(post -> {
+
+                        return new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount());
+                    })
+                    .toList();
+
+        return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
     }
 
     public PostOkDTO activatePromo(ActivatePromoRequestDTO promo){
