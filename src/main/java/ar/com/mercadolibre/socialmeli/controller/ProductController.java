@@ -38,12 +38,9 @@ public class ProductController {
         return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
     }
 
-    //listado historico de un determinado vendedor
     @GetMapping("/promo-post/{userId}/history")
-    public ResponseEntity<?> getSellerPostListHistory(@PathVariable Integer userId, @RequestParam(required = false) Boolean withPromo){
+    public ResponseEntity<?> getSellerPostListHistory(@PathVariable Integer userId, @RequestParam(required = false, name = "with_promo") Boolean withPromo){
      return new ResponseEntity<>(productService.getSellerPostListHistory(userId, withPromo), HttpStatus.OK);
     }
-
-
 
 }

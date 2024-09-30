@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"post_id", "date", "product", "category", "price", "has_promo", "discount"})
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostsIdPromoDTO {
 
     @JsonProperty("post_id")
@@ -30,10 +29,6 @@ public class PostsIdPromoDTO {
     private Boolean hasPromo;
     private Double discount;
 
-    public void removePromoFields() {
-        this.hasPromo=null;
-        this.discount = null;
-    }
 
 
 }

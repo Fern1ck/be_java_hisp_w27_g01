@@ -173,6 +173,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         user.removeFollowedId(userIdToUnfollow);
+
         repository.updateUser(user);
 
         return new UserOkDTO("OK");

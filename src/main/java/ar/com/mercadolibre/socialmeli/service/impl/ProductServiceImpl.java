@@ -141,7 +141,7 @@ public class ProductServiceImpl implements IProductService {
     public ProductPostsHistoryDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
 
         if(userId==null|| userId<0){
-            throw new BadRequestException("User ID: " + userId + " is invalid");
+            throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
         User user = repository.getUserById(userId);
@@ -150,7 +150,7 @@ public class ProductServiceImpl implements IProductService {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
         if(user.getPosts().isEmpty()){
-            throw new BadRequestException("User ID: " + userId + " doesn't has Posts");
+            throw new BadRequestException("User ID: " + userId + " doesn't has Posts.");
         }
 
         List<Post> posts = user.getPosts();
@@ -162,24 +162,23 @@ public class ProductServiceImpl implements IProductService {
                     .filter(post -> Boolean.TRUE.equals(post.getHasPromo()))
                     .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
                     .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
         }
         // if withPromo is false, include only posts without promotion.
-        else if (Boolean.FALSE.equals(withPromo)) {
+        if (Boolean.FALSE.equals(withPromo)) {
             postsDTO = posts.stream()
                     .filter(post -> Boolean.FALSE.equals(post.getHasPromo()))
                     .map(post -> new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
                     .toList();
+            return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
         }
         // if withPromo is null, return posts without considering promotion.
-        else {
-            postsDTO = posts.stream()
+        postsDTO = posts.stream()
                     .map(post -> {
-                        PostsIdPromoDTO dto = new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount());
-                        dto.removePromoFields();
-                        return dto;
+
+                        return new PostsIdPromoDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount());
                     })
                     .toList();
-        }
 
         return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
     }
