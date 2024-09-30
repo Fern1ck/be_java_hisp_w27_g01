@@ -702,7 +702,7 @@ Postman nos permite definir un catálogo de peticiones, posteriormente podemos e
 
 1. Descargar [Postman](https://www.getpostman.com/) e instalar.
 
-2. Descargar el [Collection](Social%20Meli.postman_collection.json) de peticiones que se van a utilizar en la práctica. [Descargar](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Social%20Meli.postman_collection.json) (botón derecho -> Guardar enlace como...)
+2. Descargar el [Collection](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Social%20Meli.postman_collection.json) de peticiones que se van a utilizar en la práctica. [Descargar](https://github.com/Fern1ck/be_java_hisp_w27_g01/blob/develop/src/main/resources/Social%20Meli.postman_collection.json) (botón derecho -> Guardar enlace como...)
 
 3. En este punto debemos tener Postman instalado y un ficheros con extensión ".json" en nuestro PC.
 
