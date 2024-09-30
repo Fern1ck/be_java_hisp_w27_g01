@@ -418,7 +418,8 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
-
+<details>
+ <summary> Funcionalidad 17: Obtener un listado de todos los productos de un determinado vendedor, con la posibilidad de filtrar por posteos que tienen descuento y posteos que no tienen descuentos. </summary>
 
 ## Dev:
 - [@Emilia Lascano](https://github.com/Fern1ck)
@@ -497,3 +498,5 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 | `has_promo`      | `boolean` | **Required**. Campo true o false para determinar si un producto está en promoción o no. |
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
+ 
+</details>
