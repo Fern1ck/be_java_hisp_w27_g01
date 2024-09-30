@@ -480,6 +480,27 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 </details>
 
 <details>
+<summary>Funcionalidad 16`: Eliminar una publicación.</summary>
+## Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### Metodo DELETE
+```
+  http://localhost:8080/products/post/{userId}/{postId}
+```
+| Response                                        |
+|:------------------------------------------------| 
+| `Status Code 200 (todo OK) - bodyless or dto`   | 
+| `Status Code 404 (Not Found) - bodyless or dto` | 
+
+| Parameter | Type     | Description                                                                                                  |
+|:----------| :------- |:-------------------------------------------------------------------------------------------------------------|
+| `userId`  | `int` | **Required**. Número que identifica a cada usuario.                                                          |
+| `postId`  | `int` | **Required**. Número identificatorio de una publicación asociado a una lista de publicaciones en un usuario. |
+
+</details>
+
+<details>
 <summary> Funcionalidad 15: Activar una promocion de un posteo existente. </summary> 
 
 ## Dev:
@@ -583,4 +604,4 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
 </details>
- 
+

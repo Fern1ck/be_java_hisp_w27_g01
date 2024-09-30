@@ -143,6 +143,21 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public PostOkDTO deletePost(Integer userId, Integer postId){
+
+        if (!repository.existId(userId)){
+            throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
+        }
+
+        User user = repository.getUserById(userId);
+        Post postFind = user.getPosts().stream().filter(post -> post.getPostId().equals(postId)).findFirst().orElse(null);
+        if(postFind == null){
+            throw new NotFoundException("Post ID: " + postId + " doesn´t exist.");
+        }
+        repository.removePost(postFind);
+        return new PostOkDTO("OK");
+    }
+
     public List<SearchDTO> search(String query, Integer userId) {
         if (userId != null && !repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
@@ -186,7 +201,6 @@ public class ProductServiceImpl implements IProductService {
         List<Post> posts = user.getPosts();
         List<PostsIdPromoDTO> postsDTO = new ArrayList<>();
 
-        // if withPromo es true, include only posts with promotion.
         if (Boolean.TRUE.equals(withPromo)) {
             postsDTO = posts.stream()
                     .filter(post -> Boolean.TRUE.equals(post.getHasPromo()))
@@ -194,7 +208,7 @@ public class ProductServiceImpl implements IProductService {
                     .toList();
             return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
         }
-        // if withPromo is false, include only posts without promotion.
+        
         if (Boolean.FALSE.equals(withPromo)) {
             postsDTO = posts.stream()
                     .filter(post -> Boolean.FALSE.equals(post.getHasPromo()))
@@ -202,7 +216,7 @@ public class ProductServiceImpl implements IProductService {
                     .toList();
             return new ProductPostsHistoryDTO(user.getUserId(), user.getUserName(), postsDTO);
         }
-        // if withPromo is null, return posts without considering promotion.
+        
         postsDTO = posts.stream()
                     .map(post -> {
 

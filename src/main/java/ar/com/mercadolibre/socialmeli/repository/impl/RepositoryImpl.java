@@ -60,6 +60,10 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
+    public Boolean removePost(Post post){
+        return users.stream().anyMatch(user -> user.getPosts().remove(post));
+    }
+
     public void updatePost(User user, Post post) {
         users.stream()
                 .filter(u -> u.getUserId().equals(user.getUserId()))
