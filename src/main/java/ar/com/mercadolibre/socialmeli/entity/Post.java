@@ -14,7 +14,6 @@ import java.time.LocalDate;
 public class Post {
     @JsonProperty("post_id")
     private Integer postId;
-
     private Product product;
 
     @JsonFormat(pattern = "dd-MM-yyyy")

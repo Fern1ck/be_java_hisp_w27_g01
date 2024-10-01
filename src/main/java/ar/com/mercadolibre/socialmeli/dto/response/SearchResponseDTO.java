@@ -8,12 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @JsonPropertyOrder({"post_id", "user_id"})
-public class SearchDTO {
+public class SearchResponseDTO {
     @JsonProperty("post_id")
     private Integer postId;
 

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDTO {
+public class PostRequestDTO {
 
     @JsonProperty("user_id")
     private Integer userId;

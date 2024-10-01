@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"user_id", "user_name", "promo_products_count"})
-public class ProductPromoCountDTO {
+public class ProductPromoCountResponseDTO {
 
     @JsonProperty("user_id")
     private Integer userId;

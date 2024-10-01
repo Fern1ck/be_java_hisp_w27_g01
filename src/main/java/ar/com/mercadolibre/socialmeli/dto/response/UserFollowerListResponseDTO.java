@@ -1,4 +1,4 @@
-package ar.com.mercadolibre.socialmeli.dto.request;
+package ar.com.mercadolibre.socialmeli.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -9,12 +9,16 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"user_id", "post"})
-public class PostsFollowersListDTO {
+@AllArgsConstructor
+@JsonPropertyOrder({"user_id", "user_name", "followers"})
+public class UserFollowerListResponseDTO {
+
     @JsonProperty("user_id")
     private Integer userId;
-    private List<PostsIdDTO> posts;
 
+    @JsonProperty("user_name")
+    private String userName;
+
+    private List<UserNameResponseDTO> followers;
 }

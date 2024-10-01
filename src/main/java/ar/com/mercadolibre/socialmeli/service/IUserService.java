@@ -1,22 +1,22 @@
 package ar.com.mercadolibre.socialmeli.service;
 
-import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.UserOkDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserOkResponseDTO;
 
 import java.util.List;
 
 public interface IUserService {
 
-    List<UserFollowedDTO> findByFollowed(Integer userId, String order);
+    List<UserFollowedResponseDTO> findByFollowed(Integer userId, String order);
 
-    UserFollowerCountDTO getFollowerCount(Integer userId);
+    UserFollowerCountResponseDTO getFollowerCount(Integer userId);
 
-    UserFollowerListDTO getFollowerList(Integer userId, String order);
+    UserFollowerListResponseDTO getFollowerList(Integer userId, String order);
 
-    UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow);
+    UserOkResponseDTO followASpecificUserById(Integer userId, Integer userIdToFollow);
 
-    UserOkDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow);
+    UserOkResponseDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow);
 
 }

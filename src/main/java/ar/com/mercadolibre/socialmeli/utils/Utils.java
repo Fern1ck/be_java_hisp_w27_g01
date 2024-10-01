@@ -1,7 +1,6 @@
 package ar.com.mercadolibre.socialmeli.utils;
 
-import ar.com.mercadolibre.socialmeli.dto.PostFollowDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -17,7 +16,7 @@ public class Utils {
     public static List<User> createDefaultUsers(){
 
         List<User> users = new ArrayList<>();
-        List<PostFollowDTO> postFollowDTOS = new ArrayList<>();
+
 
         User user1 = new User(1, "Fernando Baldrich");
         User user2 = new User(2, "Matias Gregorat");
@@ -49,9 +48,9 @@ public class Utils {
         return users;
     }
 
-    public static Post changePostDtoToEntity(PostDTO postDTO){
+    public static Post changePostDtoToEntity(PostRequestDTO postRequestDTO){
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(postDTO, Post.class);
+        return modelMapper.map(postRequestDTO, Post.class);
     }
 
     public static String limpiarTildes(String str){
