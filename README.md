@@ -691,7 +691,6 @@ En el siguiente enlace se encuentra la documentación técnica del proyecto [Cli
   
 </details>
 
-</details>
 
 <details>
  <summary> Colección de peticiones </summary>
