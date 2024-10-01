@@ -1,4 +1,4 @@
-package ar.com.mercadolibre.socialmeli.dto.request;
+package ar.com.mercadolibre.socialmeli.dto.response;
 
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"user_id", "post_id", "date", "product", "category", "price"})
-public class PostsIdDTO {
+public class PostIdResponseDTO {
 
     @JsonProperty("user_id")
     private Integer userId;

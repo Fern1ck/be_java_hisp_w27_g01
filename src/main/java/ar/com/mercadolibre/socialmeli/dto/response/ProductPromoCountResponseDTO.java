@@ -6,13 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"user_id", "user_name", "followers"})
-public class UserFollowerListDTO {
+@NoArgsConstructor
+@JsonPropertyOrder({"user_id", "user_name", "promo_products_count"})
+public class ProductPromoCountResponseDTO {
 
     @JsonProperty("user_id")
     private Integer userId;
@@ -20,5 +18,7 @@ public class UserFollowerListDTO {
     @JsonProperty("user_name")
     private String userName;
 
-    private List<UserNameDTO> followers;
+    @JsonProperty("promo_products_count")
+    private Integer promoCount;
+
 }

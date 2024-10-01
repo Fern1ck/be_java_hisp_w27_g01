@@ -1,19 +1,21 @@
-package ar.com.mercadolibre.socialmeli.entity;
+package ar.com.mercadolibre.socialmeli.dto.response;
 
+import ar.com.mercadolibre.socialmeli.entity.Product;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class Post {
+@JsonPropertyOrder({"post_id", "user_id"})
+public class SearchResponseDTO {
     @JsonProperty("post_id")
     private Integer postId;
+
     private Product product;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
@@ -28,4 +30,6 @@ public class Post {
 
     private Double discount;
 
+    @JsonProperty("user_id")
+    private Integer userId;
 }

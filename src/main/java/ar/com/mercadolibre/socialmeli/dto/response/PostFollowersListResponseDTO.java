@@ -6,19 +6,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"user_id", "user_name", "promo_products_count"})
-public class ProductPromoCountDTO {
-
+@JsonPropertyOrder({"user_id", "post"})
+public class PostFollowersListResponseDTO {
     @JsonProperty("user_id")
     private Integer userId;
-
-    @JsonProperty("user_name")
-    private String userName;
-
-    @JsonProperty("promo_products_count")
-    private Integer promoCount;
+    private List<PostIdResponseDTO> posts;
 
 }

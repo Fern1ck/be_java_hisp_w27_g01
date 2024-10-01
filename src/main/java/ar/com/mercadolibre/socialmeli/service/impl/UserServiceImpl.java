@@ -23,13 +23,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserFollowedDTO> findByFollowed(Integer userId, String order) {
+    public List<UserFollowedResponseDTO> findByFollowed(Integer userId, String order) {
 
-        User user = repository.getUserById(userId);
-
-        if (user == null) {
+        if (!repository.existId(userId)) {
             throw new NotFoundException("User ID: " + userId + " doesn't exist.");
         }
+
+        User user = repository.getUserById(userId);
 
         List<Integer> follows = user.getFollowedIds();
         List<User> allUsers = repository.getUsers();
@@ -38,35 +38,35 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User with the ID: "  + user.getUserId() + " is not following anyone.");
         }
 
-        List<UserFollowedListDTO> followedList = follows.stream()
+        List<UserNameResponseDTO> followedList = follows.stream()
                 .map(followedId -> allUsers.stream()
                         .filter(user1 -> user1.getUserId().equals(followedId))
                         .findFirst()
-                        .map(user1 -> new UserFollowedListDTO(user1.getUserId(), user1.getUserName())))
+                        .map(user1 -> new UserNameResponseDTO(user1.getUserId(), user1.getUserName())))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
         if(order != null){
             if(order.equals("name_asc")){
-                followedList = followedList.stream().sorted(Comparator.comparing(UserFollowedListDTO::getUserName)).toList();
+                followedList = followedList.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName)).toList();
             }
             else if(order.equals("name_desc")){
-                followedList = followedList.stream().sorted(Comparator.comparing(UserFollowedListDTO::getUserName).reversed()).toList();
+                followedList = followedList.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName).reversed()).toList();
             }
             else{
                 throw new BadRequestException("Order " + order + " not recognized.");
             }
         }
 
-        List<UserFollowedDTO> userFollowedDTOList = new ArrayList<>();
-        userFollowedDTOList.add(new UserFollowedDTO(user.getUserId(), user.getUserName(), followedList));
+        List<UserFollowedResponseDTO> userFollowedResponseDTOList = new ArrayList<>();
+        userFollowedResponseDTOList.add(new UserFollowedResponseDTO(user.getUserId(), user.getUserName(), followedList));
 
-        return userFollowedDTOList;
+        return userFollowedResponseDTOList;
     }
 
     @Override
-    public UserFollowerListDTO getFollowerList(Integer userId, String order){
+    public UserFollowerListResponseDTO getFollowerList(Integer userId, String order){
 
         if (userId == null || userId <= 0){
             throw new BadRequestException("User ID: " + userId + " is invalid.");
@@ -76,17 +76,17 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 
-        List<UserNameDTO> followers = repository.getUsers().stream()
+        List<UserNameResponseDTO> followers = repository.getUsers().stream()
                 .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
-                .map(user -> new UserNameDTO(user.getUserId(), user.getUserName()))
+                .map(user -> new UserNameResponseDTO(user.getUserId(), user.getUserName()))
                 .toList();
 
-        if(order != null){
+        if (order != null){
             if(order.equals("name_asc")){
-                followers = followers.stream().sorted(Comparator.comparing(UserNameDTO::getUserName)).toList();
+                followers = followers.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName)).toList();
             }
             else if(order.equals("name_desc")){
-                followers = followers.stream().sorted(Comparator.comparing(UserNameDTO::getUserName).reversed()).toList();
+                followers = followers.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName).reversed()).toList();
             }
             else{
                 throw new BadRequestException("Order " + order + " not recognized.");
@@ -95,11 +95,11 @@ public class UserServiceImpl implements IUserService {
 
         User user = repository.getUserById(userId);
 
-        return new UserFollowerListDTO(userId, user.getUserName(), followers);
+        return new UserFollowerListResponseDTO(userId, user.getUserName(), followers);
     }
 
     @Override
-    public UserFollowerCountDTO getFollowerCount(Integer userId){
+    public UserFollowerCountResponseDTO getFollowerCount(Integer userId){
 
         if (userId == null || userId <= 0){
             throw new BadRequestException("User ID: " + userId + " is invalid.");
@@ -115,12 +115,12 @@ public class UserServiceImpl implements IUserService {
 
         User user = repository.getUserById(userId);
 
-        return new UserFollowerCountDTO(userId, user.getUserName(), (int) followerCount);
+        return new UserFollowerCountResponseDTO(userId, user.getUserName(), (int) followerCount);
     }
 
 
     @Override
-    public UserOkDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
+    public UserOkResponseDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
 
         if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0 || userId.equals(userIdToFollow)) {
             throw new BadRequestException("Invalid IDs");
@@ -148,11 +148,11 @@ public class UserServiceImpl implements IUserService {
         user.addFollowedId(userIdToFollow);
         repository.updateUser(user);
 
-        return new UserOkDTO("OK");
+        return new UserOkResponseDTO("OK");
     }
 
     @Override
-    public UserOkDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
+    public UserOkResponseDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
 
         if (userId == null || userId <= 0 || !repository.existId(userId) ){
             throw new BadRequestException("Invalid User ID: " +userId);
@@ -173,9 +173,10 @@ public class UserServiceImpl implements IUserService {
         }
 
         user.removeFollowedId(userIdToUnfollow);
+
         repository.updateUser(user);
 
-        return new UserOkDTO("OK");
+        return new UserOkResponseDTO("OK");
     }
 
 }

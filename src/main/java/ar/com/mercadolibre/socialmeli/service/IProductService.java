@@ -1,20 +1,34 @@
 package ar.com.mercadolibre.socialmeli.service;
 
+
+import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostsFollowersListDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostOkDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.ProductPromoCountDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
 
 
 public interface IProductService {
 
-    PostOkDTO registerANewPublication(PostDTO postDTO);
+    PostOkResponseDTO createPost(PostRequestDTO postRequestDTO);
 
-    CreatePromoResponseDTO createPromo(CreatePromoRequestDTO dto);
+    CreatePromoResponseDTO createPromoPost(CreatePromoRequestDTO dto);
 
-    PostsFollowersListDTO getRecentPostFromFollowedUsers(Integer userId, String order);
+    PostFollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order);
 
-    ProductPromoCountDTO promoProductsCountBySeller(Integer userId);
+    ProductPromoCountResponseDTO getPromoProductsCountBySeller(Integer userId);
+
+    List<PostIdResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd);
+
+    PostOkResponseDTO deletePost(Integer userId, Integer postId);
+
+    List<SearchResponseDTO> searchPostByBrandAndName(String query, Integer userId);
+
+    ProductPostsHistoryResponseDTO getSellerPostListHistory(Integer userId, Boolean withPromo);
+
+    PostOkResponseDTO activatePromo(ActivatePromoRequestDTO promo);
 }
+

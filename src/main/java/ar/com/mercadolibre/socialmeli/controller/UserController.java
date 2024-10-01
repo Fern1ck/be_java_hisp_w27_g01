@@ -39,6 +39,4 @@ public class UserController {
     public ResponseEntity<?> unfollowASpecificUserById(@PathVariable Integer userId, @PathVariable Integer userIdToUnfollow){
         return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
-
-
 }
