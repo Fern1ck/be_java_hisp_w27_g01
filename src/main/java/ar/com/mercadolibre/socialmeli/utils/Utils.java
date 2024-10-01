@@ -53,9 +53,9 @@ public class Utils {
         return modelMapper.map(postRequestDTO, Post.class);
     }
 
-    public static String limpiarTildes(String str){
-        String cadenaNormalize = Normalizer.normalize(str, Normalizer.Form.NFD);
-        return cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
+    public static String removeAccents(String str){
+        String string = Normalizer.normalize(str, Normalizer.Form.NFD);
+        return string.replaceAll("[^\\p{ASCII}]", "");
     }
 
 }

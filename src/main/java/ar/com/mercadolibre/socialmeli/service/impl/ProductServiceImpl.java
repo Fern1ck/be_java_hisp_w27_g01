@@ -29,7 +29,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public PostOkResponseDTO registerANewPublication(PostRequestDTO postRequestDTO) {
+    public PostOkResponseDTO createPost(PostRequestDTO postRequestDTO) {
 
         if (postRequestDTO == null) {
             throw new BadRequestException("PublicationDTO is null");
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public CreatePromoResponseDTO createPromo(CreatePromoRequestDTO requestDto) {
+    public CreatePromoResponseDTO createPromoPost(CreatePromoRequestDTO requestDto) {
 
         if (!repository.existId(requestDto.getUserId())) {
             throw new BadRequestException("User ID: " + requestDto.getUserId() + " doesn´t exist.");
@@ -124,7 +124,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ProductPromoCountResponseDTO promoProductsCountBySeller(Integer userId) {
+    public ProductPromoCountResponseDTO getPromoProductsCountBySeller(Integer userId) {
 
         if (!repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
@@ -140,7 +140,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<PostIdResponseDTO> searchProductsPostsByDate(LocalDate dateStart, LocalDate dateEnd) {
+    public List<PostIdResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd) {
 
         if (dateStart == null) { throw new BadRequestException("Start date cannot be null");}
 
@@ -177,7 +177,7 @@ public class ProductServiceImpl implements IProductService {
         return new PostOkResponseDTO("OK");
     }
 
-    public List<SearchResponseDTO> search(String query, Integer userId) {
+    public List<SearchResponseDTO> searchPostByBrandAndName(String query, Integer userId) {
         if (userId != null && !repository.existId(userId)){
             throw new NotFoundException("User ID: " + userId + " doesn´t exist.");
         }
@@ -199,7 +199,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     private Boolean compareQuery(String str, String query){
-        return Utils.limpiarTildes(str).toLowerCase().contains(Utils.limpiarTildes(query).toLowerCase());
+        return Utils.removeAccents(str).toLowerCase().contains(Utils.removeAccents(query).toLowerCase());
     }
 
     public ProductPostsHistoryResponseDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {

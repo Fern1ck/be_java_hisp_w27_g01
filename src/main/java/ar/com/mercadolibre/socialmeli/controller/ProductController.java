@@ -22,13 +22,13 @@ public class ProductController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<?> registerANewPublication(@RequestBody PostRequestDTO publicationDTO) {
-        return new ResponseEntity<>(productService.registerANewPublication(publicationDTO), HttpStatus.OK);
+    public ResponseEntity<?> createPost(@RequestBody PostRequestDTO publicationDTO) {
+        return new ResponseEntity<>(productService.createPost(publicationDTO), HttpStatus.OK);
     }
 
     @PostMapping("promo-post")
-    public ResponseEntity<?> createPromo(@RequestBody() CreatePromoRequestDTO requestDto) {
-        CreatePromoResponseDTO dto = productService.createPromo(requestDto);
+    public ResponseEntity<?> createPromoPost(@RequestBody() CreatePromoRequestDTO requestDto) {
+        CreatePromoResponseDTO dto = productService.createPromoPost(requestDto);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -38,28 +38,28 @@ public class ProductController {
     }
 
     @GetMapping("/promo-post/count")
-    public ResponseEntity<?> promoProductsCountBySeller(@RequestParam(required = true, name = "user_id") int userId) {
-        return new ResponseEntity<>(productService.promoProductsCountBySeller(userId), HttpStatus.OK);
+    public ResponseEntity<?> getPromoProductsCountBySeller(@RequestParam(required = true, name = "user_id") int userId) {
+        return new ResponseEntity<>(productService.getPromoProductsCountBySeller(userId), HttpStatus.OK);
     }
 
     @GetMapping("/search/date")
-    public ResponseEntity<?> searchProductsPostsByDate(@RequestParam(name = "date_start", required = true)
+    public ResponseEntity<?> searchPostsByDate(@RequestParam(name = "date_start", required = true)
                                                            @DateTimeFormat(pattern = "dd/MM/yyyy")
                                                            LocalDate dateStart,
                                                        @RequestParam(name = "date_end", required = false)
                                                            @DateTimeFormat(pattern = "dd/MM/yyyy")
                                                        LocalDate dateEnd) {
-        return new ResponseEntity<>(productService.searchProductsPostsByDate(dateStart, dateEnd), HttpStatus.OK);
+        return new ResponseEntity<>(productService.searchPostsByDate(dateStart, dateEnd), HttpStatus.OK);
     }
 
     @DeleteMapping("/post/{userId}/{postId}")
-    public ResponseEntity<?> getHidePost(@PathVariable Integer userId,@PathVariable Integer postId){
+    public ResponseEntity<?> deletePost(@PathVariable Integer userId,@PathVariable Integer postId){
         return new ResponseEntity<>(productService.deletePost(userId, postId), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchByProductName(@RequestParam String query, @RequestParam(required = false, name = "user_id") Integer userId){
-        return new ResponseEntity<>(productService.search(query, userId), HttpStatus.OK);
+    public ResponseEntity<?> searchPostByBrandAndName(@RequestParam String query, @RequestParam(required = false, name = "user_id") Integer userId){
+        return new ResponseEntity<>(productService.searchPostByBrandAndName(query, userId), HttpStatus.OK);
     }
   
     @GetMapping("/promo-post/{userId}/history")
@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @PutMapping("/posts/activate-promo")
-    public ResponseEntity<?> activatePromoForPost(@RequestBody ActivatePromoRequestDTO requestDTO) {
+    public ResponseEntity<?> activatePromo(@RequestBody ActivatePromoRequestDTO requestDTO) {
         return new ResponseEntity<>(productService.activatePromo(requestDTO), HttpStatus.OK);
     }
 }

@@ -13,19 +13,19 @@ import java.util.List;
 
 public interface IProductService {
 
-    PostOkResponseDTO registerANewPublication(PostRequestDTO postRequestDTO);
+    PostOkResponseDTO createPost(PostRequestDTO postRequestDTO);
 
-    CreatePromoResponseDTO createPromo(CreatePromoRequestDTO dto);
+    CreatePromoResponseDTO createPromoPost(CreatePromoRequestDTO dto);
 
     PostFollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order);
 
-    ProductPromoCountResponseDTO promoProductsCountBySeller(Integer userId);
+    ProductPromoCountResponseDTO getPromoProductsCountBySeller(Integer userId);
 
-    List<PostIdResponseDTO> searchProductsPostsByDate(LocalDate dateStart, LocalDate dateEnd);
+    List<PostIdResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd);
 
     PostOkResponseDTO deletePost(Integer userId, Integer postId);
 
-    List<SearchResponseDTO> search(String query, Integer userId);
+    List<SearchResponseDTO> searchPostByBrandAndName(String query, Integer userId);
 
     ProductPostsHistoryResponseDTO getSellerPostListHistory(Integer userId, Boolean withPromo);
 
