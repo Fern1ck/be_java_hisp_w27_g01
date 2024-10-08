@@ -50,4 +50,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(errors);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List<ValidationResponseDTO>> handleConstraintViolation(ConstraintViolationException ex) {
+        List<ValidationResponseDTO> errors = ex.getConstraintViolations().stream()
+                .map(violation -> ValidationResponseDTO.builder()
+                        .argument(violation.getPropertyPath().toString())
+                        .message(violation.getMessage())
+                        .rejectedValue(violation.getInvalidValue())
+                        .build())
+                .toList();
+
+        return ResponseEntity.badRequest().body(errors);
+    }
 }
