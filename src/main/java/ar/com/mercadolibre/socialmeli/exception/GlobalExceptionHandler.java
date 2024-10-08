@@ -52,11 +52,14 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleConstraintViolation(ConstraintViolationException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getConstraintViolations().forEach(violation ->
-                errors.put(violation.getPropertyPath().toString(), violation.getMessage())
-        );
+    public ResponseEntity<List<ValidationResponseDTO>> handleConstraintViolation(ConstraintViolationException ex) {
+        List<ValidationResponseDTO> errors = ex.getConstraintViolations().stream()
+                .map(violation -> ValidationResponseDTO.builder()
+                        .argument(violation.getPropertyPath().toString())
+                        .message(violation.getMessage())
+                        .rejectedValue(violation.getInvalidValue())
+                        .build())
+                .toList();
 
         return ResponseEntity.badRequest().body(errors);
     }
