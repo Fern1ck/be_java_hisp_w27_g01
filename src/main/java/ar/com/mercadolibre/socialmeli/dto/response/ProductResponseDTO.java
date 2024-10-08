@@ -1,17 +1,14 @@
-package ar.com.mercadolibre.socialmeli.entity;
+package ar.com.mercadolibre.socialmeli.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+@NoArgsConstructor
+public class ProductResponseDTO {
 
     @JsonProperty("product_id")
     private Integer productId;
@@ -22,5 +19,4 @@ public class Product {
     private String brand;
     private String color;
     private String notes;
-
 }

@@ -4,7 +4,12 @@ import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
+import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
+import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
@@ -41,7 +46,7 @@ public class ProductServiceImpl implements IProductService {
 
         User userPost = repository.getUserById(postRequestDTO.getUserId());
         Integer id = userPost.getPosts().stream().mapToInt(Post::getPostId).max().orElse(0) + 1;
-        Post post = Utils.changePostDtoToEntity(postRequestDTO);
+        Post post = Utils.changeDtoToEntity(postRequestDTO, Post.class);
         post.setPostId(id);
 
         post.setHasPromo(false);
@@ -66,7 +71,8 @@ public class ProductServiceImpl implements IProductService {
         User user = repository.getUserById(requestDto.getUserId());
 
         Post post = new Post();
-        post.setProduct(requestDto.getProduct());
+        post.setProduct(Utils.changeDtoToEntity(
+                requestDto.getProduct(), Product.class));
         post.setCategory(requestDto.getCategory());
         post.setPrice(requestDto.getPrice());
         post.setDate(requestDto.getDate());
@@ -82,46 +88,40 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public PostFollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order) {
-
+    public FollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order) {
         if (!repository.existId(userId)) {
             throw new BadRequestException("User ID: " + userId + " doesn´t exist.");
         }
 
         User user = repository.getUserById(userId);
-
         List<Integer> followedIds = user.getFollowedIds();
 
         if (followedIds == null || followedIds.isEmpty()) {
             throw new BadRequestException("User ID: " + userId + " is not following anyone.");
         }
 
-        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
+        if (order != null && !order.equalsIgnoreCase("date_asc") && !order.equalsIgnoreCase("date_desc")) {
+            throw new BadRequestException("Invalid order parameter: " + order);
+        }
 
-        List<PostIdResponseDTO> recentPost = repository.getUsers().stream()
+        LocalDate twoWeeksAgo = LocalDate.now().minusWeeks(2);
+        List<PostDetailsResponseDTO> recentPost = repository.getUsers().stream()
                 .filter(u -> followedIds.contains(u.getUserId()))
-                .flatMap(u -> u.getPosts().stream().map(post -> new PostIdResponseDTO(u.getUserId(), post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice())))
-                .filter(postDTO -> postDTO.getDate().isAfter(twoWeeksAgo))
-                .toList();
+                .flatMap(u -> u.getPosts().stream()
+                        .filter(post -> post.getDate().isAfter(twoWeeksAgo))
+                        .map(post -> new PostDetailsResponseDTO(u.getUserId(), post.getPostId(), post.getDate(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getCategory(), post.getPrice())))
+                .sorted(order != null && order.equalsIgnoreCase("date_desc") ?
+                Comparator.comparing(PostDetailsResponseDTO::getDate).reversed() :
+                Comparator.comparing(PostDetailsResponseDTO::getDate))
+                .collect(Collectors.toList());
 
         if (recentPost.isEmpty()) {
             throw new BadRequestException("There aren't posts of minus two weeks.");
         }
 
-        if (order != null) {
-            if (order.equalsIgnoreCase("date_asc")) {
-                recentPost = recentPost.stream()
-                        .sorted(Comparator.comparing(PostIdResponseDTO::getDate))
-                        .collect(Collectors.toList());
-            } else if (order.equalsIgnoreCase("date_desc")) {
-                recentPost = recentPost.stream()
-                        .sorted(Comparator.comparing(PostIdResponseDTO::getDate).reversed())
-                        .collect(Collectors.toList());
-            }
-        }
-
-        return new PostFollowersListResponseDTO(userId, recentPost);
+        return new FollowersListResponseDTO(userId, recentPost);
     }
+
 
     @Override
     public ProductPromoCountResponseDTO getPromoProductsCountBySeller(Integer userId) {
@@ -140,26 +140,23 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<PostIdResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd) {
+    public List<PostDetailsResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd) {
 
-        if (dateStart == null) { throw new BadRequestException("Start date cannot be null");}
+        if (dateStart == null) {
+            throw new BadRequestException("Start date cannot be null");
+        }
 
-        if (dateEnd == null) { dateEnd = LocalDate.now();}
+        if (dateEnd == null) {
+            dateEnd = LocalDate.now();
+        }
 
-        List<PostIdResponseDTO> postsIdResponseDTOS = new ArrayList<>();
-        
         LocalDate finalDateEnd = dateEnd;
 
-        repository.getUsers().stream()
-                .filter(user -> !user.getPosts().isEmpty())
-                .forEach(user -> {
-                    List<PostIdResponseDTO> userPosts = user.getPosts().stream()
-                            .filter(post -> (post.getDate().isAfter(dateStart) || post.getDate().isEqual(dateStart)) && (post.getDate().isBefore(finalDateEnd) || post.getDate().isEqual(finalDateEnd)))
-                            .map(post -> new PostIdResponseDTO( user.getUserId(), post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice()))
-                            .toList();
-                    postsIdResponseDTOS.addAll(userPosts);
-                });
-        return postsIdResponseDTOS;
+        return repository.getUsers().stream()
+                .flatMap(user -> user.getPosts().stream()
+                        .filter(post -> !post.getDate().isBefore(dateStart) && !post.getDate().isAfter(finalDateEnd))
+                        .map(post -> new PostDetailsResponseDTO(user.getUserId(), post.getPostId(), post.getDate(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getCategory(), post.getPrice())))
+                .collect(Collectors.toList());
     }
   
     public PostOkResponseDTO deletePost(Integer userId, Integer postId){
@@ -169,11 +166,15 @@ public class ProductServiceImpl implements IProductService {
         }
 
         User user = repository.getUserById(userId);
-        Post postFind = user.getPosts().stream().filter(post -> post.getPostId().equals(postId)).findFirst().orElse(null);
+        Post postFind = user.getPosts().stream()
+                .filter(post -> post.getPostId().equals(postId)).findFirst().orElse(null);
+
         if(postFind == null){
             throw new NotFoundException("Post ID: " + postId + " doesn´t exist.");
         }
+
         repository.removePost(postFind);
+
         return new PostOkResponseDTO("OK");
     }
 
@@ -192,10 +193,8 @@ public class ProductServiceImpl implements IProductService {
         return usuarios.stream()
                 .flatMap(user -> user.getPosts().stream()
                         .filter(post -> compareQuery(post.getProduct().getProductName(), query) || compareQuery(post.getProduct().getBrand(), query))
-                        .map(post -> new SearchResponseDTO(post.getPostId(), post.getProduct(), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId())))
+                        .map(post -> new SearchResponseDTO(post.getPostId(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getDate(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount(), user.getUserId())))
                 .toList();
-
-     
     }
 
     private Boolean compareQuery(String str, String query){
@@ -203,43 +202,24 @@ public class ProductServiceImpl implements IProductService {
     }
 
     public ProductPostsHistoryResponseDTO getSellerPostListHistory(Integer userId, Boolean withPromo) {
-
-        if(userId == null|| userId <= 0){
+        if (userId == null || userId <= 0) {
             throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
-        if(!repository.existId(userId)){
+        if (!repository.existId(userId)) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 
         User user = repository.getUserById(userId);
 
-        if(user.getPosts().isEmpty()){
-            throw new BadRequestException("User ID: " + userId + " doesn't has Posts.");
+        if (user.getPosts().isEmpty()) {
+            throw new BadRequestException("User ID: " + userId + " doesn't have posts.");
         }
 
-        List<Post> posts = user.getPosts();
-        List<PostResponseDTO> postsDTO;
-
-        if (Boolean.TRUE.equals(withPromo)) {
-            postsDTO = posts.stream()
-                    .filter(post -> Boolean.TRUE.equals(post.getHasPromo()))
-                    .map(post -> new PostResponseDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
-                    .toList();
-            return new ProductPostsHistoryResponseDTO(user.getUserId(), user.getUserName(), postsDTO);
-        }
-        
-        if (Boolean.FALSE.equals(withPromo)) {
-            postsDTO = posts.stream()
-                    .filter(post -> Boolean.FALSE.equals(post.getHasPromo()))
-                    .map(post -> new PostResponseDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
-                    .toList();
-            return new ProductPostsHistoryResponseDTO(user.getUserId(), user.getUserName(), postsDTO);
-        }
-        
-        postsDTO = posts.stream()
-                    .map(post -> new PostResponseDTO(post.getPostId(), post.getDate(), post.getProduct(), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
-                    .toList();
+        List<PostResponseDTO> postsDTO = user.getPosts().stream()
+                .filter(post -> withPromo == null || post.getHasPromo().equals(withPromo))
+                .map(post -> new PostResponseDTO(post.getPostId(), post.getDate(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getCategory(), post.getPrice(), post.getHasPromo(), post.getDiscount()))
+                .toList();
 
         return new ProductPostsHistoryResponseDTO(user.getUserId(), user.getUserName(), postsDTO);
     }
@@ -264,13 +244,6 @@ public class ProductServiceImpl implements IProductService {
     }
 
     private void validatePromoRequest(ActivatePromoRequestDTO promo) {
-        if (promo.getUserId() == null || promo.getPostId() == null || promo.getDiscount() == null) {
-            throw new BadRequestException("User_id, Post_id, and Discount must not be null");
-        }
-
-        if (promo.getDiscount() >= 0.51) {
-            throw new BadRequestException("Discount cannot be higher than 50%");
-        }
 
         if (!repository.existId(promo.getUserId())) {
             throw new BadRequestException("User ID: " + promo.getUserId() + " doesn´t exist.");

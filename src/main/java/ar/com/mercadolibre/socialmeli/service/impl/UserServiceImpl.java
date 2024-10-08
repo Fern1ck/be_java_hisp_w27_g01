@@ -24,76 +24,50 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserFollowedResponseDTO> findByFollowed(Integer userId, String order) {
-
         if (!repository.existId(userId)) {
             throw new NotFoundException("User ID: " + userId + " doesn't exist.");
         }
 
         User user = repository.getUserById(userId);
-
         List<Integer> follows = user.getFollowedIds();
-        List<User> allUsers = repository.getUsers();
 
-        if (follows == null) {
-            throw new BadRequestException("User with the ID: "  + user.getUserId() + " is not following anyone.");
+        if (follows == null || follows.isEmpty()) {
+            throw new BadRequestException("User with the ID: " + user.getUserId() + " is not following anyone.");
         }
 
-        List<UserNameResponseDTO> followedList = follows.stream()
-                .map(followedId -> allUsers.stream()
-                        .filter(user1 -> user1.getUserId().equals(followedId))
-                        .findFirst()
-                        .map(user1 -> new UserNameResponseDTO(user1.getUserId(), user1.getUserName())))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        if (order != null && !order.equalsIgnoreCase("name_asc") && !order.equalsIgnoreCase("name_desc")) {
+            throw new BadRequestException("Invalid order parameter: " + order);
+        }
+
+        List<UserNameResponseDTO> followedList = repository.getUsers().stream()
+                .filter(u -> follows.contains(u.getUserId()))
+                .map(u -> new UserNameResponseDTO(u.getUserId(), u.getUserName()))
+                .sorted(order != null && order.equalsIgnoreCase("name_desc") ?
+                        Comparator.comparing(UserNameResponseDTO::getUserName).reversed() :
+                        Comparator.comparing(UserNameResponseDTO::getUserName))
                 .collect(Collectors.toList());
 
-        if(order != null){
-            if(order.equals("name_asc")){
-                followedList = followedList.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName)).toList();
-            }
-            else if(order.equals("name_desc")){
-                followedList = followedList.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName).reversed()).toList();
-            }
-            else{
-                throw new BadRequestException("Order " + order + " not recognized.");
-            }
-        }
-
-        List<UserFollowedResponseDTO> userFollowedResponseDTOList = new ArrayList<>();
-        userFollowedResponseDTOList.add(new UserFollowedResponseDTO(user.getUserId(), user.getUserName(), followedList));
-
-        return userFollowedResponseDTOList;
+        return List.of(new UserFollowedResponseDTO(user.getUserId(), user.getUserName(), followedList));
     }
 
     @Override
-    public UserFollowerListResponseDTO getFollowerList(Integer userId, String order){
-
-        if (userId == null || userId <= 0){
+    public UserFollowerListResponseDTO getFollowerList(Integer userId, String order) {
+        if (userId == null || userId <= 0) {
             throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
-        if (!repository.existId(userId)){
+        if (!repository.existId(userId)) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
         }
 
-        List<UserNameResponseDTO> followers = repository.getUsers().stream()
-                .filter(user -> user.getFollowedIds() != null && user.getFollowedIds().contains(userId))
-                .map(user -> new UserNameResponseDTO(user.getUserId(), user.getUserName()))
-                .toList();
-
-        if (order != null){
-            if(order.equals("name_asc")){
-                followers = followers.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName)).toList();
-            }
-            else if(order.equals("name_desc")){
-                followers = followers.stream().sorted(Comparator.comparing(UserNameResponseDTO::getUserName).reversed()).toList();
-            }
-            else{
-                throw new BadRequestException("Order " + order + " not recognized.");
-            }
-        }
-
         User user = repository.getUserById(userId);
+        List<UserNameResponseDTO> followers = repository.getUsers().stream()
+                .filter(u -> u.getFollowedIds() != null && u.getFollowedIds().contains(userId))
+                .map(u -> new UserNameResponseDTO(u.getUserId(), u.getUserName()))
+                .sorted(order != null && order.equalsIgnoreCase("name_desc") ?
+                        Comparator.comparing(UserNameResponseDTO::getUserName).reversed() :
+                        Comparator.comparing(UserNameResponseDTO::getUserName))
+                .collect(Collectors.toList());
 
         return new UserFollowerListResponseDTO(userId, user.getUserName(), followers);
     }

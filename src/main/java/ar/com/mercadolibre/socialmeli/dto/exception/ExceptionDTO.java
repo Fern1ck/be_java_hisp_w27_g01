@@ -1,4 +1,4 @@
-package ar.com.mercadolibre.socialmeli.dto;
+package ar.com.mercadolibre.socialmeli.dto.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

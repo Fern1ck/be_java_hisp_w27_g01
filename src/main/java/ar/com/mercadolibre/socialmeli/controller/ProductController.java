@@ -8,6 +8,7 @@ import ar.com.mercadolibre.socialmeli.service.IProductService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -68,7 +69,7 @@ public class ProductController {
     }
 
     @PutMapping("/posts/activate-promo")
-    public ResponseEntity<?> activatePromo(@RequestBody ActivatePromoRequestDTO requestDTO) {
+    public ResponseEntity<?> activatePromo(@RequestBody @Validated ActivatePromoRequestDTO requestDTO) {
         return new ResponseEntity<>(productService.activatePromo(requestDTO), HttpStatus.OK);
     }
 }

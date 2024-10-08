@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"user_id", "post"})
-public class PostFollowersListResponseDTO {
+public class FollowersListResponseDTO {
     @JsonProperty("user_id")
     private Integer userId;
-    private List<PostIdResponseDTO> posts;
+    private List<PostDetailsResponseDTO> posts;
 
 }

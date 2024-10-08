@@ -5,6 +5,9 @@ import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
+import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,11 +20,11 @@ public interface IProductService {
 
     CreatePromoResponseDTO createPromoPost(CreatePromoRequestDTO dto);
 
-    PostFollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order);
+    FollowersListResponseDTO getRecentPostFromFollowedUsers(Integer userId, String order);
 
     ProductPromoCountResponseDTO getPromoProductsCountBySeller(Integer userId);
 
-    List<PostIdResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd);
+    List<PostDetailsResponseDTO> searchPostsByDate(LocalDate dateStart, LocalDate dateEnd);
 
     PostOkResponseDTO deletePost(Integer userId, Integer postId);
 

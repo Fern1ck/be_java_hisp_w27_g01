@@ -3,6 +3,7 @@ package ar.com.mercadolibre.socialmeli.controller;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
