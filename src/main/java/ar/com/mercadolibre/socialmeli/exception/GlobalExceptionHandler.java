@@ -2,6 +2,7 @@ package ar.com.mercadolibre.socialmeli.exception;
 
 import ar.com.mercadolibre.socialmeli.dto.exception.ExceptionDTO;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -35,6 +37,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<ValidationResponseDTO>> invalidArg(MethodArgumentNotValidException ex) {
 
@@ -50,4 +53,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(errors);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ExceptionDTO> handleConstraintViolation(ConstraintViolationException ex) {
+        List<String> errorMessages = ex.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toList());
+
+        String combinedMessage = String.join(", ", errorMessages);
+        ExceptionDTO dto = new ExceptionDTO(combinedMessage);
+        return new ResponseEntity<>(dto, HttpStatus.BAD_REQUEST);
+    }
+
+
 }
