@@ -2,10 +2,7 @@ package ar.com.mercadolibre.socialmeli.dto.request;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +23,7 @@ public class ActivatePromoRequestDTO {
     @JsonProperty("post_id")
     private Integer postId;
 
-    @DecimalMax(value = "0.51", message = "El descuento no puede ser mayor al 50%.")
+    @DecimalMax(value = "0.50", message = "El descuento no puede ser mayor al 50%.")
     @Positive(message = "El descuento debe ser mayor a 0.")
     @NotNull(message = "El descuento no puede estar vacio.")
     private Double discount;
