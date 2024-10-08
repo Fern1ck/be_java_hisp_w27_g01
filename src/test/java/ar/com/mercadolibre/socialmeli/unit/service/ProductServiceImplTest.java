@@ -1,6 +1,5 @@
 package ar.com.mercadolibre.socialmeli.unit.service;
 
-
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,4 +15,5 @@ public class ProductServiceImplTest {
 
     @InjectMocks
     ProductServiceImpl productService;
+
 }

@@ -2,6 +2,7 @@ package ar.com.mercadolibre.socialmeli.unit.controller;
 
 import ar.com.mercadolibre.socialmeli.controller.ProductController;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

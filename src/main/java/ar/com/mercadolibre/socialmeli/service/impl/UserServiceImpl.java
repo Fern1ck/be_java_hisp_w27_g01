@@ -69,6 +69,7 @@ public class UserServiceImpl implements IUserService {
                         Comparator.comparing(UserNameResponseDTO::getUserName))
                 .collect(Collectors.toList());
 
+
         return new UserFollowerListResponseDTO(userId, user.getUserName(), followers);
     }
 
