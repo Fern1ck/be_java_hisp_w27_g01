@@ -66,7 +66,7 @@ public class ProductServiceImplTest {
         //Act
         FollowersListResponseDTO response = productService.getRecentPostFromFollowedUsers(3, "date_asc");
 
-        System.out.println(response);
+
         //Assert
         assertEquals(2, response.getPosts().size());
         assertTrue(response.getPosts().contains(postDetails));
