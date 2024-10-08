@@ -75,7 +75,7 @@ public class UserServiceImplTest {
         Assertions.assertEquals("Invalid User to Unfollow ID: " + userToUnfollow, thrown.getMessage());
     }
 
-    
+
 
 
 
