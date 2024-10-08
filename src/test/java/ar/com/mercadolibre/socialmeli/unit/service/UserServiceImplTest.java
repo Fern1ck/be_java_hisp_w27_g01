@@ -30,14 +30,18 @@ public class UserServiceImplTest {
     @InjectMocks
     UserServiceImpl userService;
 
+    private List<User> users;
+
     @Test
     @DisplayName("T-0002 - Exist")
     public void checkUserExistsBeforeUnfollow() {
         // Arrange
         List<Integer> followed = new ArrayList<>(); //para que sea dinamico
         followed.add(5);
+        
         User user = new User(2, "Maria", followed, null);
         Integer userToUnfollow= 5;
+
 
         String expectedResponse = "OK";
 
