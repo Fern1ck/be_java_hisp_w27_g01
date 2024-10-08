@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
+@Validated
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -31,7 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getFollowersCount(@PathVariable Integer userId){
+    public ResponseEntity<?> getFollowersCount(@PathVariable @NotNull(message = "El id no puede ser vacio")
+                                               @Positive(message = "El id debe ser mayor a cero.")Integer userId){
         return new ResponseEntity<>(userService.getFollowerCount(userId), HttpStatus.OK);
     }
 
