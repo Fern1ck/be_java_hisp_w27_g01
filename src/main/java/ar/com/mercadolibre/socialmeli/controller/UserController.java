@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
+@Validated
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<?> getFollowerList(@PathVariable Integer userId,
+    public ResponseEntity<?> getFollowerList(@PathVariable @Positive(message = "El id debe ser mayor a cero.") Integer userId,
                                              @RequestParam(required = false) String order){
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
     }
