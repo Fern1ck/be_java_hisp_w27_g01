@@ -153,4 +153,68 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUsers();
 
     }
+
+
+    @DisplayName("T-0005 - Success Order date_asc")
+    @Test
+    void testGetRecentPostFromFollowedUsers_SuccessOrderingDateAsc() {
+
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0
+        );
+
+        LocalDate expectedFirst = LocalDate.of(2024, 9, 27);
+        LocalDate expectedSecond = LocalDate.of(2024, 9, 28);
+
+        when(repository.existId(3)).thenReturn(true);
+        when(repository.getUserById(3)).thenReturn(users.get(2));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        FollowersListResponseDTO response = productService.getRecentPostFromFollowedUsers(3, "date_asc");
+
+
+        //Assert
+        assertEquals(2, response.getPosts().size());
+        assertTrue(response.getPosts().contains(postDetails));
+        assertEquals(expectedFirst, response.getPosts().getFirst().getDate());
+        assertEquals(expectedSecond, response.getPosts().get(1).getDate());
+        verify(repository, times(1)).existId(3);
+        verify(repository, times(1)).getUserById(3);
+        verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("T-0006 - Success Order date_desc")
+    @Test
+    void testGetRecentPostFromFollowedUsers_SuccessOrderingDateDesc() {
+
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0
+        );
+
+        LocalDate expectedFirst = LocalDate.of(2024, 9, 28);
+        LocalDate expectedSecond = LocalDate.of(2024, 9, 27);
+
+        when(repository.existId(3)).thenReturn(true);
+        when(repository.getUserById(3)).thenReturn(users.get(2));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        FollowersListResponseDTO response = productService.getRecentPostFromFollowedUsers(3, "date_desc");
+
+
+        //Assert
+        assertEquals(2, response.getPosts().size());
+        assertTrue(response.getPosts().contains(postDetails));
+        assertEquals(expectedFirst, response.getPosts().getFirst().getDate());
+        assertEquals(expectedSecond, response.getPosts().get(1).getDate());
+        verify(repository, times(1)).existId(3);
+        verify(repository, times(1)).getUserById(3);
+        verify(repository, times(1)).getUsers();
+    }
+
 }
