@@ -1,17 +1,20 @@
 package ar.com.mercadolibre.socialmeli.unit.service;
 
 
+import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
+import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
-import ar.com.mercadolibre.socialmeli.util.TestUtils;
-import ar.com.mercadolibre.socialmeli.utils.Utils;
+import ar.com.mercadolibre.socialmeli.util.UtilTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class ProductServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        users = TestUtils.createUsersWithPosts();
+        users = UtilTest.createUsersWithPosts();
     }
 
     @DisplayName("T-0005 - Success")
@@ -217,5 +219,187 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUserById(3);
         verify(repository, times(1)).getUsers();
     }
+
+    @DisplayName("T-0008 - Success")
+    @Test
+    void testGetRecentPostSuccess(){
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0
+        );
+        PostDetailsResponseDTO postDetails2 = new PostDetailsResponseDTO(1, 1, LocalDate.of(2024, 9, 28)
+                , new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"), 100,
+                15000.0);
+
+        LocalDate dateExpected = LocalDate.of(2024, 9, 27);
+
+        when(repository.existId(3)).thenReturn(true);
+        when(repository.getUserById(3)).thenReturn(users.get(2));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        FollowersListResponseDTO response = productService.getRecentPostFromFollowedUsers(3, null);
+
+        //Assert
+        assertEquals(2, response.getPosts().size());
+        assertTrue(response.getPosts().contains(postDetails));
+        assertTrue(response.getPosts().contains(postDetails2));
+        assertEquals(dateExpected, response.getPosts().getFirst().getDate());
+        verify(repository, times(1)).existId(3);
+        verify(repository, times(1)).getUserById(3);
+        verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("T-0008 - Fails only old Post")
+    @Test
+    void testGetRecentPostNotBringOldDates(){
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1, 1, LocalDate.of(2020, 9, 26),
+                new ProductResponseDTO(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB"),
+                200, 5000.00);
+
+        LocalDate dateExpected = LocalDate.of(2024, 9, 27);
+
+        when(repository.existId(2)).thenReturn(true);
+        when(repository.getUserById(2)).thenReturn(users.get(1));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        BadRequestException exception = assertThrows(BadRequestException.class, ()-> productService.getRecentPostFromFollowedUsers(2, null));
+
+        //Assert
+        assertNotNull(exception);
+        assertEquals("There aren't posts of minus two weeks.", exception.getMessage());
+        verify(repository, times(1)).existId(2);
+        verify(repository, times(1)).getUserById(2);
+        verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("US-013 Success - Only query")
+    @Test
+    public void searchPostByBrandAndNameOnlyQueryTest(){
+        //Arrange
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", null);
+        System.out.println(response);
+
+        //Assert
+        verify(repository, times(1)).getUsers();
+        assertEquals(2, response.size());
+        assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
+    }
+
+    @DisplayName("US-013 Success - Query and User ID")
+    @Test
+    public void searchPostByBrandAndNameQueryAndUserIDTest(){
+        //Arrange
+        Integer userId = 1;
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", userId);
+        System.out.println(response);
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUsers();
+        assertEquals(1, response.size());
+        assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
+    }
+
+    @DisplayName("US-013 User ID doesn't exist")
+    @Test
+    public void searchPostByBrandAndNameUserIDNonExistantTest(){
+        //Arrange
+        Integer userId = 5436546;
+        when(repository.existId(userId)).thenReturn(false);
+
+        //Act
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productService.searchPostByBrandAndName("silla", userId);
+        });
+
+        //Assert
+        assertEquals("User ID: " + userId + " doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(userId);
+        verify(repository, never()).getUserById(anyInt());
+        verify(repository, never()).getUsers();
+    }
+
+    @DisplayName("TB - 0015 - Activate Promo Success")
+    @Test
+    void testActivatePromoSuccess() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(1, 1, 0.2);
+        User user = new User();
+        user.setUserId(1);
+        Post post = new Post();
+        post.setPostId(1);
+        post.setHasPromo(false);
+        post.setDiscount(0.0);
+        user.setPosts(Collections.singletonList(post));
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user);
+
+        // Act
+        PostOkResponseDTO response = productService.activatePromo(requestDTO);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("OK", response.getResponse());
+        assertTrue(post.getHasPromo());
+        assertEquals(0.2, post.getDiscount());
+        verify(repository, times(1)).existId(1);
+        verify(repository, times(1)).getUserById(1);
+        verify(repository, times(1)).updatePost(user, post);
+    }
+
+    @DisplayName("TB - 0015 - Activate Promo User Not Found")
+    @Test
+    void testActivatePromoUserNotFound() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(999, 1, 0.2);
+
+        when(repository.existId(999)).thenReturn(false);
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.activatePromo(requestDTO);
+        });
+
+        //Assert
+        assertEquals("User ID: 999 doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(999);
+        verify(repository, never()).getUserById(anyInt());
+    }
+
+    @DisplayName("TB - 0015 - Activate Promo Post Not Found")
+    @Test
+    void testActivatePromoPostNotFound() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(1, 999, 0.2);
+        User user = new User();
+        user.setUserId(1);
+        user.setPosts(Collections.emptyList());
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user);
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.activatePromo(requestDTO);
+        });
+
+        //Assert
+        assertEquals("Post ID: 999 doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(1);
+        verify(repository, times(1)).getUserById(1);
+    }
+
 
 }
