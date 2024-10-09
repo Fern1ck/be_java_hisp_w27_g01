@@ -19,12 +19,11 @@ import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 
 import ar.com.mercadolibre.socialmeli.service.impl.UserServiceImpl;
 
-import static ar.com.mercadolibre.socialmeli.util.TestUtils.createUserWithFollowed;
 
 import ar.com.mercadolibre.socialmeli.util.UtilTest;
-import ar.com.mercadolibre.socialmeli.util.TestUtils;
 
 import jdk.jfr.Description;
+import jdk.jshell.execution.Util;
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.*;
@@ -39,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUserWithFollowed;
 import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUsersWithPosts;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -509,7 +509,7 @@ public class UserServiceImplTest {
     public void getFollowersCountingFollowersWhenMoreThanZero(){
         //Arrange
         Integer userId = 1;
-        List<User> users = TestUtils.createUsersWithPosts();
+        List<User> users = UtilTest.createUsersWithPosts();
         when(repository.existId(userId)).thenReturn(true);
         when(repository.getUsers()).thenReturn(users);
         when(repository.getUserById(userId)).thenReturn(users.getFirst());
@@ -530,7 +530,7 @@ public class UserServiceImplTest {
     public void getFollowersCountingFollowersWhenZero(){
         //Arrange
         Integer userId = 2;
-        List<User> users = TestUtils.createUsersWithPosts();
+        List<User> users = UtilTest.createUsersWithPosts();
         when(repository.existId(userId)).thenReturn(true);
         when(repository.getUsers()).thenReturn(users);
         when(repository.getUserById(userId)).thenReturn(users.getFirst());
