@@ -1,5 +1,8 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
@@ -96,6 +99,45 @@ public class ProductIntegrationTest {
         FollowersListResponseDTO followersListResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, FollowersListResponseDTO.class);
 
         Assertions.assertEquals(followersListResponseDTO.getPosts(), followersListResponseDTO.getPosts().stream().sorted(Comparator.comparing(PostDetailsResponseDTO::getDate)).toList());
+    }
+
+    @DisplayName("INTEGRATION - US - 010 - Success")
+    @Test
+    void integrationTestCreatePromoPostSuccess() throws Exception {
+        // Arrange
+        var productdto = new ProductRequestDTO();
+        productdto.setProductId(1);
+        productdto.setProductName("Silla Gamer");
+        productdto.setType("Gamer");
+        productdto.setBrand("Racer");
+        productdto.setColor("Red");
+        productdto.setNotes("Special Edition");
+
+        var requestDto = new CreatePromoRequestDTO();
+        requestDto.setProduct(productdto);
+        requestDto.setDate(LocalDate.now());
+        requestDto.setUserId(1);
+        requestDto.setPrice(1500.5);
+        requestDto.setHasPromo(true);
+        requestDto.setCategory(100);
+        requestDto.setDiscount(0.4);
+
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDto);
+
+        // Act
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/products/promo-post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Deserialize
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        CreatePromoResponseDTO responseDto = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<>() {});
+
+        // Assert
+        assertEquals(1, responseDto.getCreatedId());
     }
 
     @Test
