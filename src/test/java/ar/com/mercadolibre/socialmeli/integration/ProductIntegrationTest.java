@@ -10,8 +10,6 @@ import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.entity.Product;
-import ar.com.mercadolibre.socialmeli.entity.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -101,10 +99,10 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verificar el contentType UTF-8
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -124,10 +122,10 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExpect(status().isBadRequest())  // Verifica que es 400 BadRequest
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verifica el contentType UTF-8
+                .andExpect(status().isBadRequest()) 
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
 
@@ -406,4 +404,62 @@ public class ProductIntegrationTest {
         assertNotNull(jsonResponse);
         Assertions.assertEquals(jsonResponse, jsonString);
     }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history")
+    public void getPromoPostHistory() throws Exception {
+        Integer userId = 2;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(2))
+                .andExpect(jsonPath("$.posts[0].post_id").value(1))
+                .andExpect(jsonPath("$.posts[1].post_id").value(2))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Silla gamer"))
+                .andExpect(jsonPath("$.posts[1].product.product_name").value("Monitor 4K"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(false))
+                .andExpect(jsonPath("$.posts[1].has_promo").value(true));
+
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - no have posts")
+    public void getPromoPostHistoryS1() throws Exception {
+        //arrange
+        Integer userId = 6;
+        String expectedJson = "{\"message\":\"User ID: 6 doesn't have posts.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - User ID doesn't exist. ")
+    public void getPromoPostHistoryS2() throws Exception {
+        //arrange
+        Integer userId = 999;
+        String expectedJson = "{\"message\":\"User ID: 999 doesn't exist.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
 }
