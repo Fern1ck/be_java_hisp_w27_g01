@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Data
 public class CreatePromoRequestDTO {
 
+
     @NotNull(message = "El id no puede estar vacío.")
     @Positive(message = "El id debe ser mayor a cero.")
     @JsonProperty("user_id")

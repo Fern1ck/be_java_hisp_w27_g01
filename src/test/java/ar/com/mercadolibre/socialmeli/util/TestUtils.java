@@ -1,15 +1,34 @@
 package ar.com.mercadolibre.socialmeli.util;
 
+import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
+import ar.com.mercadolibre.socialmeli.utils.Utils;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class UtilTest {
+public class TestUtils {
+
+    public static User createUsersWithPost() {
+        Post post = new Post();
+        post.setPostId(1);
+        post.setDate(LocalDate.now().minusDays(1));
+        post.setProduct(Utils.changeDtoToEntity(new ProductResponseDTO(), Product.class));
+        post.setCategory(1);
+        post.setPrice(100.0);
+
+        User user = new User();
+        user.setUserId(1);
+        user.setFollowedIds(Arrays.asList(2, 3));
+        user.setPosts(Collections.singletonList(post));
+
+        return user;
+    }
+
     public static List<User> createUsersWithPosts() {
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
@@ -32,13 +51,13 @@ public class UtilTest {
         // User 2 tiene 1 post
         User user2 = new User();
         user2.setUserId(2);
-        user2.setFollowedIds(Collections.singletonList(3)); // <--
+        user2.setFollowedIds(Collections.singletonList(3));
         user2.setPosts(Collections.singletonList(post3));
 
 
         User user3 = new User();
         user3.setUserId(3);
-        user3.setFollowedIds(List.of(1)); // <--
+        user3.setFollowedIds(List.of(1));
         user2.setPosts(Collections.singletonList(post4));
 
         return Arrays.asList(user1, user2, user3);
