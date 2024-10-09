@@ -21,7 +21,7 @@ public class UtilTest {
         Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
         Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
 
-        Product product4 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Product product4 = new Product(2, "Silla oficina", "Oficina", "Logitech", "Negro", "RGB");
         Post post4 = new Post(1, product4, LocalDate.of(2020, 9, 26), 200, 5000.00, false, 0.0 );
 
         // User 1 tiene 2 post

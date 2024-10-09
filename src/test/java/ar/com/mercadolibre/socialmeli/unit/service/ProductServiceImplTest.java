@@ -4,14 +4,11 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
-import ar.com.mercadolibre.socialmeli.entity.Post;
-import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
-import ar.com.mercadolibre.socialmeli.util.TestUtils;
-import ar.com.mercadolibre.socialmeli.utils.Utils;
+import ar.com.mercadolibre.socialmeli.util.UtilTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +40,7 @@ public class ProductServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        users = TestUtils.createUsersWithPosts();
+        users = UtilTest.createUsersWithPosts();
     }
 
     @DisplayName("T-0005 - Success")

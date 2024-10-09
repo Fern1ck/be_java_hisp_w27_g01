@@ -26,6 +26,7 @@ public class UserIntegrationTest {
     @BeforeEach
     public void setUp() {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
+        OBJECT_MAPPER = new ObjectMapper();
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(dateFormatter));
