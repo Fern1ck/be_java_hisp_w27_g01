@@ -1,10 +1,9 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
-import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.entity.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -22,12 +21,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUsersWithPosts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import java.util.List;
@@ -48,6 +50,8 @@ public class ProductIntegrationTest {
 
     private static ObjectMapper OBJECT_MAPPER;
 
+    private List<User> users;
+
     @BeforeEach
     public void setUp() {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
@@ -60,7 +64,76 @@ public class ProductIntegrationTest {
         OBJECT_MAPPER.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         OBJECT_MAPPER.registerModule(javaTimeModule);
         OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        users = createUsersWithPosts();
     }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 06 - happyPath")
+    public void getRecentPostFromFollowedUsers() throws Exception {
+        Integer userId = 2;
+
+        ProductResponseDTO productDto = new ProductResponseDTO();
+        productDto.setType("Periférico");
+        productDto.setBrand("Logitech");
+        productDto.setColor("Negro");
+        productDto.setNotes("RGB");
+        productDto.setProductId(2);
+        productDto.setProductName("Teclado mecánico");
+
+        PostDetailsResponseDTO postDto = new PostDetailsResponseDTO();
+        postDto.setUserId(4);
+        postDto.setPostId(1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        postDto.setDate(LocalDate.parse("29-09-2024", formatter));
+        postDto.setProduct(productDto);
+        postDto.setCategory(200);
+        postDto.setPrice(5000.0);
+
+        List<PostDetailsResponseDTO> posts = new ArrayList<>();
+        posts.add(postDto);
+
+
+        FollowersListResponseDTO expectedDto = new FollowersListResponseDTO(2, posts);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verificar el contentType UTF-8
+                .andReturn();
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        FollowersListResponseDTO actualDto = OBJECT_MAPPER.readValue(jsonResponse, FollowersListResponseDTO.class);
+
+        Assertions.assertEquals(expectedDto, actualDto);
+    }
+
+
+    @Test
+    @DisplayName("INTEGRATION - US - 06 - sadPath - There aren't posts of minus two weeks.")
+    public void getRecentPostFromFollowedUsersS1() throws Exception {
+        //arrange
+        Integer userId = 1;
+        String expectedJson = "{\"message\":\"There aren't posts of minus two weeks.\"}";
+
+        //act
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                .andDo(print())
+                .andExpect(status().isBadRequest())  // Verifica que es 400 BadRequest
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verifica el contentType UTF-8
+                .andReturn();
+
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
+
+
 
     @Test
     @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent")
@@ -228,7 +301,7 @@ public class ProductIntegrationTest {
                 ).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(jsonPath("$[0].product.product_name").value("Silla gamer"))
                 .andExpect(jsonPath("$[1].product.product_name").value("Teclado mecánico"));
     }
