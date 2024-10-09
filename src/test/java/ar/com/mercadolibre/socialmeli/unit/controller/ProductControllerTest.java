@@ -1,10 +1,9 @@
 package ar.com.mercadolibre.socialmeli.unit.controller;
 
 import ar.com.mercadolibre.socialmeli.controller.ProductController;
-import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.SearchResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -105,6 +104,36 @@ public class ProductControllerTest {
         assertTrue(responseBody.getPosts().contains(post1));
         assertTrue(responseBody.getPosts().contains(post2));
         verify(productService, times(1)).getRecentPostFromFollowedUsers(3, "date_asc");
+    }
+
+    @Test
+    @DisplayName("TB-010 Success")
+    public void createPromoPostSuccessTest(){
+        //Arrange
+        var productdto = new ProductRequestDTO();
+        productdto.setProductId(1);
+        productdto.setProductName("Silla Gamer");
+        productdto.setType("Gamer");
+        productdto.setBrand("Racer");
+        productdto.setColor("Red");
+        productdto.setNotes("Special Edition");
+
+        var dto = new CreatePromoRequestDTO();
+            dto.setProduct(productdto);
+            dto.setDate(LocalDate.now());
+            dto.setUserId(2);
+            dto.setPrice(1500.5);
+            dto.setHasPromo(true);
+            dto.setCategory(100);
+            dto.setDiscount(0.4);
+        when(productService.createPromoPost(dto)).thenReturn(new CreatePromoResponseDTO());
+
+        // Act
+        ResponseEntity<?> response = productController.createPromoPost(dto);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(productService, times(1)).createPromoPost(dto);
     }
 
     @Test

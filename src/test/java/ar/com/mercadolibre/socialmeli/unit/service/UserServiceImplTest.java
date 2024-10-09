@@ -10,20 +10,15 @@ import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameResponseDTO;
 
-import ar.com.mercadolibre.socialmeli.utils.Utils;
-
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
-
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
-
 import ar.com.mercadolibre.socialmeli.service.impl.UserServiceImpl;
 
 
 import ar.com.mercadolibre.socialmeli.util.UtilTest;
 
-import jdk.jfr.Description;
-import jdk.jshell.execution.Util;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.*;
@@ -33,8 +28,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +38,10 @@ import static org.mockito.Mockito.*;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -580,6 +570,8 @@ public class UserServiceImplTest {
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());
     }
+
+
 
 }
 

@@ -1,6 +1,12 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
 import ar.com.mercadolibre.socialmeli.dto.response.*;
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -21,15 +27,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.w3c.dom.ls.LSException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.stream.Stream;
 
-import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUsersWithPosts;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import java.util.List;
@@ -39,7 +42,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,7 +52,6 @@ public class ProductIntegrationTest {
 
     private static ObjectMapper OBJECT_MAPPER;
 
-    private List<User> users;
 
     @BeforeEach
     public void setUp() {
@@ -65,12 +66,12 @@ public class ProductIntegrationTest {
         OBJECT_MAPPER.registerModule(javaTimeModule);
         OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        users = createUsersWithPosts();
     }
 
     @Test
     @DisplayName("INTEGRATION - US - 06 - happyPath")
     public void getRecentPostFromFollowedUsers() throws Exception {
+        //arrange
         Integer userId = 2;
 
         ProductResponseDTO productDto = new ProductResponseDTO();
@@ -96,6 +97,7 @@ public class ProductIntegrationTest {
 
         FollowersListResponseDTO expectedDto = new FollowersListResponseDTO(2, posts);
 
+        //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
                         .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
                 .andDo(print())
@@ -106,6 +108,7 @@ public class ProductIntegrationTest {
         String jsonResponse = mvcResult.getResponse().getContentAsString();
         FollowersListResponseDTO actualDto = OBJECT_MAPPER.readValue(jsonResponse, FollowersListResponseDTO.class);
 
+        //assert
         Assertions.assertEquals(expectedDto, actualDto);
     }
 
@@ -169,6 +172,45 @@ public class ProductIntegrationTest {
         FollowersListResponseDTO followersListResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, FollowersListResponseDTO.class);
 
         Assertions.assertEquals(followersListResponseDTO.getPosts(), followersListResponseDTO.getPosts().stream().sorted(Comparator.comparing(PostDetailsResponseDTO::getDate)).toList());
+    }
+
+    @DisplayName("INTEGRATION - US - 010 - Success")
+    @Test
+    void integrationTestCreatePromoPostSuccess() throws Exception {
+        // Arrange
+        var productdto = new ProductRequestDTO();
+        productdto.setProductId(1);
+        productdto.setProductName("Silla Gamer");
+        productdto.setType("Gamer");
+        productdto.setBrand("Racer");
+        productdto.setColor("Red");
+        productdto.setNotes("Special Edition");
+
+        var requestDto = new CreatePromoRequestDTO();
+        requestDto.setProduct(productdto);
+        requestDto.setDate(LocalDate.now());
+        requestDto.setUserId(1);
+        requestDto.setPrice(1500.5);
+        requestDto.setHasPromo(true);
+        requestDto.setCategory(100);
+        requestDto.setDiscount(0.4);
+
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDto);
+
+        // Act
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/products/promo-post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        // Deserialize
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        CreatePromoResponseDTO responseDto = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<>() {});
+
+        // Assert
+        assertEquals(1, responseDto.getCreatedId());
     }
 
     @Test

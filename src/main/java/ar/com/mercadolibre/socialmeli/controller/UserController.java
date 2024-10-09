@@ -44,7 +44,6 @@ public class UserController {
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 
-    //usuario a dejar de seguir exista
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowASpecificUserById(
             @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userId,
