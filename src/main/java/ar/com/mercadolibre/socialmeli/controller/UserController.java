@@ -24,21 +24,23 @@ public class UserController {
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
     }
 
-    @GetMapping("{userId}/followed/list")
+    @GetMapping("/{userId}/followed/list")
     public ResponseEntity<?> getFollowedList(@PathVariable Integer userId,
                                              @RequestParam(required = false) String order) {
         return new ResponseEntity<>(userService.findByFollowed(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getFollowersCount(@PathVariable @NotNull(message = "El id no puede ser vacio")
+    public ResponseEntity<?> getFollowersCount(@PathVariable
                                                @Positive(message = "El id debe ser mayor a cero.")Integer userId){
         return new ResponseEntity<>(userService.getFollowerCount(userId), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followASpecificUserById(@PathVariable Integer userId,
-                                                     @PathVariable Integer userIdToFollow){
+    public ResponseEntity<?> followASpecificUserById(@Validated @PathVariable
+                                                     @Positive Integer userId,
+                                                     @PathVariable
+                                                     @Positive Integer userIdToFollow){
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 

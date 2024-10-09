@@ -4,6 +4,7 @@ import ar.com.mercadolibre.socialmeli.controller.ProductController;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchResponseDTO;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -102,5 +105,33 @@ public class ProductControllerTest {
         assertTrue(responseBody.getPosts().contains(post1));
         assertTrue(responseBody.getPosts().contains(post2));
         verify(productService, times(1)).getRecentPostFromFollowedUsers(3, "date_asc");
+    }
+
+    @Test
+    @DisplayName("TB - 013 - Success Only query")
+    public void searchPostByBrandAndNameOnlyQueryTest(){
+        //Arrange
+        when(productService.searchPostByBrandAndName("query", null)).thenReturn(new ArrayList<>());
+
+        // Act
+        ResponseEntity<?> response = productController.searchPostByBrandAndName("query", null);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(productService, times(1)).searchPostByBrandAndName("query", null);
+    }
+
+    @Test
+    @DisplayName("TB - 013 - Success Query and User ID")
+    public void searchPostByBrandAndNameQueryAndUserIDTest(){
+        //Arrange
+        when(productService.searchPostByBrandAndName("query", 2)).thenReturn(new ArrayList<>());
+
+        // Act
+        ResponseEntity<?> response = productController.searchPostByBrandAndName("query", 2);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(productService, times(1)).searchPostByBrandAndName("query", 2);
     }
 }

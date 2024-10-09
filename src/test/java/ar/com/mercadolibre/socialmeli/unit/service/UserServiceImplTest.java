@@ -1,49 +1,47 @@
 package ar.com.mercadolibre.socialmeli.unit.service;
 
+import ar.com.mercadolibre.socialmeli.entity.Post;
+import ar.com.mercadolibre.socialmeli.entity.Product;
+import ar.com.mercadolibre.socialmeli.entity.User;
+
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameResponseDTO;
-import ar.com.mercadolibre.socialmeli.entity.User;
+
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.UserServiceImpl;
+
+
 import ar.com.mercadolibre.socialmeli.util.UtilTest;
 
-import ar.com.mercadolibre.socialmeli.dto.response.UserOkResponseDTO;
-import ar.com.mercadolibre.socialmeli.util.TestUtils;
-import org.junit.jupiter.api.*;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.*;
+
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import ar.com.mercadolibre.socialmeli.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUserWithFollowed;
 import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUsersWithPosts;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import static ar.com.mercadolibre.socialmeli.util.TestUtils.createUserWithFollowed;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -68,7 +66,187 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: Order Ascendent")
+    @DisplayName("T-0001 - Follow a specific user by ID")
+    public void followASpecificUserByIdTest() {
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
+
+        // User 1 tiene 2 post
+        User user = new User();
+        user.setUserId(1);
+        user.setPosts(Arrays.asList(post1, post2));
+
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFollowedIds(new ArrayList<>());
+        user2.setFollowedIds(Collections.singletonList(3));
+        user2.setPosts(Collections.singletonList(post3));
+
+        when(repository.existId(2)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user);
+        when(repository.getUserById(2)).thenReturn(user2);
+        when(repository.updateUser(user)).thenReturn(true);
+
+        UserOkResponseDTO dto = userService.followASpecificUserById(1,2);
+
+        verify(repository).updateUser(user);
+        verify(repository).existId(2);
+        verify(repository).getUserById(1);
+        verify(repository).getUserById(2);
+        assertEquals(dto.getResponse(),"OK");
+    }
+
+    @Test
+    @DisplayName("T-0001 - Follow someone they already follow.")
+    public void userWantsToFollowSomeoneTheyAlreadyFollow() {
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
+
+        // User 1 tiene 2 post
+        User user1 = new User();
+        user1.setUserId(1);
+        user1.setPosts(Arrays.asList(post1, post2));
+
+        // User 2 tiene 1 post
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFollowedIds(new ArrayList<>());
+        user2.setFollowedIds(Collections.singletonList(3));
+        user2.setPosts(Collections.singletonList(post3));
+        user1.addFollowedId(2);
+
+        when(repository.existId(2)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user1);
+        when(repository.getUserById(2)).thenReturn(user2);
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,2));
+
+        verify(repository).existId(2);
+        verify(repository).getUserById(1);
+        verify(repository).getUserById(2);
+
+        assertEquals(exception.getMessage(), "User ID: 1 already follows User ID: 2");
+    }
+
+
+    @Test
+    @DisplayName("T-0001 - Follow a non existing user by ID.")
+    public void followNotExistASpecificUserByIdTest() {
+        when(repository.existId(6)).thenReturn(false);
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,6));
+
+        verify(repository).existId(6);
+        assertEquals(exception.getMessage(),"User to follow ID: " + 6 + " doesn't exist.");
+    }
+
+    @Test
+    @DisplayName("T-0001 Usuario quiere seguir a un usuario que no es vendedor.")
+    public void userFollowToNotSellerTest() {
+        User user1 = new User(1, "Fernando Baldrich");
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user1);
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(2,1));
+
+        verify(repository).existId(1);
+        verify(repository).getUserById(1);
+        assertEquals(exception.getMessage(),"User to follow is not a seller");
+    }
+
+    @Test
+    @DisplayName("T-0001 - Follow a non Seller user.")
+    public void userNotExistFollowTest() {
+
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        User user1 = new User();
+        user1.setUserId(1);
+        user1.setPosts(Arrays.asList(post1, post2));
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user1);
+        when(repository.getUserById(6)).thenReturn(null);
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(6,1));
+
+        verify(repository).existId(1);
+        verify(repository).getUserById(1);
+        verify(repository).getUserById(6);
+        assertEquals(exception.getMessage(),"User ID: 6 doesn't exist.");
+    }
+
+    @Test
+    @DisplayName("T-0001 - Followed list update.")
+    public void sizeListFollowTest() {
+        Product product1 = new Product(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0);
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        User user1 = new User();
+        user1.setUserId(1);
+        user1.setPosts(Arrays.asList(post1, post2));
+
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFollowedIds(new ArrayList<>());
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user1);
+        when(repository.getUserById(2)).thenReturn(user2);
+        when(repository.updateUser(user2)).thenReturn(false);
+
+
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            userService.followASpecificUserById(2, 1);
+        });
+
+        verify(repository).existId(1);
+        verify(repository).getUserById(1);
+        verify(repository).getUserById(2);
+        verify(repository).updateUser(user2);
+
+        assertEquals("Ocurio un error al actualizar el User ID: 2", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("T-0001 - Usert with Zero ID.")
+    public void AUserCannotHaveZeroIdTest() {
+
+        BadRequestException userNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(null,1));
+        BadRequestException followNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,null));
+        BadRequestException userIdZero = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(0,1));
+        BadRequestException followIdZero = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,0));
+        BadRequestException userCannotFollowHimself = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,1));
+
+        assertEquals("Invalid IDs", userNull.getMessage());
+        assertEquals("Invalid IDs", followNull.getMessage());
+        assertEquals("Invalid IDs", userIdZero.getMessage());
+        assertEquals("Invalid IDs", followIdZero.getMessage());
+        assertEquals("Invalid IDs", userCannotFollowHimself.getMessage());
+    }
+
+    @Test
+    @DisplayName("T-0004 - Order Ascendent")
     public void orderByDateAscendentHappy() {
         // Arrange
         Integer id = 2;
@@ -105,7 +283,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: Order Descendent")
+    @DisplayName("T-0004 - Order Descendent")
     public void orderByDateDescendentHappy(){
 
         // Arrange
@@ -147,7 +325,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: User doesn't follow anyone")
+    @DisplayName("T-0004 - User doesn't follow anyone")
     public void noOrderAsc() {
 
         // Arrange
@@ -175,7 +353,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: User doesn't have followers")
+    @DisplayName("T-0004 - User doesn't have followers")
     public void noOrderDesc() {
         // Arrange
         Integer id = 1;
@@ -253,7 +431,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    @DisplayName("US-0003 - Happy Path No Ordering")
+    @DisplayName("T-0003 - Happy Path No Ordering")
     public void getFollowerListHappyTest(){
         //arrange
         //User 3 follows 2
@@ -276,7 +454,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0003 - User ID is null")
+    @DisplayName("T-0003 - User ID is null")
     public void getFollowerListSadPath1Test(){
         //arrange
         Integer userId = null;
@@ -289,7 +467,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US0003 - User ID is negative")
+    @DisplayName("T-0003 - User ID is negative")
     public void getFollowerListSadPath2Test(){
         //arrange
         Integer userId = -1;
@@ -302,7 +480,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0003 - User ID doesn't exist")
+    @DisplayName("T-0003 - User ID doesn't exist")
     public void getFollowerListSadPath3Test(){
         //arrange
         Integer userId = 50;
@@ -317,11 +495,11 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Success counting More than Zero")
+    @DisplayName("T-0007 - Success counting More than Zero")
     public void getFollowersCountingFollowersWhenMoreThanZero(){
         //Arrange
         Integer userId = 1;
-        List<User> users = TestUtils.createUsersWithPosts();
+        List<User> users = UtilTest.createUsersWithPosts();
         when(repository.existId(userId)).thenReturn(true);
         when(repository.getUsers()).thenReturn(users);
         when(repository.getUserById(userId)).thenReturn(users.getFirst());
@@ -338,11 +516,11 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Success counting Zero")
+    @DisplayName("T-0007 - Success counting Zero")
     public void getFollowersCountingFollowersWhenZero(){
         //Arrange
         Integer userId = 2;
-        List<User> users = TestUtils.createUsersWithPosts();
+        List<User> users = UtilTest.createUsersWithPosts();
         when(repository.existId(userId)).thenReturn(true);
         when(repository.getUsers()).thenReturn(users);
         when(repository.getUserById(userId)).thenReturn(users.getFirst());
@@ -359,7 +537,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Failed Null ID")
+    @DisplayName("T-0007 - Failed Null ID")
     public void getFollowersCountWhenNull(){
         //Arrange
         Integer userId = null;
@@ -376,7 +554,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Failed Non Existing ID")
+    @DisplayName("T-0007 - Failed Non Existing ID")
     public void getFollowersCountWhenIDNonExisting(){
         //Arrange
         Integer userId = 999;
@@ -392,6 +570,7 @@ public class UserServiceImplTest {
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());
     }
+
 
 
 }
