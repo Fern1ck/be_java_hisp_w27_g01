@@ -7,6 +7,7 @@ import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +27,16 @@ public class TestUtils {
         user.setFollowedIds(Arrays.asList(2, 3));
         user.setPosts(Collections.singletonList(post));
 
+        return user;
+    }
+
+    public static User createUsersWithFollowed() {
+
+        User user = new User(1, "Maria");
+        List<Integer> followed= new ArrayList<>();
+        followed.add(1);
+        followed.add(2);
+        user.setFollowedIds(followed);
         return user;
     }
 
