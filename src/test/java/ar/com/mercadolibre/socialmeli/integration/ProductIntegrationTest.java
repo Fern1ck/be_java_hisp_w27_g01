@@ -1,5 +1,6 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
@@ -9,7 +10,6 @@ import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.entity.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -210,7 +210,7 @@ public class ProductIntegrationTest {
         CreatePromoResponseDTO responseDto = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<>() {});
 
         // Assert
-        assertEquals(1, responseDto.getCreatedId());
+        assertEquals(2, responseDto.getCreatedId());
     }
 
     @Test
@@ -373,6 +373,36 @@ public class ProductIntegrationTest {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isEmpty());
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 05 -  Create Post")
+    public void integrationCreatePost() throws Exception {
+        //Arrange
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        ProductRequestDTO product = new ProductRequestDTO(1, "Silla", "Domestica", "Easy", "Negra", "Es una buena silla");
+        postRequestDTO.setUserId(1);
+        postRequestDTO.setProduct(product);
+        postRequestDTO.setCategory(200);
+        postRequestDTO.setDate(LocalDate.now());
+        postRequestDTO.setPrice(3000.0);
+        String jsonString = "{\"response\":\"OK\"}";
+        String requestJson = OBJECT_MAPPER.writeValueAsString(postRequestDTO);
+
+        //Act
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        //Deserialize
+        String jsonResponse =  mvcResult.getResponse().getContentAsString();
+        PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
+        //Assert
+        assertNotNull(jsonResponse);
+        Assertions.assertEquals(jsonResponse, jsonString);
     }
 
     @Test

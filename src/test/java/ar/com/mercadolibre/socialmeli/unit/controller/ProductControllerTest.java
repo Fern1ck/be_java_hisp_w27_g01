@@ -2,6 +2,7 @@ package ar.com.mercadolibre.socialmeli.unit.controller;
 
 import ar.com.mercadolibre.socialmeli.controller.ProductController;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
@@ -162,5 +163,46 @@ public class ProductControllerTest {
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(productService, times(1)).searchPostByBrandAndName("query", 2);
+    }
+
+    @Test
+    @DisplayName("US-0005 - Success")
+    void createPostTest() {
+        //Arrange
+        PostDetailsResponseDTO postDto = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0);
+
+        PostRequestDTO dto = new PostRequestDTO();
+        dto.setUserId(1);
+        dto.setDate(LocalDate.of(2024, 9, 27));
+        dto.setProduct(new ProductRequestDTO());
+        dto.setCategory(300);
+        dto.setPrice(1500.5);
+        when(productService.createPost(dto)).thenReturn(new PostOkResponseDTO(""));
+
+        // Act
+        ResponseEntity<?> response = productController.createPost(dto);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(productService, times(1)).createPost(dto);
+    }
+
+    @Test
+    @DisplayName("US-0014 - Success")
+    void searchPostsByDateTest() {
+        //Arrange
+        LocalDate startDate = LocalDate.of(2024, 9, 27);
+        LocalDate endDate = LocalDate.of(2024, 9, 28);
+
+        List<PostDetailsResponseDTO> listPostResponse = productService.searchPostsByDate(startDate,endDate);
+        when(productService.searchPostsByDate(startDate, endDate)).thenReturn(listPostResponse);
+
+        // Act
+        ResponseEntity<?> response = productController.searchPostsByDate(startDate, endDate);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }
