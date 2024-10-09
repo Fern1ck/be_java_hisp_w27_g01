@@ -68,8 +68,41 @@ public class UserServiceImplTest {
     @Test
     @Description("US-0001: un usuario quiere seguir a alguien que ya sigue.")
     public void userWantsToFollowSomeoneTheyAlreadyFollow() {
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
 
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
+
+        // User 1 tiene 2 post
+        User user1 = new User();
+        user1.setUserId(1);
+        user1.setPosts(Arrays.asList(post1, post2));
+
+        // User 2 tiene 1 post
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFollowedIds(new ArrayList<>());
+        user2.setFollowedIds(Collections.singletonList(3));
+        user2.setPosts(Collections.singletonList(post3));
+        user1.addFollowedId(2);
+
+        when(repository.existId(2)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user1);
+        when(repository.getUserById(2)).thenReturn(user2);
+
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,2));
+
+        verify(repository).existId(2);
+        verify(repository).getUserById(1);
+        verify(repository).getUserById(2);
+
+        assertEquals(exception.getMessage(), "User ID: 1 already follows User ID: 2");
     }
+
 
     @Test
     @Description("US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor que no existe")
