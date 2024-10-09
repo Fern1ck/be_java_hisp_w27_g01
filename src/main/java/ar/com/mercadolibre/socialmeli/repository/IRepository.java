@@ -17,7 +17,7 @@ public interface IRepository {
 
     Boolean existId(Integer userId);
 
-    void updateUser(User user);
+    Boolean updateUser(User user);
 
     Boolean removePost(Post post);
 

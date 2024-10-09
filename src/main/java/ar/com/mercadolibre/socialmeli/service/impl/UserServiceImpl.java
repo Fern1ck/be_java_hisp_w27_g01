@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserOkResponseDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
 
-        if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0 || userId.equals(userIdToFollow)) {
+        if (userIdToFollow == null ||userId == null || userIdToFollow <= 0 || userId <= 0 || userId.equals(userIdToFollow)) {
             throw new BadRequestException("Invalid IDs");
         }
 
@@ -104,12 +104,13 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User to follow ID: " + userIdToFollow + " doesn't exist.");
         }
 
-        User user = repository.getUserById(userId);
         User userToFollow = repository.getUserById(userIdToFollow);
 
         if (userToFollow.getPosts() == null || userToFollow.getPosts().isEmpty()){
             throw new BadRequestException("User to follow is not a seller");
         }
+
+        User user = repository.getUserById(userId);
 
         if (user == null) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
@@ -119,8 +120,9 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User ID: " + userId + " already follows User ID: " + userIdToFollow);
         }
 
-        user.addFollowedId(userIdToFollow);
-        repository.updateUser(user);
+        if (!repository.updateUser(user)){
+            throw new NotFoundException("Ocurio un error al actualizar el User ID: " + userId);
+        }
 
         return new UserOkResponseDTO("OK");
     }
