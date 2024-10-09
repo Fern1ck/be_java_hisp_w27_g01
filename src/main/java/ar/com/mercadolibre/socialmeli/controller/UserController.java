@@ -42,9 +42,11 @@ public class UserController {
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 
+    //usuario a dejar de seguir exista
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<?> unfollowASpecificUserById(@PathVariable Integer userId,
-                                                       @PathVariable Integer userIdToUnfollow){
+    public ResponseEntity<?> unfollowASpecificUserById(
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userId,
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userIdToUnfollow) {
         return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 }

@@ -4,7 +4,9 @@ import ar.com.mercadolibre.socialmeli.controller.UserController;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
+import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.service.impl.UserServiceImpl;
+import ar.com.mercadolibre.socialmeli.util.TestUtils;
 import jakarta.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
