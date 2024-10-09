@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
+@Validated
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<?> getFollowerList(@PathVariable Integer userId,
+    public ResponseEntity<?> getFollowerList(@PathVariable @Positive(message = "El id debe ser mayor a cero.") Integer userId,
                                              @RequestParam(required = false) String order){
         return new ResponseEntity<>(userService.getFollowerList(userId, order), HttpStatus.OK);
     }
@@ -31,7 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getFollowersCount(@PathVariable Integer userId){
+    public ResponseEntity<?> getFollowersCount(@PathVariable @NotNull(message = "El id no puede ser vacio")
+                                               @Positive(message = "El id debe ser mayor a cero.")Integer userId){
         return new ResponseEntity<>(userService.getFollowerCount(userId), HttpStatus.OK);
     }
 
@@ -41,9 +42,11 @@ public class UserController {
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 
+    //usuario a dejar de seguir exista
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<?> unfollowASpecificUserById(@PathVariable Integer userId,
-                                                       @PathVariable Integer userIdToUnfollow){
+    public ResponseEntity<?> unfollowASpecificUserById(
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userId,
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userIdToUnfollow) {
         return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 }
