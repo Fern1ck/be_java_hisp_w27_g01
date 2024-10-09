@@ -13,6 +13,18 @@ public class UtilTest {
 
 
     public static List<User> createUsers() {
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
+
+        Product product4 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post4 = new Post(1, product4, LocalDate.of(2020, 9, 26), 200, 5000.00, false, 0.0 );
+
         User user1 = new User();
         user1.setUserId(1);
         user1.setUserName("Delfina");
