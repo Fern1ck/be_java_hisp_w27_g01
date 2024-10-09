@@ -30,7 +30,7 @@ public class TestUtils {
         return user;
     }
 
-    public static User createUsersWithFollowed() {
+    public static User createUserWithFollowed() {
 
         User user = new User(1, "Maria");
         List<Integer> followed= new ArrayList<>();

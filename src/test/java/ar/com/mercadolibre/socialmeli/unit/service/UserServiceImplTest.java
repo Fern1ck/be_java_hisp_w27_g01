@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static ar.com.mercadolibre.socialmeli.util.TestUtils.createUserWithFollowed;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -29,7 +30,7 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        user1 = TestUtils.createUsersWithFollowed();
+        user1 = createUserWithFollowed();
     }
 
     @Test
