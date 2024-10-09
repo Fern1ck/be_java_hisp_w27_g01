@@ -192,27 +192,21 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: un usuario no puede seguirse a si mismo.")
-    public void userCannotFollowHimselfTest() {
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,1));
-
-        assertEquals("Invalid IDs", exception.getMessage());
-    }
-
-    @Test
-    @Description("US-0001: un usuario no puede tener ID 0.")
+    @Description("US-0001: se valida que el metodo devuelva la excepcion Invalid IDs.")
     public void AUserCannotHaveZeroIdTest() {
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(0,1));
 
-        assertEquals("Invalid IDs", exception.getMessage());
+        BadRequestException userNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(null,1));
+        BadRequestException followNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,null));
+        BadRequestException userIdZero = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(0,1));
+        BadRequestException followIdZero = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,0));
+        BadRequestException userCannotFollowHimself = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,1));
+
+        assertEquals("Invalid IDs", userNull.getMessage());
+        assertEquals("Invalid IDs", followNull.getMessage());
+        assertEquals("Invalid IDs", userIdZero.getMessage());
+        assertEquals("Invalid IDs", followIdZero.getMessage());
+        assertEquals("Invalid IDs", userCannotFollowHimself.getMessage());
     }
 
-    @Test
-    @Description("US-0001: un seguido no puede tener ID 0.")
-    public void AFollowCannotHaveZeroIdTest() {
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(1,0));
-
-        assertEquals("Invalid IDs", exception.getMessage());
-    }
 }
 
