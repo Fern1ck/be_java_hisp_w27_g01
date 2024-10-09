@@ -78,12 +78,29 @@ public class UserServiceImplTest {
     @Test
     @Description("US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor")
     public void followASpecificUserByIdTest() {
-        User user = users.stream().filter(u -> u.getUserId().equals(1)).findFirst().orElseThrow(() -> new RuntimeException("No se encontro el usuario"));
-        User follow = users.stream().filter(u -> u.getUserId().equals(2)).findFirst().orElseThrow(() -> new RuntimeException("No se encontro el usuario"));
+        Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
+        Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
+
+        Product product2 = new Product(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD");
+        Post post2 = new Post(2, product2, LocalDate.of(2024, 9, 27), 300, 30000.00, true, 0.3);
+
+        Product product3 = new Product(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB");
+        Post post3 = new Post(1, product3, LocalDate.of(2024, 9, 29), 200, 5000.00, false, 0.0 );
+
+        // User 1 tiene 2 post
+        User user = new User();
+        user.setUserId(1);
+        user.setPosts(Arrays.asList(post1, post2));
+
+        User user2 = new User();
+        user2.setUserId(2);
+        user2.setFollowedIds(new ArrayList<>());
+        user2.setFollowedIds(Collections.singletonList(3));
+        user2.setPosts(Collections.singletonList(post3));
 
         when(repository.existId(2)).thenReturn(true);
         when(repository.getUserById(1)).thenReturn(user);
-        when(repository.getUserById(2)).thenReturn(follow);
+        when(repository.getUserById(2)).thenReturn(user2);
         when(repository.updateUser(user)).thenReturn(true);
 
         UserOkResponseDTO dto = userService.followASpecificUserById(1,2);
