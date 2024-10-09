@@ -99,10 +99,10 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verificar el contentType UTF-8
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -122,10 +122,10 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
-                .andExpect(status().isBadRequest())  // Verifica que es 400 BadRequest
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verifica el contentType UTF-8
+                .andExpect(status().isBadRequest()) 
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
 
