@@ -108,7 +108,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("US-013 Success - Only query")
+    @DisplayName("TB - 013 - Success Only query")
     public void searchPostByBrandAndNameOnlyQueryTest(){
         //Arrange
         when(productService.searchPostByBrandAndName("query", null)).thenReturn(new ArrayList<>());
@@ -122,7 +122,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("US-013 Success - Query and User ID")
+    @DisplayName("TB - 013 - Success Query and User ID")
     public void searchPostByBrandAndNameQueryAndUserIDTest(){
         //Arrange
         when(productService.searchPostByBrandAndName("query", 2)).thenReturn(new ArrayList<>());

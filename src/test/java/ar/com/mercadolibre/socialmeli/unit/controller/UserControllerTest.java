@@ -81,7 +81,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("T-0003 - Success - name_asc")
+    @DisplayName("T-0003 - Success name_asc")
     public void T003NameAscTest(){
         //arrange
         Integer userId = 1;
@@ -96,7 +96,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("T-0003 - Success - name_desc")
+    @DisplayName("T-0003 - Success name_desc")
     public void T003NameDescTest(){
         //arrange
         Integer userId = 1;
@@ -113,7 +113,7 @@ public class UserControllerTest {
 
 
     @Test
-    @DisplayName("US-003 - Happy Path No ordering")
+    @DisplayName("T-0003 - Happy Path No ordering")
     public void getFollowerListTest() {
         //arrange
         Integer userId = 1;

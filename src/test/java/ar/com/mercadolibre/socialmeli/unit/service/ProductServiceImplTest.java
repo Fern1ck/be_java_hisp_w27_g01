@@ -276,7 +276,7 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUsers();
     }
 
-    @DisplayName("US-013 Success - Only query")
+    @DisplayName("TB - 0013 - Success Only query")
     @Test
     public void searchPostByBrandAndNameOnlyQueryTest(){
         //Arrange
@@ -292,7 +292,7 @@ public class ProductServiceImplTest {
         assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
     }
 
-    @DisplayName("US-013 Success - Query and User ID")
+    @DisplayName("TB - 0013 - Query and User ID")
     @Test
     public void searchPostByBrandAndNameQueryAndUserIDTest(){
         //Arrange
@@ -311,7 +311,7 @@ public class ProductServiceImplTest {
         assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
     }
 
-    @DisplayName("US-013 User ID doesn't exist")
+    @DisplayName("TB - 0013 - User ID doesn't exist")
     @Test
     public void searchPostByBrandAndNameUserIDNonExistantTest(){
         //Arrange

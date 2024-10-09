@@ -58,7 +58,7 @@ public class UserIntegrationTest {
     }
 
     @Test
-    @DisplayName("US-04: Find By Followed")
+    @DisplayName("INTEGRATION - US - 04 - Find By Followed")
     public void findByFollowed() throws Exception{
 
         Integer userId = 2;
