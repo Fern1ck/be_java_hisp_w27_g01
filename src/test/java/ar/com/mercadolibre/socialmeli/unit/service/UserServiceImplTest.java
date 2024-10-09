@@ -392,5 +392,7 @@ public class UserServiceImplTest {
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());
     }
+
+
 }
 

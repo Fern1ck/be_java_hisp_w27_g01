@@ -53,7 +53,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserFollowerListResponseDTO getFollowerList(Integer userId, String order) {
         if (userId == null || userId <= 0) {
-            throw new BadRequestException("User ID: " + userId + " is invalid.");
+                throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
         if (!repository.existId(userId)) {
@@ -130,9 +130,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserOkResponseDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
 
-      /*  if (userId == null || userId <= 0 || !repository.existId(userId) ){
+        if (userId == null || userId <= 0 || !repository.existId(userId) ){
             throw new BadRequestException("Invalid User ID: " +userId);
-        }*/
+        }
+
         if ( !repository.existId(userId) ){
             throw new BadRequestException("Invalid User ID: " +userId);
         }
