@@ -2,11 +2,9 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 
 
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.SearchResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -274,6 +272,60 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).existId(2);
         verify(repository, times(1)).getUserById(2);
         verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("US-010 Success")
+    @Test
+    public void createPromoPostTest() {
+        //Arrange
+        var user = users.stream().filter(u -> u.getUserId().equals(1)).findFirst().orElseThrow(() -> new RuntimeException("test user not found"));
+
+        var product = new Product();
+        product.setProductId(1);
+        product.setProductName("Silla Gamer");
+        product.setType("Gamer");
+        product.setBrand("Racer");
+        product.setColor("Red");
+        product.setNotes("Special Edition");
+
+        var post = new Post();
+        post.setProduct(product);
+        post.setDate(LocalDate.now());
+        post.setPrice(1500.5);
+        post.setHasPromo(true);
+        post.setDiscount(0.4);
+        post.setCategory(100);
+
+        //Arrange
+        var productdto = new ProductRequestDTO();
+        productdto.setProductId(1);
+        productdto.setProductName("Silla Gamer");
+        productdto.setType("Gamer");
+        productdto.setBrand("Racer");
+        productdto.setColor("Red");
+        productdto.setNotes("Special Edition");
+
+        var dto = new CreatePromoRequestDTO();
+        dto.setProduct(productdto);
+        dto.setDate(LocalDate.now());
+        dto.setUserId(user.getUserId());
+        dto.setPrice(1500.5);
+        dto.setHasPromo(true);
+        dto.setCategory(100);
+        dto.setDiscount(0.4);
+
+        when(repository.existId(user.getUserId())).thenReturn(true);
+        when(repository.getUserById(user.getUserId())).thenReturn(user);
+        when(repository.createPost(user, post)).thenReturn(1);
+
+        //act
+        CreatePromoResponseDTO promoPost = productService.createPromoPost(dto);
+
+        //assert
+        verify(repository, times(1)).existId(user.getUserId());
+        verify(repository, times(1)).getUserById(user.getUserId());
+        verify(repository, times(1)).createPost(user, post);
+        assertEquals(1, promoPost.getCreatedId());
     }
 
     @DisplayName("US-013 Success - Only query")
