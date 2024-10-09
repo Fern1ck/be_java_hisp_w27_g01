@@ -273,5 +273,4 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUserById(2);
         verify(repository, times(1)).getUsers();
     }
-
 }

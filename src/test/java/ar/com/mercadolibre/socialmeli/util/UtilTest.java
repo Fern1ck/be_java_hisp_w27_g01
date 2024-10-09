@@ -11,7 +11,6 @@ import java.util.List;
 
 public class UtilTest {
 
-
     public static List<User> createUsers() {
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
@@ -51,6 +50,7 @@ public class UtilTest {
         return Arrays.asList(user1, user2, user3, user4);
     }
 
+
     public static List<User> createUsersWithPosts() {
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
@@ -73,16 +73,18 @@ public class UtilTest {
         // User 2 tiene 1 post
         User user2 = new User();
         user2.setUserId(2);
-        user2.setFollowedIds(Collections.singletonList(3)); // <--
+
+        user2.setFollowedIds(Collections.singletonList(3));
+
         user2.setPosts(Collections.singletonList(post3));
 
 
         User user3 = new User();
         user3.setUserId(3);
-        user3.setFollowedIds(List.of(1)); // <--
+
+        user3.setFollowedIds(List.of(1));
         user2.setPosts(Collections.singletonList(post4));
 
         return Arrays.asList(user1, user2, user3);
-
     }
 }
