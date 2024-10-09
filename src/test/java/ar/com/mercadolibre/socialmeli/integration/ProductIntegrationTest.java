@@ -1,19 +1,34 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
+import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,6 +55,108 @@ public class ProductIntegrationTest {
         OBJECT_MAPPER.registerModule(javaTimeModule);
         OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
+
+    @DisplayName("INTEGRATION - US - 015 - User Not Found")
+    @Test
+    void integrationTestActivatePromoUserNotFound() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(999, 1, 0.20);
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - Post Not Found")
+    @Test
+    void integrationTestActivatePromoPostNotFound() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(1, 999, 0.2);
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Post ID: 999 doesn´t exist."));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - All Values Negative")
+    @Test
+    void integrationTestActivatePromoAllValuesNegative() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(-1, -999, -0.2);
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        // Deserialize
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        List<ValidationResponseDTO> validationErrors = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<List<ValidationResponseDTO>>() {});
+
+        // Assert
+        assertNotNull(validationErrors);
+        assertEquals(3, validationErrors.size());
+
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "El id debe ser mayor a cero".equals(error.getMessage())
+        ));
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "El id debe ser mayor a cero.".equals(error.getMessage())
+        ));
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "El descuento debe ser mayor a 0.".equals(error.getMessage())
+        ));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - All Values Null")
+    @Test
+    void integrationTestActivatePromoAllValuesNull() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(null, null, null);
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        // Deserialize
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        List<ValidationResponseDTO> validationErrors = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<List<ValidationResponseDTO>>() {});
+
+        // Assert
+        assertNotNull(validationErrors);
+        assertEquals(3, validationErrors.size());
+
+
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "El descuento no puede estar vacio.".equals(error.getMessage())
+        ));
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "La id no puede estar vacÃ­a.".equals(error.getMessage())
+        ));
+        assertTrue(validationErrors.stream().anyMatch(error ->
+                "El id no puede estar vacÃ\u00ADo.".equals(error.getMessage())
+        ));
+    }
+
 
     @Test
     @DisplayName("Integration - US 13 - Should search by query")
