@@ -66,7 +66,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("US-09: Get Recent Post From Followed Users - Order Ascendent")
+    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent")
     public void getRecentPostFromFollowedUsersDateAsc() throws Exception{
 
         Integer userId = 2;
@@ -84,7 +84,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("US-09: Get Recent Post From Followed Users - Order Descendet")
+    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent")
     public void getRecentPostFromFollowedUsersDateDesc() throws Exception{
 
         Integer userId = 2;
@@ -141,7 +141,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("US-16: Delete Post")
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post")
     public void deletePost() throws Exception{
 
         Integer userId = 2;
@@ -261,7 +261,7 @@ public class ProductIntegrationTest {
 
 
     @Test
-    @DisplayName("Integration - US 13 - Should search by query")
+    @DisplayName("INTEGRATION - US - 13 - Should search by query")
     @Order(1)
     public void testSearchPostByBrandAndName1Output() throws Exception {
         this.mockMvc.perform(
@@ -276,7 +276,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration - US 13 - Should search by query and user_id")
+    @DisplayName("INTEGRATION - US - 13 - Should search by query and user_id")
     public void testSearchPostByBrandAndName2Output() throws Exception {
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/products/search")
@@ -291,7 +291,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("Integration - US 13 - Should not find anything")
+    @DisplayName("INTEGRATION - US - 13 - Should not find anything")
     public void testSearchPostByBrandAndName3Output() throws Exception {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/products/search")

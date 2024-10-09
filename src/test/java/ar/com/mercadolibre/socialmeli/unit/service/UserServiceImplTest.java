@@ -10,20 +10,15 @@ import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameResponseDTO;
 
-import ar.com.mercadolibre.socialmeli.utils.Utils;
-
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
 import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
-
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
-
 import ar.com.mercadolibre.socialmeli.service.impl.UserServiceImpl;
 
 
 import ar.com.mercadolibre.socialmeli.util.UtilTest;
 
-import jdk.jfr.Description;
-import jdk.jshell.execution.Util;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.*;
@@ -33,8 +28,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,13 +38,10 @@ import static org.mockito.Mockito.*;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -76,7 +66,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor")
+    @DisplayName("T-0001 - Follow a specific user by ID")
     public void followASpecificUserByIdTest() {
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
@@ -113,7 +103,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: un usuario quiere seguir a alguien que ya sigue.")
+    @DisplayName("T-0001 - Follow someone they already follow.")
     public void userWantsToFollowSomeoneTheyAlreadyFollow() {
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
@@ -152,7 +142,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    @Description("US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor que no existe")
+    @DisplayName("T-0001 - Follow a non existing user by ID.")
     public void followNotExistASpecificUserByIdTest() {
         when(repository.existId(6)).thenReturn(false);
 
@@ -163,7 +153,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: Usuario quiere seguir a un usuario que no es vendedor.")
+    @DisplayName("T-0001 Usuario quiere seguir a un usuario que no es vendedor.")
     public void userFollowToNotSellerTest() {
         User user1 = new User(1, "Fernando Baldrich");
 
@@ -178,7 +168,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: Usuario quiere seguir a un usuario que no es vendedor.")
+    @DisplayName("T-0001 - Follow a non Seller user.")
     public void userNotExistFollowTest() {
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
@@ -204,7 +194,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: No se actualiza la lista de seguidores.")
+    @DisplayName("T-0001 - Followed list update.")
     public void sizeListFollowTest() {
         Product product1 = new Product(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0);
@@ -239,7 +229,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @Description("US-0001: se valida que el metodo devuelva la excepcion Invalid IDs.")
+    @DisplayName("T-0001 - Usert with Zero ID.")
     public void AUserCannotHaveZeroIdTest() {
 
         BadRequestException userNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(null,1));
@@ -256,7 +246,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: Order Ascendent")
+    @DisplayName("T-0004 - Order Ascendent")
     public void orderByDateAscendentHappy() {
         // Arrange
         Integer id = 2;
@@ -293,7 +283,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: Order Descendent")
+    @DisplayName("T-0004 - Order Descendent")
     public void orderByDateDescendentHappy(){
 
         // Arrange
@@ -335,7 +325,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: User doesn't follow anyone")
+    @DisplayName("T-0004 - User doesn't follow anyone")
     public void noOrderAsc() {
 
         // Arrange
@@ -363,7 +353,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004: User doesn't have followers")
+    @DisplayName("T-0004 - User doesn't have followers")
     public void noOrderDesc() {
         // Arrange
         Integer id = 1;
@@ -441,7 +431,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    @DisplayName("US-0003 - Happy Path No Ordering")
+    @DisplayName("T-0003 - Happy Path No Ordering")
     public void getFollowerListHappyTest(){
         //arrange
         //User 3 follows 2
@@ -464,7 +454,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0003 - User ID is null")
+    @DisplayName("T-0003 - User ID is null")
     public void getFollowerListSadPath1Test(){
         //arrange
         Integer userId = null;
@@ -477,7 +467,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US0003 - User ID is negative")
+    @DisplayName("T-0003 - User ID is negative")
     public void getFollowerListSadPath2Test(){
         //arrange
         Integer userId = -1;
@@ -490,7 +480,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0003 - User ID doesn't exist")
+    @DisplayName("T-0003 - User ID doesn't exist")
     public void getFollowerListSadPath3Test(){
         //arrange
         Integer userId = 50;
@@ -505,7 +495,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Success counting More than Zero")
+    @DisplayName("T-0007 - Success counting More than Zero")
     public void getFollowersCountingFollowersWhenMoreThanZero(){
         //Arrange
         Integer userId = 1;
@@ -526,7 +516,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Success counting Zero")
+    @DisplayName("T-0007 - Success counting Zero")
     public void getFollowersCountingFollowersWhenZero(){
         //Arrange
         Integer userId = 2;
@@ -547,7 +537,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Failed Null ID")
+    @DisplayName("T-0007 - Failed Null ID")
     public void getFollowersCountWhenNull(){
         //Arrange
         Integer userId = null;
@@ -564,7 +554,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-007 - Failed Non Existing ID")
+    @DisplayName("T-0007 - Failed Non Existing ID")
     public void getFollowersCountWhenIDNonExisting(){
         //Arrange
         Integer userId = 999;
@@ -580,6 +570,8 @@ public class UserServiceImplTest {
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());
     }
+
+
 
 }
 
