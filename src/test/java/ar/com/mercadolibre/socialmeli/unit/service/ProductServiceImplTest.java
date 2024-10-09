@@ -1,8 +1,10 @@
 package ar.com.mercadolibre.socialmeli.unit.service;
 
 
+import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
@@ -273,4 +275,77 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUserById(2);
         verify(repository, times(1)).getUsers();
     }
+
+    @DisplayName("TB - 0015 - Activate Promo Success")
+    @Test
+    void testActivatePromoSuccess() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(1, 1, 0.2);
+        User user = new User();
+        user.setUserId(1);
+        Post post = new Post();
+        post.setPostId(1);
+        post.setHasPromo(false);
+        post.setDiscount(0.0);
+        user.setPosts(Collections.singletonList(post));
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user);
+
+        // Act
+        PostOkResponseDTO response = productService.activatePromo(requestDTO);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals("OK", response.getResponse());
+        assertTrue(post.getHasPromo());
+        assertEquals(0.2, post.getDiscount());
+        verify(repository, times(1)).existId(1);
+        verify(repository, times(1)).getUserById(1);
+        verify(repository, times(1)).updatePost(user, post);
+    }
+
+    @DisplayName("TB - 0015 - Activate Promo User Not Found")
+    @Test
+    void testActivatePromoUserNotFound() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(999, 1, 0.2);
+
+        when(repository.existId(999)).thenReturn(false);
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.activatePromo(requestDTO);
+        });
+
+        //Assert
+        assertEquals("User ID: 999 doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(999);
+        verify(repository, never()).getUserById(anyInt());
+    }
+
+    @DisplayName("TB - 0015 - Activate Promo Post Not Found")
+    @Test
+    void testActivatePromoPostNotFound() {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(1, 999, 0.2);
+        User user = new User();
+        user.setUserId(1);
+        user.setPosts(Collections.emptyList());
+
+        when(repository.existId(1)).thenReturn(true);
+        when(repository.getUserById(1)).thenReturn(user);
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.activatePromo(requestDTO);
+        });
+
+        //Assert
+        assertEquals("Post ID: 999 doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(1);
+        verify(repository, times(1)).getUserById(1);
+    }
+
+
 }
