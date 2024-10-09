@@ -8,11 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -50,4 +48,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(errors);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<List<ValidationResponseDTO>> handleConstraintViolation(ConstraintViolationException ex) {
+        List<ValidationResponseDTO> errors = ex.getConstraintViolations().stream()
+                .map(violation -> ValidationResponseDTO.builder()
+                        .argument(violation.getPropertyPath().toString())
+                        .message(violation.getMessage())
+                        .rejectedValue(violation.getInvalidValue())
+                        .build())
+                .toList();
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+
+
 }
