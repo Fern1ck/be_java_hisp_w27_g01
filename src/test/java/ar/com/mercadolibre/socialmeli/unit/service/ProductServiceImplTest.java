@@ -218,4 +218,60 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUsers();
     }
 
+    @DisplayName("T-0008 - Success")
+    @Test
+    void testGetRecentPostSuccess(){
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0
+        );
+        PostDetailsResponseDTO postDetails2 = new PostDetailsResponseDTO(1, 1, LocalDate.of(2024, 9, 28)
+                , new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"), 100,
+                15000.0);
+
+        LocalDate dateExpected = LocalDate.of(2024, 9, 27);
+
+        when(repository.existId(3)).thenReturn(true);
+        when(repository.getUserById(3)).thenReturn(users.get(2));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        FollowersListResponseDTO response = productService.getRecentPostFromFollowedUsers(3, null);
+        
+        //Assert
+        assertEquals(2, response.getPosts().size());
+        assertTrue(response.getPosts().contains(postDetails));
+        assertTrue(response.getPosts().contains(postDetails2));
+        assertEquals(dateExpected, response.getPosts().getFirst().getDate());
+        verify(repository, times(1)).existId(3);
+        verify(repository, times(1)).getUserById(3);
+        verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("T-0008 - Fails only old Post")
+    @Test
+    void testGetRecentPostNotBringOldDates(){
+        //Arrange
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1, 1, LocalDate.of(2020, 9, 26),
+                new ProductResponseDTO(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB"),
+                200, 5000.00);
+
+        LocalDate dateExpected = LocalDate.of(2024, 9, 27);
+
+        when(repository.existId(2)).thenReturn(true);
+        when(repository.getUserById(2)).thenReturn(users.get(1));
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        BadRequestException exception = assertThrows(BadRequestException.class, ()-> productService.getRecentPostFromFollowedUsers(2, null));
+
+        //Assert
+        assertNotNull(exception);
+        assertEquals("There aren't posts of minus two weeks.", exception.getMessage());
+        verify(repository, times(1)).existId(2);
+        verify(repository, times(1)).getUserById(2);
+        verify(repository, times(1)).getUsers();
+    }
+
 }

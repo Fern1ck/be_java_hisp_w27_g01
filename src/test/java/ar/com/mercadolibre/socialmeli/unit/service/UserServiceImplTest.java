@@ -1,6 +1,7 @@
 package ar.com.mercadolibre.socialmeli.unit.service;
 
-
+import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerCountResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.UserOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowedResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserFollowerListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.UserNameResponseDTO;
@@ -315,5 +316,81 @@ public class UserServiceImplTest {
         assertEquals(thrown.getMessage(), "User ID: " + userId + " doesn't exist.");
     }
 
+    @Test
+    @DisplayName("T-007 - Success counting More than Zero")
+    public void getFollowersCountingFollowersWhenMoreThanZero(){
+        //Arrange
+        Integer userId = 1;
+        List<User> users = TestUtils.createUsersWithPosts();
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUsers()).thenReturn(users);
+        when(repository.getUserById(userId)).thenReturn(users.getFirst());
+
+        //Act
+        UserFollowerCountResponseDTO response = userService.getFollowerCount(userId);
+
+        //Assert
+        assertNotNull(response);
+        assertEquals(1, response.getFollowersCount());
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUsers();
+        verify(repository, times(1)).getUserById(userId);
+    }
+
+    @Test
+    @DisplayName("T-007 - Success counting Zero")
+    public void getFollowersCountingFollowersWhenZero(){
+        //Arrange
+        Integer userId = 2;
+        List<User> users = TestUtils.createUsersWithPosts();
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUsers()).thenReturn(users);
+        when(repository.getUserById(userId)).thenReturn(users.getFirst());
+
+        //Act
+        UserFollowerCountResponseDTO response = userService.getFollowerCount(userId);
+
+        //Assert
+        assertNotNull(response);
+        assertEquals(0, response.getFollowersCount());
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUsers();
+        verify(repository, times(1)).getUserById(userId);
+    }
+
+    @Test
+    @DisplayName("T-007 - Failed Null ID")
+    public void getFollowersCountWhenNull(){
+        //Arrange
+        Integer userId = null;
+
+        //Act
+        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerCount(userId));
+
+        //Assert
+        assertNotNull(thrown);
+        assertEquals("User ID: " + userId + " is invalid.", thrown.getMessage());
+        verify(repository, times(0)).existId(anyInt());
+        verify(repository, times(0)).getUsers();
+        verify(repository, times(0)).getUserById(anyInt());
+    }
+
+    @Test
+    @DisplayName("T-007 - Failed Non Existing ID")
+    public void getFollowersCountWhenIDNonExisting(){
+        //Arrange
+        Integer userId = 999;
+        when(repository.existId(userId)).thenReturn(false);
+
+        //Act
+        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerCount(userId));
+
+        //Assert
+        assertNotNull(thrown);
+        assertEquals("User ID: " + userId + " doesn't exist.", thrown.getMessage());
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(0)).getUsers();
+        verify(repository, times(0)).getUserById(anyInt());
+    }
 }
 
