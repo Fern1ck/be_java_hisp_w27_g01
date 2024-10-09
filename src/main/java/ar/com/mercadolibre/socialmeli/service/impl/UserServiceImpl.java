@@ -125,10 +125,14 @@ public class UserServiceImpl implements IUserService {
         return new UserOkResponseDTO("OK");
     }
 
+
     @Override
     public UserOkResponseDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
 
-        if (userId == null || userId <= 0 || !repository.existId(userId) ){
+      /*  if (userId == null || userId <= 0 || !repository.existId(userId) ){
+            throw new BadRequestException("Invalid User ID: " +userId);
+        }*/
+        if ( !repository.existId(userId) ){
             throw new BadRequestException("Invalid User ID: " +userId);
         }
 
@@ -152,5 +156,6 @@ public class UserServiceImpl implements IUserService {
 
         return new UserOkResponseDTO("OK");
     }
+
 
 }
