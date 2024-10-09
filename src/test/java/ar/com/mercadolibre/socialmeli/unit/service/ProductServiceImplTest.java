@@ -4,10 +4,12 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.SearchResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
 import ar.com.mercadolibre.socialmeli.exception.BadRequestException;
+import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
 import ar.com.mercadolibre.socialmeli.util.TestUtils;
@@ -272,6 +274,60 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).existId(2);
         verify(repository, times(1)).getUserById(2);
         verify(repository, times(1)).getUsers();
+    }
+
+    @DisplayName("US-013 Success - Only query")
+    @Test
+    public void searchPostByBrandAndNameOnlyQueryTest(){
+        //Arrange
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", null);
+        System.out.println(response);
+
+        //Assert
+        verify(repository, times(1)).getUsers();
+        assertEquals(1, response.size());
+        assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
+    }
+
+    @DisplayName("US-013 Success - Query and User ID")
+    @Test
+    public void searchPostByBrandAndNameQueryAndUserIDTest(){
+        //Arrange
+        Integer userId = 1;
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", userId);
+        System.out.println(response);
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUsers();
+        assertEquals(1, response.size());
+        assertEquals("Silla gamer", response.getFirst().getProduct().getProductName());
+    }
+
+    @DisplayName("US-013 User ID doesn't exist")
+    @Test
+    public void searchPostByBrandAndNameUserIDNonExistantTest(){
+        //Arrange
+        Integer userId = 5436546;
+        when(repository.existId(userId)).thenReturn(false);
+
+        //Act
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            productService.searchPostByBrandAndName("silla", userId);
+        });
+
+        //Assert
+        assertEquals("User ID: " + userId + " doesn´t exist.", exception.getMessage());
+        verify(repository, times(1)).existId(userId);
+        verify(repository, never()).getUserById(anyInt());
+        verify(repository, never()).getUsers();
     }
 
 }
