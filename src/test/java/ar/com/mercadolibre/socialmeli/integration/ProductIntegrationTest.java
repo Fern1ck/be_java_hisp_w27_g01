@@ -374,4 +374,62 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isEmpty());
     }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history")
+    public void getPromoPostHistory() throws Exception {
+        Integer userId = 2;
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(2))
+                .andExpect(jsonPath("$.posts[0].post_id").value(1))
+                .andExpect(jsonPath("$.posts[1].post_id").value(2))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Silla gamer"))
+                .andExpect(jsonPath("$.posts[1].product.product_name").value("Monitor 4K"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(false))
+                .andExpect(jsonPath("$.posts[1].has_promo").value(true));
+
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - no have posts")
+    public void getPromoPostHistoryS1() throws Exception {
+        //arrange
+        Integer userId = 6;
+        String expectedJson = "{\"message\":\"User ID: 6 doesn't have posts.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - User ID doesn't exist. ")
+    public void getPromoPostHistoryS2() throws Exception {
+        //arrange
+        Integer userId = 999;
+        String expectedJson = "{\"message\":\"User ID: 999 doesn't exist.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
 }

@@ -28,6 +28,7 @@ public class Utils {
         User user3 = new User(3, "Stephanie Castillo");
         User user4 = new User(4, "Maria Emilia");
         User user5 = new User(5, "Delfina Glavas");
+        User user6 = new User(6, "Leandro");
         user5.addFollowedId(2);
         user5.addFollowedId(4);
         user1.addFollowedId(3);
@@ -56,6 +57,7 @@ public class Utils {
         users.add(user3);
         users.add(user4);
         users.add(user5);
+        users.add(user6);
         return users;
     }
 
