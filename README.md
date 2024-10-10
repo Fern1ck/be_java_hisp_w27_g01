@@ -1159,33 +1159,33 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                        | Comportamiento Esperado                                                                                                          |
+|:----------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple: Status 200**, muestra la lista de todos los posteos Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history with promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                | Comportamiento Esperado                                                                                                              |
+|:----------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Param with-promo = true | **Se cumple: Status 200**, muestra la lista de los posteos con promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history without promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                  | Comportamiento Esperado                                                                                                              |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo.  Param with-promo = false | **Se cumple: Status 200**, muestra la lista de los posteos sin promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - no have posts
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                                | Comportamiento Esperado                                                                    |
+|:--------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no tenga posts. | **Se cumple: Status 400**. Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - User ID doesn't exist
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                          | Comportamiento Esperado                              |
+|:--------------------------------------------------------------------------------|:-----------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no exista | **Se cumple: Status 400**. El usuario es inexistente |
 
 </details>
 
@@ -1230,10 +1230,26 @@ La integración de este US - 008 se contempla en la integracion 003.
 </details>
 
 <details>
+<summary>TB-0002</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### TB-0002 - User does not follow seller
+
+| Referencia | Situaciones de entrada                                                        | Comportamiento Esperado                                                                                                         |
+|:-----------|:------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|
+| TB-0002    | Dejar de seguir a un usuario(vendedor) que no está en su lista de seguidores. | Se cumple: Status 400. Notifica que ocurrió un error al intentar dar unfollow a un usuario que no sigue mediante una excepción. |
+
+</details>
+
+
+
+<details>
 <summary>TB-0004</summary>
 
 #### Dev:
-- [@Stephanie Castillo](https://github.com/Stephaaniie)
+- [@Delfina Glavas](https://github.com/delfi85)
 
 #### TB-0004 - User doesn't follow anyone
 
@@ -1441,4 +1457,5 @@ Para integrar Swagger en el proyecto, se ha añadido la siguiente dependencia en
 
 Swagger se agrego a este proyecto para dar visibilidad a los endpoints y los posibles RequestDTO que puedan ingresar asi como los distintos validaciones que tienen que cumplir los mismos.
 Si se quiere acceder a la pagina es suficiente levantar el proyecto y acceder a la siguiente URL -> http://localhost:8080/swagger-ui.html
+
 </details>
