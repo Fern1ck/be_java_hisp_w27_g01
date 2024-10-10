@@ -454,7 +454,7 @@ public class UserServiceImplTest {
 
     @Test
     @DisplayName("T-0002 - NotExist")
-    public void checkUserBeforeUnfollowNotExist() {
+    public void checkUserBeforeUnfollowNotExistS1() {
 
         // Arrange
         int userToUnfollow = 10;
@@ -472,6 +472,26 @@ public class UserServiceImplTest {
         Assertions.assertEquals("Invalid User to Unfollow ID: " + userToUnfollow, thrown.getMessage());
         verify(repository, atLeastOnce()).existId(user1.getUserId());
         verify(repository, atLeastOnce()).existId(userToUnfollow);
+    }
+
+    @Test
+    @DisplayName("T-0002 - Not Exist for beeing negative")
+    public void checkUserBeforeUnfollowNotExistS2() {
+
+        // Arrange
+        int userToUnfollow = -1;
+
+        //Act
+        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
+
+
+        BadRequestException thrown = Assertions.assertThrows(
+                BadRequestException.class,
+                () -> userService.unfollowASpecificUserById(user1.getUserId(), userToUnfollow));
+
+        //Assert
+        Assertions.assertEquals("Invalid User to Unfollow ID: -1", thrown.getMessage());
+        verify(repository, atLeastOnce()).existId(user1.getUserId());
     }
 
     @Test
