@@ -1329,6 +1329,12 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 </details>
 
+## Coverage
+
+<image src="/src/main/resources/coverage.png" alt="Imagen de la covertura de los test realizados">
+
+
+
 ## Información del proyecto
 
 <details>
