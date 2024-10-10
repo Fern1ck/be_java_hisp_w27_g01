@@ -3,7 +3,6 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.entity.Post;
@@ -27,13 +26,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceImplTest {
@@ -89,9 +85,7 @@ public class ProductServiceImplTest {
         when(repository.existId(id)).thenReturn(false);
 
         //Act
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.getRecentPostFromFollowedUsers(999, null);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.getRecentPostFromFollowedUsers(999, null));
 
         //Assert
         assertEquals("User ID: " + id + " doesn´t exist.", exception.getMessage());
@@ -110,9 +104,7 @@ public class ProductServiceImplTest {
         when(repository.getUserById(1)).thenReturn(users.getFirst());
 
         //Act
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.getRecentPostFromFollowedUsers(1, "date_asc");
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.getRecentPostFromFollowedUsers(1, "date_asc"));
 
         //Assert
         assertEquals("User ID: 1 is not following anyone.", exception.getMessage());
@@ -128,9 +120,7 @@ public class ProductServiceImplTest {
         when(repository.existId(3)).thenReturn(true);
         when(repository.getUserById(3)).thenReturn(users.get(2));
 
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.getRecentPostFromFollowedUsers(3, "invalid_order");
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.getRecentPostFromFollowedUsers(3, "invalid_order"));
 
         assertEquals("Invalid order parameter: invalid_order", exception.getMessage());
         verify(repository, times(1)).existId(3);
@@ -147,9 +137,7 @@ public class ProductServiceImplTest {
         when(repository.getUsers()).thenReturn(users);
 
         //Act
-        BadRequestException exception = assertThrows(BadRequestException.class, ()-> {
-            productService.getRecentPostFromFollowedUsers(2, null);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, ()-> productService.getRecentPostFromFollowedUsers(2, null));
 
         //Assert
         assertEquals("There aren't posts of minus two weeks.", exception.getMessage());
@@ -257,12 +245,6 @@ public class ProductServiceImplTest {
     @Test
     void testGetRecentPostNotBringOldDates(){
         //Arrange
-        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1, 1, LocalDate.of(2020, 9, 26),
-                new ProductResponseDTO(2, "Teclado mecánico", "Periférico", "Logitech", "Negro", "RGB"),
-                200, 5000.00);
-
-        LocalDate dateExpected = LocalDate.of(2024, 9, 27);
-
         when(repository.existId(2)).thenReturn(true);
         when(repository.getUserById(2)).thenReturn(users.get(1));
         when(repository.getUsers()).thenReturn(users);
@@ -278,7 +260,7 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUsers();
     }
 
-    @DisplayName("TB-010 Success")
+    @DisplayName("TB - 0010 Success")
     @Test
     public void createPromoPostTest() {
         //Arrange
@@ -334,15 +316,10 @@ public class ProductServiceImplTest {
 
 
     @Test
-    @DisplayName("TB-005 Validate request null send exception BadRequestException")
+    @DisplayName("TB - 005 Validate request null send exception BadRequestException")
     public void createPostTest() {
-
-        PostRequestDTO postDto  = null;
-
         // Act
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.createPost(postDto);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.createPost(null));
 
         assertEquals("PublicationDTO is null", exception.getMessage());
     }
@@ -388,9 +365,7 @@ public class ProductServiceImplTest {
         when(repository.existId(userId)).thenReturn(false);
 
         //Act
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
-            productService.searchPostByBrandAndName("silla", userId);
-        });
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> productService.searchPostByBrandAndName("silla", userId));
 
         //Assert
         assertEquals("User ID: " + userId + " doesn´t exist.", exception.getMessage());
@@ -437,9 +412,7 @@ public class ProductServiceImplTest {
         when(repository.existId(999)).thenReturn(false);
 
         // Act
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.activatePromo(requestDTO);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.activatePromo(requestDTO));
 
         //Assert
         assertEquals("User ID: 999 doesn´t exist.", exception.getMessage());
@@ -460,9 +433,7 @@ public class ProductServiceImplTest {
         when(repository.getUserById(1)).thenReturn(user);
 
         // Act
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            productService.activatePromo(requestDTO);
-        });
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.activatePromo(requestDTO));
 
         //Assert
         assertEquals("Post ID: 999 doesn´t exist.", exception.getMessage());
@@ -473,12 +444,8 @@ public class ProductServiceImplTest {
     @Test
     @DisplayName("TB-0014 - valid exception BadRequestException")
     void searchPostsByDateResponseExceptionTest() {
-        //Arrange
-        LocalDate startDate = null;
-        LocalDate endDate = null;
-
         //Act
-        BadRequestException startDateNull = assertThrows(BadRequestException.class, ()-> productService.searchPostsByDate(startDate, endDate));
+        BadRequestException startDateNull = assertThrows(BadRequestException.class, ()-> productService.searchPostsByDate(null, null));
 
         //Assert
         assertEquals("Start date cannot be null", startDateNull.getMessage());
@@ -490,13 +457,6 @@ public class ProductServiceImplTest {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 27);
 
-        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, startDate,
-                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
-                30000.0
-        );
-        PostDetailsResponseDTO postDetails2 = new PostDetailsResponseDTO(1, 1, LocalDate.now()
-                , new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"), 100,
-                15000.0);
         List<User> users = new ArrayList<>();
         when(repository.getUsers()).thenReturn(users);
 
@@ -504,7 +464,7 @@ public class ProductServiceImplTest {
                 .flatMap(user -> user.getPosts().stream()
                         .filter(post -> !post.getDate().isBefore(startDate) && !post.getDate().isAfter(LocalDate.now()))
                         .map(post -> new PostDetailsResponseDTO(user.getUserId(), post.getPostId(), post.getDate(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getCategory(), post.getPrice())))
-                .collect(Collectors.toList());
+                .toList();
 
 
         //Act
@@ -520,7 +480,6 @@ public class ProductServiceImplTest {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 25);
         LocalDate p1Date = LocalDate.of(2024, 9, 28);
-        LocalDate endDate = LocalDate.now();
 
         PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,1, p1Date,
                 new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"),100,
@@ -548,9 +507,7 @@ public class ProductServiceImplTest {
         when(repository.existId(userId)).thenReturn(false);
 
         //Act
-        NotFoundException response = assertThrows(NotFoundException.class, () -> {
-            productService.getPromoProductsCountBySeller(userId);
-        });
+        NotFoundException response = assertThrows(NotFoundException.class, () -> productService.getPromoProductsCountBySeller(userId));
 
         //Assert
         verify(repository, times(1)).existId(userId);

@@ -1,7 +1,6 @@
 package ar.com.mercadolibre.socialmeli.controller;
 
 import ar.com.mercadolibre.socialmeli.service.IUserService;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

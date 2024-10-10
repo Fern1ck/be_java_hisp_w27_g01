@@ -216,9 +216,7 @@ public class UserServiceImplTest {
         when(repository.updateUser(user2)).thenReturn(false);
 
 
-        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
-            userService.followASpecificUserById(2, 1);
-        });
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> userService.followASpecificUserById(2, 1));
 
         verify(repository).existId(1);
         verify(repository).getUserById(1);
@@ -405,9 +403,7 @@ public class UserServiceImplTest {
         when(repository.getUserById(id)).thenReturn(user1);
 
         // Assert
-        Exception exception = assertThrows(BadRequestException.class, () -> {
-            userService.findByFollowed(id, order);
-        });
+        Exception exception = assertThrows(BadRequestException.class, () -> userService.findByFollowed(id, order));
 
         String expectedMessage = "User with the ID: 2 is not following anyone.";
         assertEquals(expectedMessage, exception.getMessage());
@@ -517,14 +513,11 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("T-0003 - User ID is null")
     public void getFollowerListSadPath1Test(){
-        //arrange
-        Integer userId = null;
-
         //act
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerList(userId, null));
+        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerList(null, null));
 
         //assert
-        assertEquals(thrown.getMessage(), "User ID: " + userId + " is invalid.");
+        assertEquals(thrown.getMessage(), "User ID: " + null + " is invalid.");
     }
 
     @Test
@@ -600,15 +593,12 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("T-0007 - Failed Null ID")
     public void getFollowersCountWhenNull(){
-        //Arrange
-        Integer userId = null;
-
         //Act
-        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerCount(userId));
+        BadRequestException thrown = assertThrows(BadRequestException.class, () -> userService.getFollowerCount(null));
 
         //Assert
         assertNotNull(thrown);
-        assertEquals("User ID: " + userId + " is invalid.", thrown.getMessage());
+        assertEquals("User ID: " + null + " is invalid.", thrown.getMessage());
         verify(repository, times(0)).existId(anyInt());
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());

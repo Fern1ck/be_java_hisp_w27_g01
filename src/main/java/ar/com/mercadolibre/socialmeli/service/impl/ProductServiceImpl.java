@@ -4,10 +4,6 @@ import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
-import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -19,7 +15,6 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements IProductService {
 
-   private IRepository repository;
+   private final IRepository repository;
 
     public ProductServiceImpl(IRepository repository) {
         this.repository = repository;

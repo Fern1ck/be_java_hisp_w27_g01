@@ -1178,6 +1178,45 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 </details>
 
+<details>
+<summary>TB-0010</summary>
+
+</details>
+
+<details>
+<summary>TB-0011</summary>
+
+</details>
+
+<details>
+<summary>TB-0013</summary>
+
+</details>
+
+<details>
+<summary>TB-0013</summary>
+
+</details>
+
+<details>
+<summary>TB-0014</summary>
+
+</details>
+
+<details>
+<summary>TB-0015</summary>
+
+</details>
+
+<details>
+<summary>TB-0016</summary>
+
+</details>
+
+<details>
+<summary>TB-0017</summary>
+
+</details>
 
 ## Información del proyecto
 

@@ -1,8 +1,5 @@
 package ar.com.mercadolibre.socialmeli.utils;
 
-import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.ProductResponseDTO;
 import ar.com.mercadolibre.socialmeli.entity.Post;
 import ar.com.mercadolibre.socialmeli.entity.Product;
 import ar.com.mercadolibre.socialmeli.entity.User;
@@ -15,7 +12,7 @@ import java.util.List;
 
 public class Utils {
 
-    private static ModelMapper modelMapper = new ModelMapper();
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     public static List<User> createDefaultUsers(){
 

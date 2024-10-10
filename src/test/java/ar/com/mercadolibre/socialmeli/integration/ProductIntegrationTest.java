@@ -1,24 +1,17 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
-import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.*;
-import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.FollowersListResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostDetailsResponseDTO;
-import ar.com.mercadolibre.socialmeli.dto.response.PostOkResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.exception.ValidationResponseDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.response.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,15 +26,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -66,7 +55,36 @@ public class ProductIntegrationTest {
         OBJECT_MAPPER.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         OBJECT_MAPPER.registerModule(javaTimeModule);
         OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 05 -  Create Post")
+    public void integrationCreatePost() throws Exception {
+        //Arrange
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        ProductRequestDTO product = new ProductRequestDTO(1, "Silla", "Domestica", "Easy", "Negra", "Es una buena silla");
+        postRequestDTO.setUserId(1);
+        postRequestDTO.setProduct(product);
+        postRequestDTO.setCategory(200);
+        postRequestDTO.setDate(LocalDate.now());
+        postRequestDTO.setPrice(3000.0);
+        String jsonString = "{\"response\":\"OK\"}";
+        String requestJson = OBJECT_MAPPER.writeValueAsString(postRequestDTO);
+
+        //Act
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        //Deserialize
+        String jsonResponse =  mvcResult.getResponse().getContentAsString();
+        PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
+        //Assert
+        assertNotNull(jsonResponse);
+        Assertions.assertEquals(jsonResponse, jsonString);
     }
 
     @Test
@@ -183,7 +201,7 @@ public class ProductIntegrationTest {
                 .andReturn();
     }
 
-    @DisplayName("INTEGRATION - US - 010 - Success")
+    @DisplayName("INTEGRATION - US - 10 - Success")
     @Test
     void integrationTestCreatePromoPostSuccess() throws Exception {
         // Arrange
@@ -267,7 +285,7 @@ public class ProductIntegrationTest {
                 .andReturn();
     }
 
-    @DisplayName("INTEGRATION - US - 015 - User Not Found")
+    @DisplayName("INTEGRATION - US - 15 - User Not Found")
     @Test
     void integrationTestActivatePromoUserNotFound() throws Exception {
         // Arrange
@@ -282,7 +300,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
     }
 
-    @DisplayName("INTEGRATION - US - 015 - Activate Promo OK")
+    @DisplayName("INTEGRATION - US - 15 - Activate Promo OK")
     @Test
     void integrationTestActivatePromoHappyPath() throws Exception {
         // Arrange
@@ -297,7 +315,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.response").value("OK"));
     }
 
-    @DisplayName("INTEGRATION - US - 015 - Post Not Found")
+    @DisplayName("INTEGRATION - US - 15 - Post Not Found")
     @Test
     void integrationTestActivatePromoPostNotFound() throws Exception {
         // Arrange
@@ -312,7 +330,7 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Post ID: 999 doesn´t exist."));
     }
 
-    @DisplayName("INTEGRATION - US - 015 - All Values Negative")
+    @DisplayName("INTEGRATION - US - 15 - All Values Negative")
     @Test
     void integrationTestActivatePromoAllValuesNegative() throws Exception {
         // Arrange
@@ -345,7 +363,7 @@ public class ProductIntegrationTest {
         ));
     }
 
-    @DisplayName("INTEGRATION - US - 015 - All Values Null")
+    @DisplayName("INTEGRATION - US - 15 - All Values Null")
     @Test
     void integrationTestActivatePromoAllValuesNull() throws Exception {
         // Arrange
@@ -420,36 +438,6 @@ public class ProductIntegrationTest {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isEmpty());
-    }
-
-    @Test
-    @DisplayName("INTEGRATION - US - 05 -  Create Post")
-    public void integrationCreatePost() throws Exception {
-        //Arrange
-        PostRequestDTO postRequestDTO = new PostRequestDTO();
-        ProductRequestDTO product = new ProductRequestDTO(1, "Silla", "Domestica", "Easy", "Negra", "Es una buena silla");
-        postRequestDTO.setUserId(1);
-        postRequestDTO.setProduct(product);
-        postRequestDTO.setCategory(200);
-        postRequestDTO.setDate(LocalDate.now());
-        postRequestDTO.setPrice(3000.0);
-        String jsonString = "{\"response\":\"OK\"}";
-        String requestJson = OBJECT_MAPPER.writeValueAsString(postRequestDTO);
-
-        //Act
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json"))
-                .andReturn();
-
-        //Deserialize
-        String jsonResponse =  mvcResult.getResponse().getContentAsString();
-        PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
-        //Assert
-        assertNotNull(jsonResponse);
-        Assertions.assertEquals(jsonResponse, jsonString);
     }
 
     @Test

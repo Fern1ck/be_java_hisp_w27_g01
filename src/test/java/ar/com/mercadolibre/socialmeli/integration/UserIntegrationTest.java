@@ -30,12 +30,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -126,7 +123,7 @@ public class UserIntegrationTest {
     }
 
 
-    @DisplayName("INTEGRATION - US - 002 - Counts more than Zero")
+    @DisplayName("INTEGRATION - US - 02 - Counts more than Zero")
     @Test
     void integrationTestGetFollowersCountsMoreThanZero() throws Exception {
 
@@ -151,7 +148,7 @@ public class UserIntegrationTest {
         assertEquals(4, response.getUserId());
     }
 
-    @DisplayName("INTEGRATION - US - 002 - Counts Zero")
+    @DisplayName("INTEGRATION - US - 02 - Counts Zero")
     @Test
     void integrationTestGetFollowersCountsZero() throws Exception {
 
@@ -176,7 +173,7 @@ public class UserIntegrationTest {
         assertEquals(1, response.getUserId());
     }
 
-    @DisplayName("INTEGRATION - US - 002 - Negative User ID")
+    @DisplayName("INTEGRATION - US - 02 - Negative User ID")
     @Test
     void integrationTestNegativeUserId() throws Exception {
 
@@ -193,7 +190,7 @@ public class UserIntegrationTest {
         assertEquals(expectedJson, jsonResponse);
     }
 
-    @DisplayName("INTEGRATION - US - 003 - Gets list more than zero")
+    @DisplayName("INTEGRATION - US - 03 - Gets list more than zero")
     @Test
     void integrationTestGetFollowersListMoreThanZero() throws Exception {
 
@@ -223,7 +220,7 @@ public class UserIntegrationTest {
         assertEquals(4, response.getUserId());
     }
 
-    @DisplayName("INTEGRATION - US - 003 - Gets list more than zero")
+    @DisplayName("INTEGRATION - US - 03 - Gets list more than zero")
     @Test
     void integrationTestGetFollowersListZero() throws Exception {
 
@@ -247,7 +244,7 @@ public class UserIntegrationTest {
 
     }
 
-    @DisplayName("INTEGRATION - US - 003 - Negative User ID")
+    @DisplayName("INTEGRATION - US - 03 - Negative User ID")
     @Test
     void integrationTestGetFollowersListNegativeUserId() throws Exception {
 

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public class RepositoryImpl implements IRepository {
-    private List<User> users;
+    private final List<User> users;
 
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
