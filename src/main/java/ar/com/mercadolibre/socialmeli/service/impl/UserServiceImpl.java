@@ -62,7 +62,7 @@ public class UserServiceImpl implements IUserService {
 
         User user = repository.getUserById(userId);
         List<UserNameResponseDTO> followers = repository.getUsers().stream()
-                .filter(u -> u.getFollowedIds() != null && u.getFollowedIds().contains(userId))
+                .   filter(u -> u.getFollowedIds() != null && u.getFollowedIds().contains(userId))
                 .map(u -> new UserNameResponseDTO(u.getUserId(), u.getUserName()))
                 .sorted(order != null && order.equalsIgnoreCase("name_desc") ?
                         Comparator.comparing(UserNameResponseDTO::getUserName).reversed() :

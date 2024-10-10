@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -100,7 +101,6 @@ public class ProductIntegrationTest {
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -112,7 +112,6 @@ public class ProductIntegrationTest {
         Assertions.assertEquals(expectedDto, actualDto);
     }
 
-
     @Test
     @DisplayName("INTEGRATION - US - 06 - sadPath - There aren't posts of minus two weeks.")
     public void getRecentPostFromFollowedUsersS1() throws Exception {
@@ -123,7 +122,6 @@ public class ProductIntegrationTest {
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isBadRequest()) 
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -135,9 +133,6 @@ public class ProductIntegrationTest {
         Assertions.assertEquals(expectedJson, jsonResponse);
     }
 
-
-
-
     @Test
     @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent")
     public void getRecentPostFromFollowedUsersDateAsc() throws Exception{
@@ -146,7 +141,7 @@ public class ProductIntegrationTest {
         String order = "date_asc";
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -164,7 +159,7 @@ public class ProductIntegrationTest {
         String order = "date_desc";
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -172,6 +167,20 @@ public class ProductIntegrationTest {
         FollowersListResponseDTO followersListResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, FollowersListResponseDTO.class);
 
         Assertions.assertEquals(followersListResponseDTO.getPosts(), followersListResponseDTO.getPosts().stream().sorted(Comparator.comparing(PostDetailsResponseDTO::getDate)).toList());
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path")
+    public void getRecentPostFromFollowedUsersDateSad() throws Exception{
+
+        Integer userId = 2;
+        String order = "assad";
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid order parameter: "+ order))
+                .andReturn();
     }
 
     @DisplayName("INTEGRATION - US - 010 - Success")
@@ -201,7 +210,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/products/promo-post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -221,7 +229,7 @@ public class ProductIntegrationTest {
         Integer postId = 2;
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -229,6 +237,34 @@ public class ProductIntegrationTest {
         PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
 
         Assertions.assertEquals(postOkResponseDTO.getResponse(), "OK");
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path")
+    public void deletePostSad() throws Exception{
+
+        Integer userId = 7;
+        Integer postId = 2;
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User ID: " + userId + " doesn´t exist."))
+                .andReturn();
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path 2")
+    public void deletePostSad2() throws Exception{
+
+        Integer userId = 2;
+        Integer postId = 8;
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Post ID: " + postId + " doesn´t exist."))
+                .andReturn();
     }
 
     @DisplayName("INTEGRATION - US - 015 - User Not Found")
@@ -242,9 +278,23 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - Activate Promo OK")
+    @Test
+    void integrationTestActivatePromoHappyPath() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(2, 1, 0.20); // Asume que el usuario y el post existen
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response").value("OK"));
     }
 
     @DisplayName("INTEGRATION - US - 015 - Post Not Found")
@@ -258,7 +308,6 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Post ID: 999 doesn´t exist."));
     }
@@ -274,7 +323,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -308,7 +356,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -340,7 +387,7 @@ public class ProductIntegrationTest {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/products/search")
                                 .param("query", "me")
-                ).andDo(print()).andExpect(status().isOk())
+                ).andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(3))
@@ -393,7 +440,7 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -464,7 +511,9 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.posts[0].product.product_name").value("Silla gamer"))
                 .andExpect(jsonPath("$.posts[0].has_promo").value(false));
 
-    } @Test
+    } 
+  
+    @Test
     @DisplayName("INTEGRATION - US - 17 - Sad Path - no have posts")
     public void getPromoPostHistoryS1() throws Exception {
         //arrange
