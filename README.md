@@ -1030,7 +1030,7 @@ La integración de este US - 008 se contempla en la integracion 003.
   <summary>INTEGRATION - US - 13</summary>
 
 #### Dev:
-
+- [@Fernando Baldrich](https://github.com/Fern1ck)
 
 #### INTEGRATION - US - 13 - Should search by query and user_id
 
@@ -1052,6 +1052,91 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 </details>
 
+<details>
+  <summary>INTEGRATION - US - 14</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 14 - 
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 15</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 15 - User Not Found
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 15 - Post Not Found
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+### INTEGRATION - US - 015 - All Values Negative
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 015 - All Values Null
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 16</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 16 -  Delete Post
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 17</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Sad Path - no have posts
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Sad Path - User ID doesn't exist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
 
 ### Requerimientos técnicos funcionales unitarios (Bonus).
 
