@@ -902,9 +902,28 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### INTEGRATION - US - 04 - Find By Followed
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                | Comportamiento Esperado    |
+|:------------------------------------------------------|:---------------------------|
+| Verificar la lista de vendedores que sigue el usuario | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 04 - Find By Followed Sad Path 1
+
+| Situaciones de entrada                          | Comportamiento Esperado                                      |
+|:------------------------------------------------|:-------------------------------------------------------------|
+| Verificar que el usuario sigue a algún vendedor | **Se cumple:** Falla, el usuario no sigue a ningún vendedor. |
+
+#### INTEGRATION - US - 04 - INTEGRATION - US - 04 - Find By Followed Sad Path 2
+
+| Situaciones de entrada                 | Comportamiento Esperado                                      |
+|:---------------------------------------|:-------------------------------------------------------------|
+| Verificar que el ID del usuario existe | **Se cumple:** Falla, el ID del usuario ingresado no existe. |
+
+#### INTEGRATION - US - 04 - INTEGRATION - US - 04 - Find By Followed Sad Path 3
+
+| Situaciones de entrada                 | Comportamiento Esperado                               |
+|:---------------------------------------|:------------------------------------------------------|
+| Verificar el parámetro order ingresado | **Se cumple:** Falla, el parámetro order es inválido. |
+
 
 </details>
 
@@ -986,15 +1005,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                         | Comportamiento Esperado    |
+|:-----------------------------------------------|:---------------------------|
+| Verificar el ordenamiento ascendente por fecha | **Se cumple:** Código 200. |
 
-#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descendent
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                          | Comportamiento Esperado    |
+|:------------------------------------------------|:---------------------------|
+| Verificar el ordenamiento descendente por fecha | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path
+
+| Situaciones de entrada                 | Comportamiento Esperado                               |
+|:---------------------------------------|:------------------------------------------------------|
+| Verificar el parámetro order ingresado | **Se cumple:** Falla, el parámetro order es inválido. |
 
 </details>
 
@@ -1106,9 +1131,23 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 16 -  Delete Post
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                       | Comportamiento Esperado    |
+|:---------------------------------------------|:---------------------------|
+| Eliminar un post con userId y postId válidos | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 16 -  Delete Post Sad Path 1
+
+| Situaciones de entrada  | Comportamiento Esperado                               |
+|:------------------------|:------------------------------------------------------|
+| Verificar ID de usuario | **Se cumple:** Falla, el usuario ingresado no existe. |
+
+#### INTEGRATION - US - 16 -  Delete Post Sad Path 2
+
+| Situaciones de entrada | Comportamiento Esperado                            |
+|:-----------------------|:---------------------------------------------------|
+| Verificar ID de post   | **Se cumple:** Falla, el post ingresado no existe. |
+
+
 
 </details>
 
@@ -1120,33 +1159,33 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                        | Comportamiento Esperado                                                                                                          |
+|:----------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple: Status 200**, muestra la lista de todos los posteos Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history with promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                | Comportamiento Esperado                                                                                                              |
+|:----------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Param with-promo = true | **Se cumple: Status 200**, muestra la lista de los posteos con promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history without promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                  | Comportamiento Esperado                                                                                                              |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo.  Param with-promo = false | **Se cumple: Status 200**, muestra la lista de los posteos sin promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - no have posts
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                                | Comportamiento Esperado                                                                    |
+|:--------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no tenga posts. | **Se cumple: Status 400**. Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - User ID doesn't exist
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                          | Comportamiento Esperado                              |
+|:--------------------------------------------------------------------------------|:-----------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no exista | **Se cumple: Status 400**. El usuario es inexistente |
 
 </details>
 
@@ -1187,6 +1226,42 @@ La integración de este US - 008 se contempla en la integracion 003.
 | Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
 |:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0002</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### TB-0002 - User does not follow seller
+
+| Referencia | Situaciones de entrada                                                        | Comportamiento Esperado                                                                                                         |
+|:-----------|:------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|
+| TB-0002    | Dejar de seguir a un usuario(vendedor) que no está en su lista de seguidores. | Se cumple: Status 400. Notifica que ocurrió un error al intentar dar unfollow a un usuario que no sigue mediante una excepción. |
+
+</details>
+
+
+
+<details>
+<summary>TB-0004</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### TB-0004 - User doesn't follow anyone
+
+| Referencia | Situaciones de entrada                     | Comportamiento Esperado                             |
+|:-----------|:-------------------------------------------|:----------------------------------------------------|
+| TB-0004    | Verificar que el usuario no sigue a nadie. | **Se cumple:** Devuelve el mensaje de la excepción. |
+
+#### TB-0004 - User doesn't have followers
+
+| Referencia | Situaciones de entrada                      | Comportamiento Esperado                         |
+|:-----------|:--------------------------------------------|:------------------------------------------------|
+| TB-0004    | Verificar que al usuario no lo sigue nadie. | Se cumple: Devuelve el mensaje de la excepción. |
 
 </details>
 
@@ -1270,21 +1345,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### TB-0014 - valid endDate Null
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                      | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:--------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar los post cuando end_date es null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 #### TB-0014 - Success
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                                    | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:----------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar la lista de post enviando stard_date y end_date | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 #### TB-0014 - valid exception BadRequestException
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                        | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:----------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar los post cuando start_date es null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 </details>
 
@@ -1296,21 +1371,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### TB - 0015 - Activate Promo Post Not Found
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                             | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:---------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Intentar activar una promo a un vendedor sin post. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.  |
 
 #### TB - 0015 - Activate Promo User Not Found
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                       | Comportamiento Esperado                                                                                                  |
+|:-----------|:---------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Intentar activar una promo con usuario null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.         |
 
 #### TB - 0015 - Activate Promo Success
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                           |
+|:-----------|:-----------------------|:------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Activar una promo.     | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.  |
 
 </details>
 
@@ -1382,4 +1457,5 @@ Para integrar Swagger en el proyecto, se ha añadido la siguiente dependencia en
 
 Swagger se agrego a este proyecto para dar visibilidad a los endpoints y los posibles RequestDTO que puedan ingresar asi como los distintos validaciones que tienen que cumplir los mismos.
 Si se quiere acceder a la pagina es suficiente levantar el proyecto y acceder a la siguiente URL -> http://localhost:8080/swagger-ui.html
+
 </details>
