@@ -7,10 +7,11 @@ import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RepositoryImpl implements IRepository {
-    private List<User> users;
+    private final List<User> users;
 
     public RepositoryImpl(){
         users = Utils.createDefaultUsers();
@@ -49,14 +50,17 @@ public class RepositoryImpl implements IRepository {
     }
 
     @Override
-    public void updateUser(User user){
-        users.stream()
+    public Boolean updateUser(User user) {
+        Optional<User> existingUserOpt = users.stream()
                 .filter(u -> u.getUserId().equals(user.getUserId()))
-                .findFirst()
-                .ifPresent(u -> {
-                    int index = users.indexOf(u);
-                    users.set(index, user);
-                });
+                .findFirst();
+
+        if (existingUserOpt.isPresent()) {
+            int index = users.indexOf(existingUserOpt.get());
+            users.set(index, user);
+            return true;
+        }
+        return false;
     }
 
     @Override

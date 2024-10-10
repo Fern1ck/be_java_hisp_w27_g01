@@ -22,12 +22,12 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo POST
 
-```
-  http://localhost:8080/users/{userId}/follow/{userIdToFollow}
+```http
+http://localhost:8080/users/{userId}/follow/{userIdToFollow}
 ```
 
 ```http
-  Ejemplo:  /users/123/follow/234
+http://localhost:8080/users/123/follow/234
 ```
 
 | Response  |
@@ -50,21 +50,23 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followers/count
+```http
+http://localhost:8080/users/{userId}/followers/count
 ```
 
 ```http
-  Ejemplo: /users/234/followers/count/
+http://localhost:8080/users/234/followers/count/
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 234, 
-    "user_name": "vendedor1",
-    "followers_count": 35
-
+```json
+    {
+      "user_id": 234, 
+      "user_name": "vendedor1",
+      "followers_count": 35
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -80,32 +82,34 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followers/list
+```http
+http://localhost:8080/users/{userId}/followers/list
 ```
 ```http
-  Ejemplo: /users/234/followers/list
+http://localhost:8080/users/234/followers/list
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 234, 
-    "user_name": "vendedor1", 
-    "followers": [
-     {
-        "user_id": 4698,
-        "user_name": "usuario1"
-      },
+```json
       {
-        "user_name": "usuario2" 
-       },
-       {
-         "user_id": 2236,
-         "user_name": "usuario3"
-       }
-    ]
-
+        "user_id": 234, 
+        "user_name": "vendedor1", 
+        "followers": [
+         {
+            "user_id": 4698,
+            "user_name": "usuario1"
+          },
+          {
+            "user_name": "usuario2" 
+           },
+           {
+             "user_id": 2236,
+             "user_name": "usuario3"
+           }
+        ]
+      }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`  | `int`    | **Required**. Número que identifica a cada usuario. |
@@ -121,34 +125,35 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followed/list
+```http
+http://localhost:8080/users/{userId}/followed/list
 ```
 
 ```http
-  Ejemplo: /users/4698/followed/list
+http://localhost:8080/users/4698/followed/list
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 4698,
-    "user_name": "usuario1",
-    "followed": [
-                  {
-                    "user_id": 234,
-                    "user_name": "vendedor1"
-                  },
-                  {
-                    "user_name": "vendedor2" 
-                  },
-                  {
-                    "user_id": 6631,
-                    "user_name": "vendedor3"
-                  }
-
-                ]
-
+```json
+    {
+      "user_id": 4698,
+      "user_name": "usuario1",
+      "followed": [
+        {
+          "user_id": 234,
+          "user_name": "vendedor1"
+        },
+        {
+          "user_name": "vendedor2"
+        },
+        {
+          "user_id": 6631,
+          "user_name": "vendedor3"
+        }
+      ]
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -164,26 +169,27 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo POST
 
-```
-  http://localhost:8080/products/post
+```http
+http://localhost:8080/products/post
 ```
   | PAYLOAD  |
   | :-------- | 
-      
-        "user_id": 123,
-        "date": "29-04-2021",
-        "product": {
-                    "product_id": 1,
-                    "product_name": "Silla Gamer",
-                    "type": "Gamer",
-                    "brand": "Racer",
-                    "color": "Red & Black",
-                    "notes": "Special Edition"
-                  },
-        "category": 100, 
-        "price": 1500.50
-      
-    
+```json
+  {
+    "user_id": 123,
+    "date": "29-04-2021",
+    "product": {
+      "product_id": 1,
+      "product_name": "Silla Gamer",
+      "type": "Gamer",
+      "brand": "Racer",
+      "color": "Red & Black",
+      "notes": "Special Edition"
+    },
+    "category": 100,
+    "price": 1500.50  
+  }
+```   
 | Response  |
 | :-------- | 
 | `Status Code 200 (todo OK) - bodyless or dto` | 
@@ -213,52 +219,51 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/products/followed/{userId}/list
+```http
+http://localhost:8080/products/followed/{userId}/list
 ```
 ```http
-  Ejemplo: /products/followed/4698/list
+http://localhost:8080/products/followed/4698/list
 ```
 | Response  |
 | :-------- | 
-
-        "user_id": 4698, 
-        "posts": 
-        [
-          {
-            “user_id”: 123,
-            "post_id": 32,
-            "date": "01-05-2021",
-            "product": 
-            {
-              "product_id": 62,
-              "product_name": "Headset RGB Inalámbrico",
-              "type": "Gamer",
-              "brand": "Razer",
-              "color": "Green with RGB",
-              "notes": "Sin Batería"
-            },
-            "category": 120,
-            "price": 2800.69
-            },
-            {
-              “user_id”: 234, 
-              "post_id": 18,
-              "date": "29-04-2021",
-              "product":
-                {
-                  "product_id": 1,
-                  "productName": "Silla Gamer",
-                  "type": "Gamer",
-                  "brand": "Racer",
-                  "color": "Red & Black",
-                  "notes": "Special Edition"
-                  },
-              "category": 100,
-              "price": 15000.50
-           } 
-        ]
-
+```json
+{
+  "user_id": 4698,
+  "posts": [{
+    "user_id" : 123, 
+    "post_id" : 32,
+    "date" : "01-05-2021",
+    "product": {
+        "product_id": 62,
+        "product_name": "Headset RGB Inalámbrico",
+        "type": "Gamer",
+        "brand": "Razer",
+        "color": "Green with RGB",
+        "notes": "Sin Batería"
+      },
+      "category" : 120,
+      "price":2800.69
+    },
+    {
+      "user_id" : 234, 
+      "post_id" : 18, 
+      "date" : "29-04-2021",
+      "product" :
+      {
+        "product_id": 1,
+        "productName": "Silla Gamer",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Red & Black",
+        "notes": "Special Edition"
+      },
+      "category" : 100,
+      "price" : 15000.50
+    }
+  ]
+}
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -273,11 +278,11 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo POST
 
-```
-  http://localhost:8080/users/{userId}/unfollow/{userIdToUnfollow}
+```http
+http://localhost:8080/users/{userId}/unfollow/{userIdToUnfollow}
 ```
 ```http
-  Ejemplo: /users/234/unfollow/123
+http://localhost:8080/users/234/unfollow/123
 ```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
@@ -294,11 +299,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
  
-```
+```http
   http://localhost:8080/users/{UserID}/followers/list?order=name_asc
   http://localhost:8080/users/{UserID}/followers/list?order=name_desc
   http://localhost:8080/users/{UserID}/followed/list?order=name_asc
   http://localhost:8080/users/{UserID}/followed/list?order=name_desc
+```
+```http
+  http://localhost:8080/users/1/followers/list?order=name_asc
+  http://localhost:8080/users/1/followers/list?order=name_desc
+  http://localhost:8080/users/1/followed/list?order=name_asc
+  http://localhost:8080/users/1/followed/list?order=name_desc
 ```
 
 | Order       | Description                       |
@@ -319,9 +330,13 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 
 #### Metodo GET
 
-```
+```http
   http://localhost:8080//products/followed/{userId}/list?order=date_asc
   http://localhost:8080/products/followed/{userId}/list?order=date_desc
+```
+```http
+  http://localhost:8080//products/followed/2/list?order=date_asc
+  http://localhost:8080/products/followed/2/list?order=date_desc
 ```
 | Order       | Description                                          |
 | :-----------| :--------------------------------------------------- |
@@ -339,28 +354,30 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
 #### Metodo POST
 
-```
+```http
   http://localhost:8080/products/promo-post
 ```
 | PAYLOAD  |
 | :-------- | 
-    
-    "user_id": 234,
-    "date": "29-04-2021",
-    "product":
-    {
-      "product_id": 1,
-      "product_name": "Silla Gamer",
-      "type": "Gamer",
-      "brand": "Racer",
-      "color": "Red & Black",
-      "notes": "Special Edition"
-    },
-    "category": 100,
-    "price": 1500.50,
-    "has_promo": true,
-    "discount": 0.25
-    
+```json
+
+{
+  "user_id": 234,
+  "date": "29-04-2021",
+  "product": {
+    "product_id": 1,
+    "product_name": "Silla Gamer",
+    "type": "Gamer",
+    "brand": "Racer",
+    "color": "Red & Black",
+    "notes": "Special Edition"
+  },
+  "category": 100,
+  "price": 1500.50,
+  "has_promo": true,
+  "discount": 0.25
+}
+```
 | Response  |
 | :-------- | 
 | `Status Code 200 (todo OK) - bodyless or dto` | 
@@ -396,16 +413,24 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
   
 #### Metodo GET
 
-```
+```htttp
   http://localhost:8080/products/promo-post/count?user_id={userId}
 ```
+
+```htttp
+  http://localhost:8080/products/promo-post/count?user_id=1
+```
+
 | Response  |
 | :-------- | 
 
-    "user_id" : 234, 
-    "user_name": "vendedor1",
-    "promo_products_count": 23
-
+```json
+    {
+      "user_id" : 234,
+      "user_name": "vendedor1",
+      "promo_products_count": 23
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `user_id`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -423,38 +448,38 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/products/search?query={query}&user_id={user_id}
+```http
+http://localhost:8080/products/search?query={query}&user_id={user_id}
 ```
 
 ```http
-  Ejemplo: localhost:8080/products/search?query=ams
-  Ejemplo: localhost:8080/products/search?query=ams&user_id=2
+http://localhost:8080/products/search?query=ams
+http://localhost:8080/products/search?query=ams&user_id=2
 ```
 
 | Response  |
 | :-------- | 
-
-    [
-      {
-        "post_id": 3,
-        "user_id": 2,
-        "product": {
-          "type": "Monitor",
-          "brand": "Samsung",
-          "color": "Negro",
-          "notes": "Ultra HD",
-          "product_id": 3,
-          "product_name": "Monitor 4K"
-        },
-        "date": "18-09-2024",
-        "category": 300,
-        "price": 30000.0,
-        "discount": 0.3,
-        "has_promo": true
-      }
-    ]
-
+```json
+  [
+    {
+      "post_id": 3,
+      "user_id": 2,
+      "product": {
+        "type": "Monitor",
+        "brand": "Samsung",
+        "color": "Negro",
+        "notes": "Ultra HD",
+        "product_id": 3,
+        "product_name": "Monitor 4K"
+      },
+      "date": "18-09-2024",
+      "category": 300,
+      "price": 30000.0,
+      "discount": 0.3,
+      "has_promo": true
+    }
+  ]
+```
 La respuesta es una lista con objetos con las siguientes propiedades:
 
 | Parameter      | Type     | Description                                                                                                                             |
@@ -486,14 +511,16 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### Metodo GET
 
-
+```http
+  http://localhost:8080/products/search/date?date_start={date_start}&date_end={date_end}
 ```
+```http
   http://localhost:8080/products/search/date?date_start=16/09/2021&date_end=18/09/2024
 ```
 
 | Response  |
 | :-------- | 
-
+```json
     [
       {
           "user_id": 2,
@@ -541,7 +568,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
           "price": 5000.0
       }
     ]
-
+```
 
 | Parameter    | Type     | Description                                                                                                                                      |
 |:-------------| :------- |:-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -559,7 +586,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
 
 #### Metodo PUT
-```
+```http
   http://localhost:8080/products/posts/activate-promo
 ```
 
@@ -582,7 +609,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 - [@Delfina Glavas](https://github.com/delfi85)
 
 #### Metodo DELETE
-```
+```http
   http://localhost:8080/products/post/{userId}/{postId}
 ```
 | Response                                        |
@@ -605,7 +632,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### Metodo GET
 
-```
+```http
   http://localhost:8080/products/promo-post/3/history
   http://localhost:8080/products/promo-post/3/history?with_promo=true
   http://localhost:8080/products/promo-post/3/history?with_promo=false
@@ -617,47 +644,47 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `false`    | **Devuelve solo los posts que no tienen descuentos.**    |
 
 
-
 | Response  |
 | :-------- | 
-```
-    "user_id": 234,
-    "user_name": "vendedor1",
-    "posts": [
+```json
+{
+  "user_id": 234,
+  "user_name": "vendedor1",
+  "posts": [
     {
       "post_id": 18,
       "date": "29-04-2021",
-      "product": 
-      {
-          "product_id": 1,
-          "product_name": "Silla Gamer",
-          "type": "Gamer",
-          "brand": "Racer",
-          "color": "Red & Black",
-          "notes": "Special Edition"
+      "product": {
+        "product_id": 1,
+        "product_name": "Silla Gamer",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Red & Black",
+        "notes": "Special Edition"
       },
-    "category": "100", 
-    "price": 15000.50, 
-    "has_promo": true,
-    "discount": 0.25
+      "category": "100",
+      "price": 15000.50,
+      "has_promo": true,
+      "discount": 0.25
     },
     {
       "post_id": 32,
       "date": "01-05-2021",
-      "product": 
-      {
-          "product_id": 2,
-          "product_name": "Headset RGB Inalámbrico",
-          "type": "Gamer",
-          "brand": "Racer",
-          "color": "Green with RGB",
-          "notes": "Sin Batería"
+      "product": {
+        "product_id": 2,
+        "product_name": "Headset RGB Inalámbrico",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Green with RGB",
+        "notes": "Sin Batería"
       },
-    "category": "120", 
-    "price": 2800.69, 
-    "has_promo": false,
-    "discount": 0.0
-    }]
+      "category": "120",
+      "price": 2800.69,
+      "has_promo": false,
+      "discount": 0.0
+    }
+  ]
+}
 ```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
@@ -677,6 +704,620 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `discount`      | `double` | **Required**. En caso de que un producto estuviese en promoción ,establece el monto de descuento. |
 
 </details>
+
+## Pruebas realizada en el proyecto
+
+#### Objetivo: Aplicar los contenidos dados hasta el momento durante el BOOTCAMP (Git, Java, Spring y Testing), haciendo principal hincapié en las validaciones y tipos de testing que pueden ser utilizados a partir de un enunciado propuesto, una especificación de requerimientos y documentación técnica.
+
+### Requerimientos técnicos funcionales
+
+<details>
+  <summary>T-0001</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### Requerimiento: US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
+
+
+| Referencia | Situaciones de entrada                               | Comportamiento Esperado                                                                                              |
+|:-----------|:-----------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0001     | Verificar que el usuario a seguir exista. (US-0001)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0002</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### Requerimiento US-0007: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor
+
+
+| Referencia | Situaciones de entrada                                      | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0002     | Verificar que el usuario a dejar de seguir exista. (US-0007)| **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0003</summary>
+
+#### Dev:
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+#### Requerimiento US-0008: Ordenamiento alfabético ascendente y descendente.
+
+
+| Referencia | Situaciones de entrada                                             | Comportamiento Esperado                                                                                              |
+|:-----------|:-------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0003     | Verificar que el tipo de ordenamiento alfabético exista (US-0008)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0004</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### Requerimiento US-0008: Ordenamiento alfabético ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                                           | Comportamiento Esperado                                                                                        |
+|:-----------|:---------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------|
+| T-0004     | Verificar el correcto ordenamiento ascendente y descendente por nombre. (US-0008)| **Devuelve la lista ordenada según el criterio solicitado**                                                                          |
+
+</details>
+
+<details>
+<summary>T-0005</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                            | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0005     | Verificar que el tipo de ordenamiento por fecha exista (US-0009)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+<summary>T-0006</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                            | Comportamiento Esperado                                                                                           |
+|:-----------|:------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
+| T-0006     | Verificar que el tipo de ordenamiento por fecha exista (US-0009)  | Verificar el correcto ordenamiento ascendente y descendente por fecha. (US-0009)                                                       |
+
+</details>
+
+<details>
+<summary>T-0007</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0002: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor.
+
+| Referencia | Situaciones de entrada                                                                     | Comportamiento Esperado                                                                                              |
+|:-----------|:-------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0007     | Verificar que la cantidad de seguidores de un determinado usuario sea correcta. (US-0002)  | Devuelve el cálculo correcto del total de la cantidad de seguidores que posee un usuario.  |
+
+</details>
+
+<details>
+<summary>T-0008</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                                                                                                                              | Comportamiento Esperado                                                                                                                                |
+|:-----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| T-0008     | Verificar que la consulta de publicaciones realizadas en las últimas dos semanas de un determinado vendedor sean efectivamente de las últimas dos semanas. (US-0006)| Devuelve únicamente los datos de las publicaciones que tengan fecha de publicación dentro de las últimas dos semanas a partir del día de la fecha.     |
+
+</details>
+
+### Requerimientos técnicos funcionales de integración(Bonus).
+
+<details>
+  <summary>INTEGRATION - US - 01</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 01: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
+
+| Situaciones de entrada                                                  | Comportamiento Esperado                                                        |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el correcto funcionamiento de la acción seguir a un vendedor | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 02</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 002 - Negative User ID
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 002 - Counts Zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 002 - Counts more than Zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 03</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 003 - Gets list more than zero
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 003 - Gets list more than zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 003 - Negative User ID
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 04</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 04 - Find By Followed
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 05</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 05 -  Create Post
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 06</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 06 - happyPath
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 06 - sadPath - There aren't posts of minus two weeks
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 07</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 07 - happyPath
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 07 - sadPath - UnfollowIdNotExist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 07 - sadPath - userIdNotExist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 08</summary>
+
+#### Dev:
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+La integración de este US - 008 se contempla en la integracion 003.
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 09</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 10</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 10 - Success
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 11</summary>
+
+#### Dev:
+
+
+#### INTEGRATION - US - 11 - Success
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 13</summary>
+
+#### Dev:
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+#### INTEGRATION - US - 13 - Should search by query and user_id
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### NTEGRATION - US - 13 - Should search by query
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 13 - Should not find anything
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 14</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 14 - Happy Path - Search post By startDate and endDate 
+
+| Situaciones de entrada                                                                    | Comportamiento Esperado                                                |
+|:------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------|
+| Verificar se realice correctamente la busqueda de post de productos enviando ambas fechas | **Se cumple:** Se obtiene una lista de Post con las fechas ingresadas. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 15</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 15 - User Not Found
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 15 - Post Not Found
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+### INTEGRATION - US - 015 - All Values Negative
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 015 - All Values Null
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 16</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 16 -  Delete Post
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 17</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history with promo
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history without promo
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Sad Path - no have posts
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Sad Path - User ID doesn't exist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+### Requerimientos técnicos funcionales unitarios (Bonus).
+
+<details>
+<summary>TB-0001</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB-0001 - Follow a specific user by ID
+
+| Referencia | Situaciones de entrada                | Comportamiento Esperado                                          |
+|:-----------|:--------------------------------------|:-----------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con ID existente. | **Se cumple:** El usuario realiza la funcionalidad sin problema. |
+
+#### TB-0001 - Follow someone they already follow
+
+| Referencia | Situaciones de entrada                | Comportamiento Esperado                                                                                               |
+|:-----------|:--------------------------------------|:----------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con que ya sigue. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ya sigue a la persona mediante una excepción. |
+
+#### TB-0001 - Follow a non existing user by ID
+
+| Referencia | Situaciones de entrada                 | Comportamiento Esperado                                                                                                                  |
+|:-----------|:---------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con que no existe. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que no existe el usuario a seguir mediante una excepción.            |
+
+#### TB-0001 - Usert with Zero ID and send exception BadRequestException invalid Ids.
+
+| Referencia | Situaciones de entrada        | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con ID 0. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que el usuario no existe mediante una excepción. |
+
+#### TB-0001 - Followed list update.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0005</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB - 0005 Validate request null send exception BadRequestException
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0010</summary>
+
+#### TB - 0010 Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0010    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0011</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+- 
+#### TB-0011 - Promotional products have an ID that does not exist
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0011    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0011 - Promotional products exist
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0011    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+
+</details>
+
+<details>
+<summary>TB-0013</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### TB - 0013 - User ID doesn't exist.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0013 - Query and User ID.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0013 - Success Only query.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0014</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB-0014 - valid endDate Null
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0014 - Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0014 - valid exception BadRequestException
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0015</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### TB - 0015 - Activate Promo Post Not Found
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0015 - Activate Promo User Not Found
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0015 - Activate Promo Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+
+## Coverage
+
+<image src="/src/main/resources/coverage.png" alt="Imagen de la covertura de los test realizados">
 
 ## Información del proyecto
 
@@ -727,3 +1368,18 @@ Trello sirve para organizar, coordinar y gestionar cualquier tipo de tareas, ya 
 Para seguir el cronograma de trabajo empleado por el equipo por favor revisar el siguiente enlace [Click acá](https://trello.com/b/SO9rx038/equipo1-wave27)
 
  </details>
+
+<details>
+<summary> Swagger </summary>
+
+## Introducción
+
+Swagger es una herramienta que permite documentar y probar APIs de manera interactiva. Facilita la visualización y la interacción con los endpoints de la API, lo que es útil tanto para desarrolladores como para testers.
+
+## Dependencia
+
+Para integrar Swagger en el proyecto, se ha añadido la siguiente dependencia en el archivo `pom.xml`.
+
+Swagger se agrego a este proyecto para dar visibilidad a los endpoints y los posibles RequestDTO que puedan ingresar asi como los distintos validaciones que tienen que cumplir los mismos.
+Si se quiere acceder a la pagina es suficiente levantar el proyecto y acceder a la siguiente URL -> http://localhost:8080/swagger-ui.html
+</details>

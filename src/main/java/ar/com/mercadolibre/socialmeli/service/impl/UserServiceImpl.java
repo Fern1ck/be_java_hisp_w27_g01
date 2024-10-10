@@ -8,10 +8,8 @@ import ar.com.mercadolibre.socialmeli.repository.IRepository;
 import ar.com.mercadolibre.socialmeli.service.IUserService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +51,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserFollowerListResponseDTO getFollowerList(Integer userId, String order) {
         if (userId == null || userId <= 0) {
-            throw new BadRequestException("User ID: " + userId + " is invalid.");
+                throw new BadRequestException("User ID: " + userId + " is invalid.");
         }
 
         if (!repository.existId(userId)) {
@@ -62,12 +60,13 @@ public class UserServiceImpl implements IUserService {
 
         User user = repository.getUserById(userId);
         List<UserNameResponseDTO> followers = repository.getUsers().stream()
-                .filter(u -> u.getFollowedIds() != null && u.getFollowedIds().contains(userId))
+                .   filter(u -> u.getFollowedIds() != null && u.getFollowedIds().contains(userId))
                 .map(u -> new UserNameResponseDTO(u.getUserId(), u.getUserName()))
                 .sorted(order != null && order.equalsIgnoreCase("name_desc") ?
                         Comparator.comparing(UserNameResponseDTO::getUserName).reversed() :
                         Comparator.comparing(UserNameResponseDTO::getUserName))
                 .collect(Collectors.toList());
+
 
         return new UserFollowerListResponseDTO(userId, user.getUserName(), followers);
     }
@@ -96,7 +95,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserOkResponseDTO followASpecificUserById(Integer userId, Integer userIdToFollow) {
 
-        if (userIdToFollow == null ||userId == null || userIdToFollow < 0 || userId < 0 || userId.equals(userIdToFollow)) {
+        if (userIdToFollow == null ||userId == null || userIdToFollow <= 0 || userId <= 0 || userId.equals(userIdToFollow)) {
             throw new BadRequestException("Invalid IDs");
         }
 
@@ -104,12 +103,13 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User to follow ID: " + userIdToFollow + " doesn't exist.");
         }
 
-        User user = repository.getUserById(userId);
         User userToFollow = repository.getUserById(userIdToFollow);
 
         if (userToFollow.getPosts() == null || userToFollow.getPosts().isEmpty()){
             throw new BadRequestException("User to follow is not a seller");
         }
+
+        User user = repository.getUserById(userId);
 
         if (user == null) {
             throw new BadRequestException("User ID: " + userId + " doesn't exist.");
@@ -119,8 +119,9 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("User ID: " + userId + " already follows User ID: " + userIdToFollow);
         }
 
-        user.addFollowedId(userIdToFollow);
-        repository.updateUser(user);
+        if (!repository.updateUser(user)){
+            throw new NotFoundException("Ocurio un error al actualizar el User ID: " + userId);
+        }
 
         return new UserOkResponseDTO("OK");
     }
@@ -129,10 +130,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserOkResponseDTO unfollowASpecificUserById(Integer userId, Integer userIdToUnfollow) {
 
-      /*  if (userId == null || userId <= 0 || !repository.existId(userId) ){
-            throw new BadRequestException("Invalid User ID: " +userId);
-        }*/
-        if ( !repository.existId(userId) ){
+        if (userId == null || userId <= 0 || !repository.existId(userId) ){
             throw new BadRequestException("Invalid User ID: " +userId);
         }
 
