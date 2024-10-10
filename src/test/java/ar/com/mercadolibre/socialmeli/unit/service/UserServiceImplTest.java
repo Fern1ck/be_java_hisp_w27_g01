@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import ar.com.mercadolibre.socialmeli.utils.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUsersWithPosts;
@@ -97,37 +98,33 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("TB-0002 - userId does not follow seller")
-    public void checkUserContainsUnfollowTB() {
+    @DisplayName("TB-0002 - User does not follow seller")
+    public void checkUserDoesNotFollowSeller() {
 
         // Arrange
-        Integer userToUnfollow = 3;
-
-        // Mockea user1 para que puedas controlar su comportamiento
-
-
-
-        // Mock del repository y el servicio
-        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
-        Mockito.when(repository.existId(userToUnfollow)).thenReturn(true);  // Simula que user1 no sigue a userToUnfollow
-        Mockito.when(repository.getUserById(user1.getUserId())).thenReturn(user1);
-        Mockito.when(user1.getFollowedIds().contains(userToUnfollow)).thenReturn(false);
+        Integer userIdToUnfollow = 3;
 
         // Act
+        User userMock = Mockito.mock(User.class);
+        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
+        Mockito.when(repository.existId(userIdToUnfollow)).thenReturn(true);
+        Mockito.when(repository.getUserById(user1.getUserId())).thenReturn(userMock);
+
+        Mockito.when(userMock.getFollowedIds()).thenReturn(Collections.emptyList());
+
         BadRequestException thrown = Assertions.assertThrows(
                 BadRequestException.class,
-                () -> userService.unfollowASpecificUserById(user1.getUserId(), userToUnfollow) // Asegúrate de que user1Mock no sea null
+                () -> userService.unfollowASpecificUserById(user1.getUserId(), userIdToUnfollow)
         );
 
         // Assert
-        Assertions.assertEquals("User ID: " + user1.getUserId() + " does not follow User ID: " + userToUnfollow, thrown.getMessage());
+        Assertions.assertEquals("User ID: " + user1.getUserId() + " does not follow User ID: " + userIdToUnfollow, thrown.getMessage());
 
         // Verificaciones
         verify(repository, atLeastOnce()).existId(user1.getUserId());
-        verify(repository, atLeastOnce()).existId(userToUnfollow);
+        verify(repository, atLeastOnce()).existId(userIdToUnfollow);
+        verify(repository, atLeastOnce()).getUserById(user1.getUserId());
     }
-
-
 
     @Test
     @DisplayName("US-0003 - Happy Path No Ordering")
