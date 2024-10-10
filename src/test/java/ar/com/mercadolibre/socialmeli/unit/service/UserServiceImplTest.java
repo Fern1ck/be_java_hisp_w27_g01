@@ -85,6 +85,7 @@ public class UserServiceImplTest {
         Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
         Mockito.when(repository.existId(userToUnfollow)).thenReturn(false);
 
+
         BadRequestException thrown = Assertions.assertThrows(
                 BadRequestException.class,
                 () -> userService.unfollowASpecificUserById(user1.getUserId(), userToUnfollow));
@@ -104,13 +105,13 @@ public class UserServiceImplTest {
 
         // Mockea user1 para que puedas controlar su comportamiento
 
-        List<Integer> followedIdsMock = Mockito.mock(List.class); // Mockea la lista de IDs seguidos
+
 
         // Mock del repository y el servicio
-        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);  // Mockea la existencia del user1
-        Mockito.when(repository.existId(userToUnfollow)).thenReturn(true);         // Mockea la existencia del usuario a dejar de seguir
-        Mockito.when(user1.getFollowedIds()).thenReturn(followedIdsMock);      // Mockea la lista de seguidos
-        Mockito.when(followedIdsMock.contains(userToUnfollow)).thenReturn(false);  // Simula que user1 no sigue a userToUnfollow
+        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
+        Mockito.when(repository.existId(userToUnfollow)).thenReturn(true);  // Simula que user1 no sigue a userToUnfollow
+        Mockito.when(repository.getUserById(user1.getUserId())).thenReturn(user1);
+        Mockito.when(user1.getFollowedIds().contains(userToUnfollow)).thenReturn(false);
 
         // Act
         BadRequestException thrown = Assertions.assertThrows(

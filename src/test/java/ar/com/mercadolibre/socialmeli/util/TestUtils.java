@@ -34,8 +34,8 @@ public class TestUtils {
 
         User user = new User(1, "Maria");
         List<Integer> followed= new ArrayList<>();
-        followed.add(1);
         followed.add(2);
+        followed.add(3);
         user.setFollowedIds(followed);
         return user;
     }
