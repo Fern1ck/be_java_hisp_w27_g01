@@ -1296,21 +1296,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### TB - 0015 - Activate Promo Post Not Found
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                             | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:---------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Intentar activar una promo a un vendedor sin post. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.  |
 
 #### TB - 0015 - Activate Promo User Not Found
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                       | Comportamiento Esperado                                                                                                  |
+|:-----------|:---------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Intentar activar una promo con usuario null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.         |
 
 #### TB - 0015 - Activate Promo Success
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                           |
+|:-----------|:-----------------------|:------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Activar una promo.     | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.  |
 
 </details>
 
