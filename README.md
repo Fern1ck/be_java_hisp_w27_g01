@@ -1368,3 +1368,18 @@ Trello sirve para organizar, coordinar y gestionar cualquier tipo de tareas, ya 
 Para seguir el cronograma de trabajo empleado por el equipo por favor revisar el siguiente enlace [Click acá](https://trello.com/b/SO9rx038/equipo1-wave27)
 
  </details>
+
+<details>
+<summary> Swagger </summary>
+
+## Introducción
+
+Swagger es una herramienta que permite documentar y probar APIs de manera interactiva. Facilita la visualización y la interacción con los endpoints de la API, lo que es útil tanto para desarrolladores como para testers.
+
+## Dependencia
+
+Para integrar Swagger en el proyecto, se ha añadido la siguiente dependencia en el archivo `pom.xml`.
+
+Swagger se agrego a este proyecto para dar visibilidad a los endpoints y los posibles RequestDTO que puedan ingresar asi como los distintos validaciones que tienen que cumplir los mismos.
+Si se quiere acceder a la pagina es suficiente levantar el proyecto y acceder a la siguiente URL -> http://localhost:8080/swagger-ui.html
+</details>
