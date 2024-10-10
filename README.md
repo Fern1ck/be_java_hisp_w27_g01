@@ -1179,13 +1179,49 @@ La integración de este US - 008 se contempla en la integracion 003.
 </details>
 
 <details>
+<summary>TB-0005</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB - 0005 Validate request null send exception BadRequestException
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
 <summary>TB-0010</summary>
+
+#### TB - 0010 Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0010    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
 
 </details>
 
 <details>
 <summary>TB-0011</summary>
 
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+- 
+#### TB-0011 - Promotional products have an ID that does not exist
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0011    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0011 - Promotional products exist
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0011    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+
 </details>
 
 <details>
@@ -1195,16 +1231,79 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 <details>
 <summary>TB-0013</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### TB - 0013 - User ID doesn't exist.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0013 - Query and User ID.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0013 - Success Only query.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0013    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
 
 </details>
 
 <details>
 <summary>TB-0014</summary>
 
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB-0014 - valid endDate Null
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0014 - Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB-0014 - valid exception BadRequestException
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
 </details>
 
 <details>
 <summary>TB-0015</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### TB - 0015 - Activate Promo Post Not Found
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0015 - Activate Promo User Not Found
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+#### TB - 0015 - Activate Promo Success
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0015    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
 
 </details>
 

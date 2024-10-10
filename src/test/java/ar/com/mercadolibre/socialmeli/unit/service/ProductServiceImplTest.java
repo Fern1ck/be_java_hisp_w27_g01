@@ -316,7 +316,7 @@ public class ProductServiceImplTest {
 
 
     @Test
-    @DisplayName("TB - 005 Validate request null send exception BadRequestException")
+    @DisplayName("TB - 0005 Validate request null send exception BadRequestException")
     public void createPostTest() {
         // Act
         BadRequestException exception = assertThrows(BadRequestException.class, () -> productService.createPost(null));
@@ -475,7 +475,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("TB-0014 - valid endDate Null")
+    @DisplayName("TB-0014 - Success")
     void searchPostsByDateTest() {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 25);
@@ -515,7 +515,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("TB-0011 - Promotional products have an ID that does not exist")
+    @DisplayName("TB-0011 - Promotional products exist")
     void getPromoProductsCountBySellerTest() {
         //Arrange
         Integer userId = 1;
