@@ -273,13 +273,44 @@ public class UserServiceImplTest {
 
         List<String> sortedNamesAsc4 = userNamesAsc4.stream().sorted().collect(Collectors.toList());
 
-        System.out.println("Sorted followed: " + sortedNamesAsc3);
-        System.out.println("Sorted followers: " + sortedNamesAsc4);
-
         // Assert
 
         assertEquals(sortedNamesAsc3, userNamesAsc3);
         assertEquals(sortedNamesAsc4, userNamesAsc4);
+    }
+
+    @Test
+    @DisplayName("T-0004 - User Non Existant")
+    public void orderByDateAscendentUserNonExistant() {
+        // Arrange
+        Integer userId = 784539575;
+        String order = "name_asc";
+
+        when(repository.existId(userId)).thenReturn(false);
+
+        // Act
+        NotFoundException notFoundException = assertThrows(NotFoundException.class, () -> userService.findByFollowed(userId, order));
+
+        // Assert
+        assertEquals("User ID: " + userId + " doesn't exist.", notFoundException.getMessage());
+    }
+
+    @Test
+    @DisplayName("T-0004 - Order Non Existant")
+    public void orderByDateAscendentOrderNonExistant() {
+        // Arrange
+        Integer userId = 2;
+        String order = "invalid_orderrr";
+
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUserById(userId)).thenReturn(users.get(1));
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> userService.findByFollowed(userId, order));
+
+        // Assert
+        assertEquals("Invalid order parameter: " + order, exception.getMessage());
+        verify(repository, times(0)).getUsers();
     }
 
     @Test
@@ -316,9 +347,6 @@ public class UserServiceImplTest {
         List<String> sortedNamesDesc4 = userNamesDesc4.stream()
                 .sorted()
                 .toList().reversed();
-
-        System.out.println("Sorted followed users: " + sortedNamesDesc3);
-        System.out.println("Sorted followers: " + sortedNamesDesc4);
 
         assertEquals(sortedNamesDesc3, userNamesDesc3);
         assertEquals(sortedNamesDesc4, userNamesDesc4);

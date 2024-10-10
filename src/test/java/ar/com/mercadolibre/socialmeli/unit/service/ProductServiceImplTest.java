@@ -355,7 +355,6 @@ public class ProductServiceImplTest {
 
         //Act
         List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", null);
-        System.out.println(response);
 
         //Assert
         verify(repository, times(1)).getUsers();
@@ -373,7 +372,6 @@ public class ProductServiceImplTest {
 
         //Act
         List<SearchResponseDTO> response = productService.searchPostByBrandAndName("silla", userId);
-        System.out.println(response);
 
         //Assert
         verify(repository, times(1)).existId(userId);

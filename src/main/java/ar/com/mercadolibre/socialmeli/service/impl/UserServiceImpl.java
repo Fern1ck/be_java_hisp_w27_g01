@@ -136,10 +136,6 @@ public class UserServiceImpl implements IUserService {
             throw new BadRequestException("Invalid User ID: " +userId);
         }
 
-        if ( !repository.existId(userId) ){
-            throw new BadRequestException("Invalid User ID: " +userId);
-        }
-
         if (userId.equals(userIdToUnfollow)){
             throw new BadRequestException("Invalid User and User ID to unfollow");
         }
