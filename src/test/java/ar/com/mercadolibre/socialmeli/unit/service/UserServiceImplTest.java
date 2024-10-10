@@ -247,7 +247,7 @@ public class UserServiceImplTest {
 
     @Test
     @DisplayName("T-0004 - Order Ascendent")
-    public void orderByDateAscendentHappy() {
+    public void orderByDateAscendentFollowedHappy() {
         // Arrange
         Integer id = 2;
         String order = "name_asc";
@@ -258,13 +258,30 @@ public class UserServiceImplTest {
 
         // Act
         List<UserFollowedResponseDTO> userFollowedResponseDTOS = userService.findByFollowed(id, order);
-        UserFollowerListResponseDTO userFollowerListResponseDTO = userService.getFollowerList(id, order);
 
         List<String> userNamesAsc3 = userFollowedResponseDTOS.getFirst().getFollowed().stream()
                 .map(UserNameResponseDTO::getUserName)
                 .collect(Collectors.toList());
 
         List<String> sortedNamesAsc3 = userNamesAsc3.stream().sorted().collect(Collectors.toList());
+
+        // Assert
+        assertEquals(sortedNamesAsc3, userNamesAsc3);
+    }
+
+    @Test
+    @DisplayName("T-0004 - Order Ascendent")
+    public void orderByDateAscendentFollowerHappy() {
+        // Arrange
+        Integer id = 2;
+        String order = "name_asc";
+
+        when(repository.existId(id)).thenReturn(true);
+        when(repository.getUserById(id)).thenReturn(users.get(1));
+        when(repository.getUsers()).thenReturn(users);
+
+        // Act
+        UserFollowerListResponseDTO userFollowerListResponseDTO = userService.getFollowerList(id, order);
 
         List<String> userNamesAsc4 = userFollowerListResponseDTO.getFollowers()
                 .stream()
@@ -274,10 +291,9 @@ public class UserServiceImplTest {
         List<String> sortedNamesAsc4 = userNamesAsc4.stream().sorted().collect(Collectors.toList());
 
         // Assert
-
-        assertEquals(sortedNamesAsc3, userNamesAsc3);
         assertEquals(sortedNamesAsc4, userNamesAsc4);
     }
+
 
     @Test
     @DisplayName("T-0004 - User Non Existant")
@@ -315,7 +331,7 @@ public class UserServiceImplTest {
 
     @Test
     @DisplayName("T-0004 - Order Descendent")
-    public void orderByDateDescendentHappy(){
+    public void orderByDateDescendentFollowedHappy(){
 
         // Arrange
         Integer id = 2;
@@ -325,10 +341,8 @@ public class UserServiceImplTest {
         when(repository.existId(id)).thenReturn(true);
         when(repository.getUserById(id)).thenReturn(users.get(1));
         when(repository.getUsers()).thenReturn(users);
-        // US-0003
+
         List<UserFollowedResponseDTO> userFollowedResponseDTOS = userService.findByFollowed(id, order);
-        // US-0004
-        UserFollowerListResponseDTO userFollowerListResponseDTO = userService.getFollowerList(id, order);
 
         // Assert
         List<String> userNamesDesc3 = userFollowedResponseDTOS.getFirst().getFollowed().stream()
@@ -339,6 +353,26 @@ public class UserServiceImplTest {
                 .sorted()
                 .toList().reversed();
 
+        assertEquals(sortedNamesDesc3, userNamesDesc3);
+    }
+
+    @Test
+    @DisplayName("T-0004 - Order Descendent")
+    public void orderByDateDescendentFollowerHappy(){
+
+        // Arrange
+        Integer id = 2;
+        String order = "name_desc";
+
+        // Act
+        when(repository.existId(id)).thenReturn(true);
+        when(repository.getUserById(id)).thenReturn(users.get(1));
+        when(repository.getUsers()).thenReturn(users);
+
+        UserFollowerListResponseDTO userFollowerListResponseDTO = userService.getFollowerList(id, order);
+
+        // Assert
+
         List<String> userNamesDesc4 = userFollowerListResponseDTO.getFollowers()
                 .stream()
                 .map(UserNameResponseDTO::getUserName)
@@ -348,7 +382,6 @@ public class UserServiceImplTest {
                 .sorted()
                 .toList().reversed();
 
-        assertEquals(sortedNamesDesc3, userNamesDesc3);
         assertEquals(sortedNamesDesc4, userNamesDesc4);
     }
 
