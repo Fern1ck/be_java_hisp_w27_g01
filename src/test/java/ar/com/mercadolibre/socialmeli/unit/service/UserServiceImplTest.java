@@ -29,6 +29,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static ar.com.mercadolibre.socialmeli.util.UtilTest.createUserWithFollowed;
@@ -476,6 +478,7 @@ public class UserServiceImplTest {
         Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
         Mockito.when(repository.existId(userToUnfollow)).thenReturn(false);
 
+
         BadRequestException thrown = Assertions.assertThrows(
                 BadRequestException.class,
                 () -> userService.unfollowASpecificUserById(user1.getUserId(), userToUnfollow));
@@ -486,6 +489,34 @@ public class UserServiceImplTest {
         verify(repository, atLeastOnce()).existId(userToUnfollow);
     }
 
+    @Test
+    @DisplayName("TB-0002 - User does not follow seller")
+    public void checkUserDoesNotFollowSeller() {
+
+        // Arrange
+        Integer userIdToUnfollow = 3;
+
+        // Act
+        User userMock = Mockito.mock(User.class);
+        Mockito.when(repository.existId(user1.getUserId())).thenReturn(true);
+        Mockito.when(repository.existId(userIdToUnfollow)).thenReturn(true);
+        Mockito.when(repository.getUserById(user1.getUserId())).thenReturn(userMock);
+
+        Mockito.when(userMock.getFollowedIds()).thenReturn(Collections.emptyList());
+
+        BadRequestException thrown = Assertions.assertThrows(
+                BadRequestException.class,
+                () -> userService.unfollowASpecificUserById(user1.getUserId(), userIdToUnfollow)
+        );
+
+        // Assert
+        Assertions.assertEquals("User ID: " + user1.getUserId() + " does not follow User ID: " + userIdToUnfollow, thrown.getMessage());
+
+        // Verificaciones
+        verify(repository, atLeastOnce()).existId(user1.getUserId());
+        verify(repository, atLeastOnce()).existId(userIdToUnfollow);
+        verify(repository, atLeastOnce()).getUserById(user1.getUserId());
+    }
 
     @Test
     @DisplayName("T-0003 - Happy Path No Ordering")
