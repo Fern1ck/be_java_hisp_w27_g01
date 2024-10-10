@@ -22,12 +22,12 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo POST
 
-```
-  http://localhost:8080/users/{userId}/follow/{userIdToFollow}
+```http
+http://localhost:8080/users/{userId}/follow/{userIdToFollow}
 ```
 
 ```http
-  Ejemplo:  /users/123/follow/234
+http://localhost:8080/users/123/follow/234
 ```
 
 | Response  |
@@ -50,21 +50,23 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followers/count
+```http
+http://localhost:8080/users/{userId}/followers/count
 ```
 
 ```http
-  Ejemplo: /users/234/followers/count/
+http://localhost:8080/users/234/followers/count/
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 234, 
-    "user_name": "vendedor1",
-    "followers_count": 35
-
+```json
+    {
+      "user_id": 234, 
+      "user_name": "vendedor1",
+      "followers_count": 35
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -80,32 +82,34 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followers/list
+```http
+http://localhost:8080/users/{userId}/followers/list
 ```
 ```http
-  Ejemplo: /users/234/followers/list
+http://localhost:8080/users/234/followers/list
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 234, 
-    "user_name": "vendedor1", 
-    "followers": [
-     {
-        "user_id": 4698,
-        "user_name": "usuario1"
-      },
+```json
       {
-        "user_name": "usuario2" 
-       },
-       {
-         "user_id": 2236,
-         "user_name": "usuario3"
-       }
-    ]
-
+        "user_id": 234, 
+        "user_name": "vendedor1", 
+        "followers": [
+         {
+            "user_id": 4698,
+            "user_name": "usuario1"
+          },
+          {
+            "user_name": "usuario2" 
+           },
+           {
+             "user_id": 2236,
+             "user_name": "usuario3"
+           }
+        ]
+      }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`  | `int`    | **Required**. Número que identifica a cada usuario. |
@@ -121,34 +125,35 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo GET
 
-```
-  http://localhost:8080/users/{userId}/followed/list
+```http
+http://localhost:8080/users/{userId}/followed/list
 ```
 
 ```http
-  Ejemplo: /users/4698/followed/list
+http://localhost:8080/users/4698/followed/list
 ```
 
 | Response  |
 | :-------- | 
-    
-    "user_id": 4698,
-    "user_name": "usuario1",
-    "followed": [
-                  {
-                    "user_id": 234,
-                    "user_name": "vendedor1"
-                  },
-                  {
-                    "user_name": "vendedor2" 
-                  },
-                  {
-                    "user_id": 6631,
-                    "user_name": "vendedor3"
-                  }
-
-                ]
-
+```json
+    {
+      "user_id": 4698,
+      "user_name": "usuario1",
+      "followed": [
+        {
+          "user_id": 234,
+          "user_name": "vendedor1"
+        },
+        {
+          "user_name": "vendedor2"
+        },
+        {
+          "user_id": 6631,
+          "user_name": "vendedor3"
+        }
+      ]
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -164,26 +169,27 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo POST
 
-```
-  http://localhost:8080/products/post
+```http
+http://localhost:8080/products/post
 ```
   | PAYLOAD  |
   | :-------- | 
-      
-        "user_id": 123,
-        "date": "29-04-2021",
-        "product": {
-                    "product_id": 1,
-                    "product_name": "Silla Gamer",
-                    "type": "Gamer",
-                    "brand": "Racer",
-                    "color": "Red & Black",
-                    "notes": "Special Edition"
-                  },
-        "category": 100, 
-        "price": 1500.50
-      
-    
+```json
+  {
+    "user_id": 123,
+    "date": "29-04-2021",
+    "product": {
+      "product_id": 1,
+      "product_name": "Silla Gamer",
+      "type": "Gamer",
+      "brand": "Racer",
+      "color": "Red & Black",
+      "notes": "Special Edition"
+    },
+    "category": 100,
+    "price": 1500.50  
+  }
+```   
 | Response  |
 | :-------- | 
 | `Status Code 200 (todo OK) - bodyless or dto` | 
@@ -213,52 +219,51 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/products/followed/{userId}/list
+```http
+http://localhost:8080/products/followed/{userId}/list
 ```
 ```http
-  Ejemplo: /products/followed/4698/list
+http://localhost:8080/products/followed/4698/list
 ```
 | Response  |
 | :-------- | 
-
-        "user_id": 4698, 
-        "posts": 
-        [
-          {
-            “user_id”: 123,
-            "post_id": 32,
-            "date": "01-05-2021",
-            "product": 
-            {
-              "product_id": 62,
-              "product_name": "Headset RGB Inalámbrico",
-              "type": "Gamer",
-              "brand": "Razer",
-              "color": "Green with RGB",
-              "notes": "Sin Batería"
-            },
-            "category": 120,
-            "price": 2800.69
-            },
-            {
-              “user_id”: 234, 
-              "post_id": 18,
-              "date": "29-04-2021",
-              "product":
-                {
-                  "product_id": 1,
-                  "productName": "Silla Gamer",
-                  "type": "Gamer",
-                  "brand": "Racer",
-                  "color": "Red & Black",
-                  "notes": "Special Edition"
-                  },
-              "category": 100,
-              "price": 15000.50
-           } 
-        ]
-
+```json
+{
+  "user_id": 4698,
+  "posts": [{
+    "user_id" : 123, 
+    "post_id" : 32,
+    "date" : "01-05-2021",
+    "product": {
+        "product_id": 62,
+        "product_name": "Headset RGB Inalámbrico",
+        "type": "Gamer",
+        "brand": "Razer",
+        "color": "Green with RGB",
+        "notes": "Sin Batería"
+      },
+      "category" : 120,
+      "price":2800.69
+    },
+    {
+      "user_id" : 234, 
+      "post_id" : 18, 
+      "date" : "29-04-2021",
+      "product" :
+      {
+        "product_id": 1,
+        "productName": "Silla Gamer",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Red & Black",
+        "notes": "Special Edition"
+      },
+      "category" : 100,
+      "price" : 15000.50
+    }
+  ]
+}
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `userId`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -273,11 +278,11 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
   
 #### Metodo POST
 
-```
-  http://localhost:8080/users/{userId}/unfollow/{userIdToUnfollow}
+```http
+http://localhost:8080/users/{userId}/unfollow/{userIdToUnfollow}
 ```
 ```http
-  Ejemplo: /users/234/unfollow/123
+http://localhost:8080/users/234/unfollow/123
 ```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
@@ -294,11 +299,17 @@ La fecha de entrega y cierre es: Martes 01/10/2024, 16:00hs ARG.
 
 #### Metodo GET
  
-```
+```http
   http://localhost:8080/users/{UserID}/followers/list?order=name_asc
   http://localhost:8080/users/{UserID}/followers/list?order=name_desc
   http://localhost:8080/users/{UserID}/followed/list?order=name_asc
   http://localhost:8080/users/{UserID}/followed/list?order=name_desc
+```
+```http
+  http://localhost:8080/users/1/followers/list?order=name_asc
+  http://localhost:8080/users/1/followers/list?order=name_desc
+  http://localhost:8080/users/1/followed/list?order=name_asc
+  http://localhost:8080/users/1/followed/list?order=name_desc
 ```
 
 | Order       | Description                       |
@@ -319,9 +330,13 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 3 y 4.
 
 #### Metodo GET
 
-```
+```http
   http://localhost:8080//products/followed/{userId}/list?order=date_asc
   http://localhost:8080/products/followed/{userId}/list?order=date_desc
+```
+```http
+  http://localhost:8080//products/followed/2/list?order=date_asc
+  http://localhost:8080/products/followed/2/list?order=date_desc
 ```
 | Order       | Description                                          |
 | :-----------| :--------------------------------------------------- |
@@ -339,28 +354,30 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
 #### Metodo POST
 
-```
+```http
   http://localhost:8080/products/promo-post
 ```
 | PAYLOAD  |
 | :-------- | 
-    
-    "user_id": 234,
-    "date": "29-04-2021",
-    "product":
-    {
-      "product_id": 1,
-      "product_name": "Silla Gamer",
-      "type": "Gamer",
-      "brand": "Racer",
-      "color": "Red & Black",
-      "notes": "Special Edition"
-    },
-    "category": 100,
-    "price": 1500.50,
-    "has_promo": true,
-    "discount": 0.25
-    
+```json
+
+{
+  "user_id": 234,
+  "date": "29-04-2021",
+  "product": {
+    "product_id": 1,
+    "product_name": "Silla Gamer",
+    "type": "Gamer",
+    "brand": "Racer",
+    "color": "Red & Black",
+    "notes": "Special Edition"
+  },
+  "category": 100,
+  "price": 1500.50,
+  "has_promo": true,
+  "discount": 0.25
+}
+```
 | Response  |
 | :-------- | 
 | `Status Code 200 (todo OK) - bodyless or dto` | 
@@ -396,16 +413,24 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
   
 #### Metodo GET
 
-```
+```htttp
   http://localhost:8080/products/promo-post/count?user_id={userId}
 ```
+
+```htttp
+  http://localhost:8080/products/promo-post/count?user_id=1
+```
+
 | Response  |
 | :-------- | 
 
-    "user_id" : 234, 
-    "user_name": "vendedor1",
-    "promo_products_count": 23
-
+```json
+    {
+      "user_id" : 234,
+      "user_name": "vendedor1",
+      "promo_products_count": 23
+    }
+```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `user_id`      | `int` | **Required**. Número que identifica a cada usuario. |
@@ -423,38 +448,38 @@ Nota: Este ordenamiento aplica solo para la funcionalidad 6.
 
 #### Metodo GET
 
-```
-  http://localhost:8080/products/search?query={query}&user_id={user_id}
+```http
+http://localhost:8080/products/search?query={query}&user_id={user_id}
 ```
 
 ```http
-  Ejemplo: localhost:8080/products/search?query=ams
-  Ejemplo: localhost:8080/products/search?query=ams&user_id=2
+http://localhost:8080/products/search?query=ams
+http://localhost:8080/products/search?query=ams&user_id=2
 ```
 
 | Response  |
 | :-------- | 
-
-    [
-      {
-        "post_id": 3,
-        "user_id": 2,
-        "product": {
-          "type": "Monitor",
-          "brand": "Samsung",
-          "color": "Negro",
-          "notes": "Ultra HD",
-          "product_id": 3,
-          "product_name": "Monitor 4K"
-        },
-        "date": "18-09-2024",
-        "category": 300,
-        "price": 30000.0,
-        "discount": 0.3,
-        "has_promo": true
-      }
-    ]
-
+```json
+  [
+    {
+      "post_id": 3,
+      "user_id": 2,
+      "product": {
+        "type": "Monitor",
+        "brand": "Samsung",
+        "color": "Negro",
+        "notes": "Ultra HD",
+        "product_id": 3,
+        "product_name": "Monitor 4K"
+      },
+      "date": "18-09-2024",
+      "category": 300,
+      "price": 30000.0,
+      "discount": 0.3,
+      "has_promo": true
+    }
+  ]
+```
 La respuesta es una lista con objetos con las siguientes propiedades:
 
 | Parameter      | Type     | Description                                                                                                                             |
@@ -486,14 +511,16 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### Metodo GET
 
-
+```http
+  http://localhost:8080/products/search/date?date_start={date_start}&date_end={date_end}
 ```
+```http
   http://localhost:8080/products/search/date?date_start=16/09/2021&date_end=18/09/2024
 ```
 
 | Response  |
 | :-------- | 
-
+```json
     [
       {
           "user_id": 2,
@@ -541,7 +568,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
           "price": 5000.0
       }
     ]
-
+```
 
 | Parameter    | Type     | Description                                                                                                                                      |
 |:-------------| :------- |:-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -559,7 +586,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
 
 #### Metodo PUT
-```
+```http
   http://localhost:8080/products/posts/activate-promo
 ```
 
@@ -582,7 +609,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 - [@Delfina Glavas](https://github.com/delfi85)
 
 #### Metodo DELETE
-```
+```http
   http://localhost:8080/products/post/{userId}/{postId}
 ```
 | Response                                        |
@@ -605,7 +632,7 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### Metodo GET
 
-```
+```http
   http://localhost:8080/products/promo-post/3/history
   http://localhost:8080/products/promo-post/3/history?with_promo=true
   http://localhost:8080/products/promo-post/3/history?with_promo=false
@@ -617,47 +644,47 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 | `false`    | **Devuelve solo los posts que no tienen descuentos.**    |
 
 
-
 | Response  |
 | :-------- | 
-```
-    "user_id": 234,
-    "user_name": "vendedor1",
-    "posts": [
+```json
+{
+  "user_id": 234,
+  "user_name": "vendedor1",
+  "posts": [
     {
       "post_id": 18,
       "date": "29-04-2021",
-      "product": 
-      {
-          "product_id": 1,
-          "product_name": "Silla Gamer",
-          "type": "Gamer",
-          "brand": "Racer",
-          "color": "Red & Black",
-          "notes": "Special Edition"
+      "product": {
+        "product_id": 1,
+        "product_name": "Silla Gamer",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Red & Black",
+        "notes": "Special Edition"
       },
-    "category": "100", 
-    "price": 15000.50, 
-    "has_promo": true,
-    "discount": 0.25
+      "category": "100",
+      "price": 15000.50,
+      "has_promo": true,
+      "discount": 0.25
     },
     {
       "post_id": 32,
       "date": "01-05-2021",
-      "product": 
-      {
-          "product_id": 2,
-          "product_name": "Headset RGB Inalámbrico",
-          "type": "Gamer",
-          "brand": "Racer",
-          "color": "Green with RGB",
-          "notes": "Sin Batería"
+      "product": {
+        "product_id": 2,
+        "product_name": "Headset RGB Inalámbrico",
+        "type": "Gamer",
+        "brand": "Racer",
+        "color": "Green with RGB",
+        "notes": "Sin Batería"
       },
-    "category": "120", 
-    "price": 2800.69, 
-    "has_promo": false,
-    "discount": 0.0
-    }]
+      "category": "120",
+      "price": 2800.69,
+      "has_promo": false,
+      "discount": 0.0
+    }
+  ]
+}
 ```
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
