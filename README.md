@@ -1159,33 +1159,33 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                        | Comportamiento Esperado                                                                                                          |
+|:----------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple: Status 200**, muestra la lista de todos los posteos Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history with promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                | Comportamiento Esperado                                                                                                              |
+|:----------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Param with-promo = true | **Se cumple: Status 200**, muestra la lista de los posteos con promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Happy Path - Get promo posts history without promo
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                  | Comportamiento Esperado                                                                                                              |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo.  Param with-promo = false | **Se cumple: Status 200**, muestra la lista de los posteos sin promo Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - no have posts
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                                | Comportamiento Esperado                                                                    |
+|:--------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no tenga posts. | **Se cumple: Status 400**. Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
 #### INTEGRATION - US - 17 - Sad Path - User ID doesn't exist
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                          | Comportamiento Esperado                              |
+|:--------------------------------------------------------------------------------|:-----------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo. Verifica que el usuario no exista | **Se cumple: Status 400**. El usuario es inexistente |
 
 </details>
 
