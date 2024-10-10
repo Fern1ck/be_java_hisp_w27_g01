@@ -1239,11 +1239,6 @@ La integración de este US - 008 se contempla en la integracion 003.
 <details>
 <summary>TB-0013</summary>
 
-</details>
-
-<details>
-<summary>TB-0013</summary>
-
 #### Dev:
 - [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
 
@@ -1319,21 +1314,10 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 </details>
 
-<details>
-<summary>TB-0016</summary>
-
-</details>
-
-<details>
-<summary>TB-0017</summary>
-
-</details>
 
 ## Coverage
 
 <image src="/src/main/resources/coverage.png" alt="Imagen de la covertura de los test realizados">
-
-
 
 ## Información del proyecto
 
