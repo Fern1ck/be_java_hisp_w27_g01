@@ -546,7 +546,7 @@ public class ProductIntegrationTest {
         LocalDate startDate = LocalDate.of(2024, 9, 27);
         LocalDate endDate = LocalDate.of(2024, 9, 28);
 
-        // Act and Assert
+        // Act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/search/date")
                         .param("date_start", startDate.toString())  // Cambié el nombre a 'date_start'
                         .param("date_end", endDate.toString()))    // Cambié el nombre a 'date_end'

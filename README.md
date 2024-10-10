@@ -1058,11 +1058,11 @@ La integración de este US - 008 se contempla en la integracion 003.
 #### Dev:
 - [@Stephanie Castillo](https://github.com/Stephaaniie)
 
-#### INTEGRATION - US - 14 - 
+#### INTEGRATION - US - 14 - Happy Path - Search post By startDate and endDate 
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                                    | Comportamiento Esperado                                                |
+|:------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------|
+| Verificar se realice correctamente la busqueda de post de productos enviando ambas fechas | **Se cumple:** Se obtiene una lista de Post con las fechas ingresadas. |
 
 </details>
 
