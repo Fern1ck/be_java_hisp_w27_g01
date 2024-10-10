@@ -66,7 +66,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 - Follow a specific user by ID")
+    @DisplayName("TB-0001 - Follow a specific user by ID")
     public void followASpecificUserByIdTest() {
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
@@ -103,7 +103,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 - Follow someone they already follow.")
+    @DisplayName("TB-0001 - Follow someone they already follow.")
     public void userWantsToFollowSomeoneTheyAlreadyFollow() {
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0 );
@@ -142,7 +142,7 @@ public class UserServiceImplTest {
 
 
     @Test
-    @DisplayName("T-0001 - Follow a non existing user by ID.")
+    @DisplayName("TB-0001 - Follow a non existing user by ID.")
     public void followNotExistASpecificUserByIdTest() {
         when(repository.existId(6)).thenReturn(false);
 
@@ -153,7 +153,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 Usuario quiere seguir a un usuario que no es vendedor.")
+    @DisplayName("TB-0001 Usuario quiere seguir a un usuario que no es vendedor.")
     public void userFollowToNotSellerTest() {
         User user1 = new User(1, "Fernando Baldrich");
 
@@ -168,7 +168,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 - Follow a non Seller user.")
+    @DisplayName("T-0001 - Follow no exist")
     public void userNotExistFollowTest() {
 
         Product product1 = new Product(1, "Silla gamer", "Gamer",  "Racer", "Red", "Special Edition");
@@ -194,7 +194,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 - Followed list update.")
+    @DisplayName("TB-0001 - Followed list update.")
     public void sizeListFollowTest() {
         Product product1 = new Product(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition");
         Post post1 = new Post(1, product1, LocalDate.of(2024, 9, 28), 100, 15000.00, false, 0.0);
@@ -229,7 +229,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0001 - Usert with Zero ID.")
+    @DisplayName("TB-0001 - Usert with Zero ID and send exception BadRequestException invalid Ids.")
     public void AUserCannotHaveZeroIdTest() {
 
         BadRequestException userNull = assertThrows(BadRequestException.class, () -> userService.followASpecificUserById(null,1));
@@ -598,8 +598,5 @@ public class UserServiceImplTest {
         verify(repository, times(0)).getUsers();
         verify(repository, times(0)).getUserById(anyInt());
     }
-
-
-
 }
 
