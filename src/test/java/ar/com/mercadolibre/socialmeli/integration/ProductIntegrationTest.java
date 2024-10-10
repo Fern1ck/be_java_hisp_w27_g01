@@ -101,7 +101,6 @@ public class ProductIntegrationTest {
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -124,7 +123,6 @@ public class ProductIntegrationTest {
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
                         .accept(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isBadRequest()) 
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
@@ -147,7 +145,7 @@ public class ProductIntegrationTest {
         String order = "date_asc";
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -165,7 +163,7 @@ public class ProductIntegrationTest {
         String order = "date_desc";
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -184,7 +182,7 @@ public class ProductIntegrationTest {
         String order = "assad";
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid order parameter: "+ order))
                 .andReturn();
@@ -217,7 +215,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/products/promo-post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -237,7 +234,7 @@ public class ProductIntegrationTest {
         Integer postId = 2;
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -256,7 +253,7 @@ public class ProductIntegrationTest {
         Integer postId = 2;
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isNotFound())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User ID: " + userId + " doesn´t exist."))
                 .andReturn();
@@ -384,7 +381,7 @@ public class ProductIntegrationTest {
         this.mockMvc.perform(
                         MockMvcRequestBuilders.get("/products/search")
                                 .param("query", "me")
-                ).andDo(print()).andExpect(status().isOk())
+                ).andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(3))
@@ -437,7 +434,7 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -457,7 +454,6 @@ public class ProductIntegrationTest {
 
         //act and assert
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.posts.length()").value(2))
@@ -481,7 +477,6 @@ public class ProductIntegrationTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId)
                         .param("with_promo", String.valueOf(withPromo)))
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.posts.length()").value(1))
                 .andExpect(jsonPath("$.posts[0].post_id").value(2))

@@ -67,7 +67,7 @@ public class UserIntegrationTest {
 
         Integer userId = 2;
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", userId).accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andReturn();
 
@@ -92,7 +92,7 @@ public class UserIntegrationTest {
 
         Integer userId = 3;
         this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", userId).accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User with the ID: 3 is not following anyone."))
                 .andReturn();
@@ -108,7 +108,6 @@ public class UserIntegrationTest {
         //Act & Assert
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", userId))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -134,7 +133,6 @@ public class UserIntegrationTest {
         //Act & Assert
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", userId))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -160,7 +158,6 @@ public class UserIntegrationTest {
 
         // Act & Assert
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", userId))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -181,7 +178,6 @@ public class UserIntegrationTest {
         //Act & Assert
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", userId))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -209,7 +205,6 @@ public class UserIntegrationTest {
         //Act & Assert
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", userId))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -234,7 +229,6 @@ public class UserIntegrationTest {
 
         // Act & Assert
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list", userId))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -254,7 +248,6 @@ public class UserIntegrationTest {
         // Act
         MvcResult response= mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponse))
@@ -280,7 +273,6 @@ public class UserIntegrationTest {
         // Act
         MvcResult response= mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json(jsonResponse))
                 .andReturn();
@@ -304,7 +296,6 @@ public class UserIntegrationTest {
         // Act
         MvcResult response= mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponse))
@@ -328,7 +319,6 @@ public class UserIntegrationTest {
         //Act
         MvcResult response= mockMvc.perform(post("/users/{userId}/follow/{userIdToFollow}", userId, followerId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponse))
