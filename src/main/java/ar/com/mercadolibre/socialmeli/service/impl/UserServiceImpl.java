@@ -144,6 +144,7 @@ public class UserServiceImpl implements IUserService {
 
         User user = repository.getUserById(userId);
 
+
         if (!user.getFollowedIds().contains(userIdToUnfollow)){
             throw new BadRequestException("User ID: " + userId + " does not follow User ID: " + userIdToUnfollow);
         }

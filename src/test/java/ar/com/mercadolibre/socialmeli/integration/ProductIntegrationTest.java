@@ -169,7 +169,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent")
+    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descendent")
     public void getRecentPostFromFollowedUsersDateDesc() throws Exception{
 
         Integer userId = 2;
@@ -257,7 +257,7 @@ public class ProductIntegrationTest {
     }
 
     @Test
-    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path")
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path 1")
     public void deletePostSad() throws Exception{
 
         Integer userId = 7;
