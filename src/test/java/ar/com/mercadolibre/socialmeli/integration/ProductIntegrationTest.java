@@ -242,7 +242,6 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
     }
@@ -258,7 +257,6 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.response").value("OK"));
     }
@@ -274,7 +272,6 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Post ID: 999 doesn´t exist."));
     }
@@ -290,7 +287,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -324,7 +320,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
