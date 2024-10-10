@@ -1,5 +1,6 @@
 package ar.com.mercadolibre.socialmeli.integration;
 
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
@@ -99,9 +100,9 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verificar el contentType UTF-8
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
         String jsonResponse = mvcResult.getResponse().getContentAsString();
@@ -120,9 +121,9 @@ public class ProductIntegrationTest {
 
         //act
         MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))  // Especificar UTF-8
-                .andExpect(status().isBadRequest())  // Verifica que es 400 BadRequest
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))  // Verifica el contentType UTF-8
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest()) 
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
 
@@ -172,7 +173,6 @@ public class ProductIntegrationTest {
     @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path")
     public void getRecentPostFromFollowedUsersDateSad() throws Exception{
 
-
         Integer userId = 2;
         String order = "assad";
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
@@ -218,7 +218,7 @@ public class ProductIntegrationTest {
         CreatePromoResponseDTO responseDto = OBJECT_MAPPER.readValue(jsonResponse, new TypeReference<>() {});
 
         // Assert
-        assertEquals(1, responseDto.getCreatedId());
+        assertEquals(2, responseDto.getCreatedId());
     }
 
     @Test
@@ -280,6 +280,21 @@ public class ProductIntegrationTest {
                         .content(requestJson))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - Activate Promo OK")
+    @Test
+    void integrationTestActivatePromoHappyPath() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(2, 1, 0.20); // Asume que el usuario y el post existen
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response").value("OK"));
     }
 
     @DisplayName("INTEGRATION - US - 015 - Post Not Found")
@@ -406,4 +421,113 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isEmpty());
     }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 05 -  Create Post")
+    public void integrationCreatePost() throws Exception {
+        //Arrange
+        PostRequestDTO postRequestDTO = new PostRequestDTO();
+        ProductRequestDTO product = new ProductRequestDTO(1, "Silla", "Domestica", "Easy", "Negra", "Es una buena silla");
+        postRequestDTO.setUserId(1);
+        postRequestDTO.setProduct(product);
+        postRequestDTO.setCategory(200);
+        postRequestDTO.setDate(LocalDate.now());
+        postRequestDTO.setPrice(3000.0);
+        String jsonString = "{\"response\":\"OK\"}";
+        String requestJson = OBJECT_MAPPER.writeValueAsString(postRequestDTO);
+
+        //Act
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/products/post")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        //Deserialize
+        String jsonResponse =  mvcResult.getResponse().getContentAsString();
+        PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
+        //Assert
+        assertNotNull(jsonResponse);
+        Assertions.assertEquals(jsonResponse, jsonString);
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history")
+    public void getPromoPostHistory() throws Exception {
+        //arrange
+        Integer userId = 2;
+
+        //act and assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(2))
+                .andExpect(jsonPath("$.posts[0].post_id").value(1))
+                .andExpect(jsonPath("$.posts[1].post_id").value(2))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Silla gamer"))
+                .andExpect(jsonPath("$.posts[1].product.product_name").value("Monitor 4K"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(false))
+                .andExpect(jsonPath("$.posts[1].has_promo").value(true));
+
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history whit promo")
+    public void getPromoPostHistoryH2() throws Exception {
+        //arrange
+        Integer userId = 2;
+        Boolean withPromo = true;
+
+        //act and assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId)
+                        .param("with_promo", String.valueOf(withPromo)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(1))
+                .andExpect(jsonPath("$.posts[0].post_id").value(2))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Monitor 4K"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(true));
+
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - no have posts")
+    public void getPromoPostHistoryS1() throws Exception {
+        //arrange
+        Integer userId = 6;
+        String expectedJson = "{\"message\":\"User ID: 6 doesn't have posts.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Sad Path - User ID doesn't exist. ")
+    public void getPromoPostHistoryS2() throws Exception {
+        //arrange
+        Integer userId = 999;
+        String expectedJson = "{\"message\":\"User ID: 999 doesn't exist.\"}";
+
+        //act
+        MvcResult response= this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = response.getResponse().getContentAsString();
+
+        //assert
+        Assertions.assertEquals(expectedJson, jsonResponse);
+    }
+
 }

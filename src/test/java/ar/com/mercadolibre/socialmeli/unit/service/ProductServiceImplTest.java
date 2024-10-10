@@ -3,6 +3,7 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.entity.Post;
@@ -13,6 +14,7 @@ import ar.com.mercadolibre.socialmeli.exception.NotFoundException;
 import ar.com.mercadolibre.socialmeli.repository.impl.RepositoryImpl;
 import ar.com.mercadolibre.socialmeli.service.impl.ProductServiceImpl;
 import ar.com.mercadolibre.socialmeli.util.UtilTest;
+import ar.com.mercadolibre.socialmeli.utils.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,8 +24,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -328,6 +332,21 @@ public class ProductServiceImplTest {
         assertEquals(1, promoPost.getCreatedId());
     }
 
+
+    @Test
+    @DisplayName("TB-005 Validate request null send exception BadRequestException")
+    public void createPostTest() {
+
+        PostRequestDTO postDto  = null;
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.createPost(postDto);
+        });
+
+        assertEquals("PublicationDTO is null", exception.getMessage());
+    }
+
     @DisplayName("TB - 0013 - Success Only query")
     @Test
     public void searchPostByBrandAndNameOnlyQueryTest(){
@@ -453,5 +472,107 @@ public class ProductServiceImplTest {
         verify(repository, times(1)).getUserById(1);
     }
 
+    @Test
+    @DisplayName("TB-0014 - valid exception BadRequestException")
+    void searchPostsByDateResponseExceptionTest() {
+        //Arrange
+        LocalDate startDate = null;
+        LocalDate endDate = null;
 
+        //Act
+        BadRequestException startDateNull = assertThrows(BadRequestException.class, ()-> productService.searchPostsByDate(startDate, endDate));
+
+        //Assert
+        assertEquals("Start date cannot be null", startDateNull.getMessage());
+    }
+
+    @Test
+    @DisplayName("TB-0014 - valid endDate Null")
+    void searchPostsByEndDateNullTest() {
+        //Arrange
+        LocalDate startDate = LocalDate.of(2024, 9, 27);
+
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,2, startDate,
+                new ProductResponseDTO(3, "Monitor 4K", "Monitor", "Samsung", "Negro", "Ultra HD"),300,
+                30000.0
+        );
+        PostDetailsResponseDTO postDetails2 = new PostDetailsResponseDTO(1, 1, LocalDate.now()
+                , new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"), 100,
+                15000.0);
+        List<User> users = new ArrayList<>();
+        when(repository.getUsers()).thenReturn(users);
+
+        List<PostDetailsResponseDTO> posts = users.stream()
+                .flatMap(user -> user.getPosts().stream()
+                        .filter(post -> !post.getDate().isBefore(startDate) && !post.getDate().isAfter(LocalDate.now()))
+                        .map(post -> new PostDetailsResponseDTO(user.getUserId(), post.getPostId(), post.getDate(), Utils.changeEntityToDTO(post.getProduct(), ProductResponseDTO.class), post.getCategory(), post.getPrice())))
+                .collect(Collectors.toList());
+
+
+        //Act
+        List<PostDetailsResponseDTO> response = productService.searchPostsByDate(startDate,null);
+
+        //Assert
+        assertEquals(response.size(), posts.size());
+    }
+
+    @Test
+    @DisplayName("TB-0014 - valid endDate Null")
+    void searchPostsByDateTest() {
+        //Arrange
+        LocalDate startDate = LocalDate.of(2024, 9, 25);
+        LocalDate p1Date = LocalDate.of(2024, 9, 28);
+        LocalDate endDate = LocalDate.now();
+
+        PostDetailsResponseDTO postDetails = new PostDetailsResponseDTO(1,1, p1Date,
+                new ProductResponseDTO(1, "Silla gamer", "Gamer", "Racer", "Red", "Special Edition"),100,
+                15000.0
+        );
+
+        List<User> users = UtilTest.createUsers();
+
+        when(repository.getUsers()).thenReturn(users);
+
+        //Act
+        List<PostDetailsResponseDTO> response = productService.searchPostsByDate(startDate,null);
+
+        //Assert
+        assertNotNull(response);
+        assertEquals(response.getFirst(), postDetails);
+        verify(repository, times(1)).getUsers();
+    }
+
+    @Test
+    @DisplayName("TB-0011 - Promotional products have an ID that does not exist")
+    void getPromoProductsCountBySellerNotExistsTest() {
+        //Arrange
+        Integer userId = 999;
+        when(repository.existId(userId)).thenReturn(false);
+
+        //Act
+        NotFoundException response = assertThrows(NotFoundException.class, () -> {
+            productService.getPromoProductsCountBySeller(userId);
+        });
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        assertEquals(response.getMessage(),"User ID: " + userId + " doesn´t exist.");
+    }
+
+    @Test
+    @DisplayName("TB-0011 - Promotional products have an ID that does not exist")
+    void getPromoProductsCountBySellerTest() {
+        //Arrange
+        Integer userId = 1;
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUserById(userId)).thenReturn(new User());
+
+        //Act
+        ProductPromoCountResponseDTO response = productService.getPromoProductsCountBySeller(userId);
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUserById(userId);
+        assertEquals(response.getPromoCount(),0);
+    }
 }

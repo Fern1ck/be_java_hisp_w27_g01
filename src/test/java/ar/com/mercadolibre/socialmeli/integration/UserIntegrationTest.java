@@ -337,5 +337,27 @@ public class UserIntegrationTest {
 
     }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 01 - User Follow")
+    public void integrationFollowASpecificUserById() throws Exception {
+        //Arrange
+        Integer userId = 1;
+        Integer followerId = 2;
+        String jsonResponse = "{\"response\":\"OK\"}";
+        //Act
+        MvcResult response= mockMvc.perform(post("/users/{userId}/follow/{userIdToFollow}", userId, followerId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(jsonResponse))
+                .andReturn();
+
+        String jResponse =  response.getResponse().getContentAsString();
+
+        // Assert
+        assertNotNull(jResponse);
+        assertEquals(jsonResponse, jResponse);
+    }
+
 
 }
