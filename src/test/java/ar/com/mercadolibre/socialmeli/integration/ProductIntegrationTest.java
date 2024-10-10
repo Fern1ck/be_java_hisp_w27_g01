@@ -81,7 +81,6 @@ public class ProductIntegrationTest {
 
         //Deserialize
         String jsonResponse =  mvcResult.getResponse().getContentAsString();
-        PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
         //Assert
         assertNotNull(jsonResponse);
         Assertions.assertEquals(jsonResponse, jsonString);
@@ -540,4 +539,33 @@ public class ProductIntegrationTest {
         Assertions.assertEquals(expectedJson, jsonResponse);
     }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 14 - Happy Path - Search post By startDate and endDate")
+    public void searchPostsByStartDateAndEndDate() throws Exception {
+        // Arrange
+        LocalDate startDate = LocalDate.of(2024, 9, 27);
+        LocalDate endDate = LocalDate.of(2024, 9, 28);
+
+        // Act and Assert
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/search/date")
+                        .param("date_start", startDate.toString())  // Cambié el nombre a 'date_start'
+                        .param("date_end", endDate.toString()))    // Cambié el nombre a 'date_end'
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andReturn();
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+
+        List<PostDetailsResponseDTO> postDetailsResponseDTOList = OBJECT_MAPPER.readValue(
+                jsonResponse,
+                new TypeReference<List<PostDetailsResponseDTO>>() {}
+        );
+
+        List<PostDetailsResponseDTO> sortedList = postDetailsResponseDTOList.stream()
+                .sorted(Comparator.comparing(PostDetailsResponseDTO::getDate))
+                .toList();
+
+        //Assert
+        Assertions.assertEquals(sortedList, postDetailsResponseDTOList);
+    }
 }
