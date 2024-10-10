@@ -1270,21 +1270,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### TB-0014 - valid endDate Null
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                      | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:--------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar los post cuando end_date es null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 #### TB-0014 - Success
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                                    | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:----------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar la lista de post enviando stard_date y end_date | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 #### TB-0014 - valid exception BadRequestException
 
-| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
-|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TB-0014    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+| Referencia | Situaciones de entrada                        | Comportamiento Esperado                                                                                                                                           |
+|:-----------|:----------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0014    | Solicitar los post cuando start_date es null. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error mediante una excepción.                                                  |
 
 </details>
 
