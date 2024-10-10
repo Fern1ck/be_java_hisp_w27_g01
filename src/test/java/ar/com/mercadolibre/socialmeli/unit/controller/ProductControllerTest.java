@@ -166,7 +166,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("US-0005 - Success")
+    @DisplayName("TB-0005 - Success")
     void createPostTest() {
         //Arrange
         PostDetailsResponseDTO postDto = new PostDetailsResponseDTO(1,2, LocalDate.of(2024, 9, 27),
@@ -190,7 +190,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("US-0014 - Success")
+    @DisplayName("TB-0014 - Success")
     void searchPostsByDateTest() {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 27);
@@ -204,5 +204,18 @@ public class ProductControllerTest {
 
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("TB-0011 - Success")
+    void getPromoProductsCountBySeller() {
+        Integer userId = 1;
+
+        when(productService.getPromoProductsCountBySeller(userId)).thenReturn(new ProductPromoCountResponseDTO());
+
+        ResponseEntity<?> response = productController.getPromoProductsCountBySeller(1);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(productService, times(1)).getPromoProductsCountBySeller(userId);
     }
 }
