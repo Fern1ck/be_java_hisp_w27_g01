@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -82,7 +83,20 @@ public class UserIntegrationTest {
                 .anyMatch(followedUser -> followedUser.getUserId() == 4);
 
         Assertions.assertTrue(userIdFound);
-}
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 04 - Find By Followed Sad Path")
+    public void findByFollowedSad() throws Exception{
+
+
+        Integer userId = 3;
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", userId).accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User with the ID: 3 is not following anyone."))
+                .andReturn();
+    }
 
     @DisplayName("INTEGRATION - US - 002 - Counts more than Zero")
     @Test

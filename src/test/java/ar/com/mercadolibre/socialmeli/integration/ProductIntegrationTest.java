@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -174,6 +175,21 @@ public class ProductIntegrationTest {
         Assertions.assertEquals(followersListResponseDTO.getPosts(), followersListResponseDTO.getPosts().stream().sorted(Comparator.comparing(PostDetailsResponseDTO::getDate)).toList());
     }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path")
+    public void getRecentPostFromFollowedUsersDateSad() throws Exception{
+
+
+        Integer userId = 2;
+        String order = "assad";
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/followed/{userId}/list", userId).param("order", order)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid order parameter: "+ order))
+                .andReturn();
+    }
+
     @DisplayName("INTEGRATION - US - 010 - Success")
     @Test
     void integrationTestCreatePromoPostSuccess() throws Exception {
@@ -229,6 +245,23 @@ public class ProductIntegrationTest {
         PostOkResponseDTO postOkResponseDTO = OBJECT_MAPPER.readValue(jsonResponse, PostOkResponseDTO.class);
 
         Assertions.assertEquals(postOkResponseDTO.getResponse(), "OK");
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path")
+    public void deletePostSad() throws Exception{
+
+
+        Integer userId = 7;
+        Integer postId = 2;
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User ID: " + userId + " doesn´t exist."))
+                .andReturn();
+
+
     }
 
     @DisplayName("INTEGRATION - US - 015 - User Not Found")
