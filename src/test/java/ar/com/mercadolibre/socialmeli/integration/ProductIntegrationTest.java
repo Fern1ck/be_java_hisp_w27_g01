@@ -275,9 +275,23 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
+    }
+
+    @DisplayName("INTEGRATION - US - 015 - Activate Promo OK")
+    @Test
+    void integrationTestActivatePromoHappyPath() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(2, 1, 0.20); // Asume que el usuario y el post existen
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response").value("OK"));
     }
 
     @DisplayName("INTEGRATION - US - 015 - Post Not Found")
@@ -291,7 +305,6 @@ public class ProductIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Post ID: 999 doesn´t exist."));
     }
@@ -307,7 +320,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
@@ -341,7 +353,6 @@ public class ProductIntegrationTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
