@@ -3,6 +3,7 @@ package ar.com.mercadolibre.socialmeli.unit.service;
 
 import ar.com.mercadolibre.socialmeli.dto.request.ActivatePromoRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.CreatePromoRequestDTO;
+import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.request.ProductRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.*;
 import ar.com.mercadolibre.socialmeli.entity.Post;
@@ -331,6 +332,21 @@ public class ProductServiceImplTest {
         assertEquals(1, promoPost.getCreatedId());
     }
 
+
+    @Test
+    @DisplayName("TB-005 Validate request null send exception BadRequestException")
+    public void createPostTest() {
+
+        PostRequestDTO postDto  = null;
+
+        // Act
+        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
+            productService.createPost(postDto);
+        });
+
+        assertEquals("PublicationDTO is null", exception.getMessage());
+    }
+
     @DisplayName("TB - 0013 - Success Only query")
     @Test
     public void searchPostByBrandAndNameOnlyQueryTest(){
@@ -457,7 +473,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0014 - valid exception BadRequestException")
+    @DisplayName("TB-0014 - valid exception BadRequestException")
     void searchPostsByDateResponseExceptionTest() {
         //Arrange
         LocalDate startDate = null;
@@ -471,7 +487,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0014 - valid endDate Null")
+    @DisplayName("TB-0014 - valid endDate Null")
     void searchPostsByEndDateNullTest() {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 27);
@@ -501,7 +517,7 @@ public class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("US-0014 - valid endDate Null")
+    @DisplayName("TB-0014 - valid endDate Null")
     void searchPostsByDateTest() {
         //Arrange
         LocalDate startDate = LocalDate.of(2024, 9, 25);
@@ -519,11 +535,44 @@ public class ProductServiceImplTest {
 
         //Act
         List<PostDetailsResponseDTO> response = productService.searchPostsByDate(startDate,null);
-        System.out.println(response);
 
         //Assert
         assertNotNull(response);
         assertEquals(response.getFirst(), postDetails);
         verify(repository, times(1)).getUsers();
+    }
+
+    @Test
+    @DisplayName("TB-0011 - Promotional products have an ID that does not exist")
+    void getPromoProductsCountBySellerNotExistsTest() {
+        //Arrange
+        Integer userId = 999;
+        when(repository.existId(userId)).thenReturn(false);
+
+        //Act
+        NotFoundException response = assertThrows(NotFoundException.class, () -> {
+            productService.getPromoProductsCountBySeller(userId);
+        });
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        assertEquals(response.getMessage(),"User ID: " + userId + " doesn´t exist.");
+    }
+
+    @Test
+    @DisplayName("TB-0011 - Promotional products have an ID that does not exist")
+    void getPromoProductsCountBySellerTest() {
+        //Arrange
+        Integer userId = 1;
+        when(repository.existId(userId)).thenReturn(true);
+        when(repository.getUserById(userId)).thenReturn(new User());
+
+        //Act
+        ProductPromoCountResponseDTO response = productService.getPromoProductsCountBySeller(userId);
+
+        //Assert
+        verify(repository, times(1)).existId(userId);
+        verify(repository, times(1)).getUserById(userId);
+        assertEquals(response.getPromoCount(),0);
     }
 }
