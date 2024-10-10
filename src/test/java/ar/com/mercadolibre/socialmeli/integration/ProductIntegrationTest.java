@@ -247,6 +247,22 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.message").value("User ID: 999 doesn´t exist."));
     }
 
+    @DisplayName("INTEGRATION - US - 015 - Activate Promo OK")
+    @Test
+    void integrationTestActivatePromoHappyPath() throws Exception {
+        // Arrange
+        ActivatePromoRequestDTO requestDTO = new ActivatePromoRequestDTO(2, 1, 0.20); // Asume que el usuario y el post existen
+        String requestJson = OBJECT_MAPPER.writeValueAsString(requestDTO);
+
+        // Act & Assert
+        mockMvc.perform(MockMvcRequestBuilders.put("/products/posts/activate-promo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response").value("OK"));
+    }
+
     @DisplayName("INTEGRATION - US - 015 - Post Not Found")
     @Test
     void integrationTestActivatePromoPostNotFound() throws Exception {
