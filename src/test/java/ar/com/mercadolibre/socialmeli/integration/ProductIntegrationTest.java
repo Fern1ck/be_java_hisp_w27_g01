@@ -408,9 +408,12 @@ public class ProductIntegrationTest {
     @Test
     @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history")
     public void getPromoPostHistory() throws Exception {
+        //arrange
         Integer userId = 2;
 
+        //act and assert
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.posts.length()").value(2))
@@ -420,6 +423,26 @@ public class ProductIntegrationTest {
                 .andExpect(jsonPath("$.posts[1].product.product_name").value("Monitor 4K"))
                 .andExpect(jsonPath("$.posts[0].has_promo").value(false))
                 .andExpect(jsonPath("$.posts[1].has_promo").value(true));
+
+    }
+
+    @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history whit promo")
+    public void getPromoPostHistoryH2() throws Exception {
+        //arrange
+        Integer userId = 2;
+        Boolean withPromo = true;
+
+        //act and assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId)
+                        .param("with_promo", String.valueOf(withPromo)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(1))
+                .andExpect(jsonPath("$.posts[0].post_id").value(2))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Monitor 4K"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(true));
 
     }
 
