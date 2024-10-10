@@ -1230,10 +1230,26 @@ La integración de este US - 008 se contempla en la integracion 003.
 </details>
 
 <details>
+<summary>TB-0002</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### TB-0002 - User does not follow seller
+
+| Referencia | Situaciones de entrada                                                        | Comportamiento Esperado                                                                                                         |
+|:-----------|:------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------|
+| TB-0002    | Dejar de seguir a un usuario(vendedor) que no está en su lista de seguidores. | Se cumple: Status 400. Notifica que ocurrió un error al intentar dar unfollow a un usuario que no sigue mediante una excepción. |
+
+</details>
+
+
+
+<details>
 <summary>TB-0004</summary>
 
 #### Dev:
-- [@Stephanie Castillo](https://github.com/Stephaaniie)
+- [@Delfina Glavas](https://github.com/delfi85)
 
 #### TB-0004 - User doesn't follow anyone
 
@@ -1441,4 +1457,5 @@ Para integrar Swagger en el proyecto, se ha añadido la siguiente dependencia en
 
 Swagger se agrego a este proyecto para dar visibilidad a los endpoints y los posibles RequestDTO que puedan ingresar asi como los distintos validaciones que tienen que cumplir los mismos.
 Si se quiere acceder a la pagina es suficiente levantar el proyecto y acceder a la siguiente URL -> http://localhost:8080/swagger-ui.html
+
 </details>
