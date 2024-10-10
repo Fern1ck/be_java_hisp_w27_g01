@@ -1124,6 +1124,18 @@ La integración de este US - 008 se contempla en la integracion 003.
 |:----------------------------------------------|:-------------------------------------------------------------------------------|
 |  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
 
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history with promo
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 17 - Happy Path - Get promo posts history without promo
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
 #### INTEGRATION - US - 17 - Sad Path - no have posts
 
 | Situaciones de entrada                        | Comportamiento Esperado                                                        |

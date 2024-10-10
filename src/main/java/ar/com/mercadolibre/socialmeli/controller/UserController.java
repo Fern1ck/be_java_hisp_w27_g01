@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<?> getFollowedList(@PathVariable Integer userId,
+    public ResponseEntity<?> getFollowedList(@PathVariable @Positive(message = "El id debe ser mayor a cero. ")  Integer userId,
                                              @RequestParam(required = false) String order) {
         return new ResponseEntity<>(userService.findByFollowed(userId, order), HttpStatus.OK);
     }
@@ -36,17 +36,15 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followASpecificUserById(@Validated @PathVariable
-                                                     @Positive Integer userId,
-                                                     @PathVariable
-                                                     @Positive Integer userIdToFollow){
+    public ResponseEntity<?> followASpecificUserById(@Validated @PathVariable @Positive(message = "El id debe ser mayor a cero.")  Integer userId,
+                                                                @PathVariable @Positive(message = "El id debe ser mayor a cero.")  Integer userIdToFollow){
         return new ResponseEntity<>(userService.followASpecificUserById(userId, userIdToFollow), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowASpecificUserById(
-            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userId,
-            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userIdToUnfollow) {
+            @PathVariable @Positive(message = "El id debe ser mayor a cero.") Integer userId,
+            @PathVariable @Positive(message = "El id debe ser mayor a cero.") Integer userIdToUnfollow) {
         return new ResponseEntity<>(userService.unfollowASpecificUserById(userId, userIdToUnfollow), HttpStatus.OK);
     }
 }

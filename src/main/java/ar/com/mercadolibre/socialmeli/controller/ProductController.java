@@ -6,6 +6,7 @@ import ar.com.mercadolibre.socialmeli.dto.request.PostRequestDTO;
 import ar.com.mercadolibre.socialmeli.dto.response.CreatePromoResponseDTO;
 import ar.com.mercadolibre.socialmeli.service.IProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable int userId,
+    public ResponseEntity<?> getRecentPostFromFollowedUsers(@PathVariable @Positive(message = "El id debe ser mayor a cero")  int userId,
                                                             @RequestParam(required = false) String order) {
         return new ResponseEntity<>(productService.getRecentPostFromFollowedUsers(userId, order), HttpStatus.OK);
     }
@@ -57,8 +58,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/post/{userId}/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable Integer userId,
-                                        @PathVariable Integer postId){
+    public ResponseEntity<?> deletePost(@PathVariable @Positive(message = "El id debe ser mayor a cero")  Integer userId,
+                                        @PathVariable @Positive(message = "El id debe ser mayor a cero")  Integer postId){
         return new ResponseEntity<>(productService.deletePost(userId, postId), HttpStatus.OK);
     }
 
@@ -69,7 +70,7 @@ public class ProductController {
     }
   
     @GetMapping("/promo-post/{userId}/history")
-    public ResponseEntity<?> getSellerPostListHistory(@PathVariable Integer userId,
+    public ResponseEntity<?> getSellerPostListHistory(@PathVariable @Positive(message = "El id debe ser mayor a cero")  Integer userId,
                                                       @RequestParam(required = false, name = "with_promo") Boolean withPromo){
      return new ResponseEntity<>(productService.getSellerPostListHistory(userId, withPromo), HttpStatus.OK);
     }
