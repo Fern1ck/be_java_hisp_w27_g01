@@ -83,7 +83,7 @@ public class UserIntegrationTest {
     }
 
     @Test
-    @DisplayName("INTEGRATION - US - 04 - Find By Followed Sad Path")
+    @DisplayName("INTEGRATION - US - 04 - Find By Followed Sad Path 1")
     public void findByFollowedSad() throws Exception{
 
 

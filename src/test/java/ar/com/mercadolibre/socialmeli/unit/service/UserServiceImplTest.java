@@ -246,7 +246,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - Order Ascendent")
+    @DisplayName("T-0004 - Order Ascendent Followed")
     public void orderByDateAscendentFollowedHappy() {
         // Arrange
         Integer id = 2;
@@ -270,7 +270,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - Order Ascendent")
+    @DisplayName("T-0004 - Order Ascendent Follower")
     public void orderByDateAscendentFollowerHappy() {
         // Arrange
         Integer id = 2;
@@ -330,7 +330,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - Order Descendent")
+    @DisplayName("T-0004 - Order Descendent Followed")
     public void orderByDateDescendentFollowedHappy(){
 
         // Arrange
@@ -357,7 +357,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - Order Descendent")
+    @DisplayName("T-0004 - Order Descendent Follower")
     public void orderByDateDescendentFollowerHappy(){
 
         // Arrange
@@ -386,7 +386,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - User doesn't follow anyone")
+    @DisplayName("TB-0004 - User doesn't follow anyone")
     public void noOrderAsc() {
 
         // Arrange
@@ -412,7 +412,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    @DisplayName("T-0004 - User doesn't have followers")
+    @DisplayName("TB-0004 - User doesn't have followers")
     public void noOrderDesc() {
         // Arrange
         Integer id = 1;

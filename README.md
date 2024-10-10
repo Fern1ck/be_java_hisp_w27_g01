@@ -902,9 +902,28 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 #### INTEGRATION - US - 04 - Find By Followed
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                | Comportamiento Esperado    |
+|:------------------------------------------------------|:---------------------------|
+| Verificar la lista de vendedores que sigue el usuario | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 04 - Find By Followed Sad Path 1
+
+| Situaciones de entrada                          | Comportamiento Esperado                                      |
+|:------------------------------------------------|:-------------------------------------------------------------|
+| Verificar que el usuario sigue a algún vendedor | **Se cumple:** Falla, el usuario no sigue a ningún vendedor. |
+
+#### INTEGRATION - US - 04 - INTEGRATION - US - 04 - Find By Followed Sad Path 2
+
+| Situaciones de entrada                 | Comportamiento Esperado                                      |
+|:---------------------------------------|:-------------------------------------------------------------|
+| Verificar que el ID del usuario existe | **Se cumple:** Falla, el ID del usuario ingresado no existe. |
+
+#### INTEGRATION - US - 04 - INTEGRATION - US - 04 - Find By Followed Sad Path 3
+
+| Situaciones de entrada                 | Comportamiento Esperado                               |
+|:---------------------------------------|:------------------------------------------------------|
+| Verificar el parámetro order ingresado | **Se cumple:** Falla, el parámetro order es inválido. |
+
 
 </details>
 
@@ -986,15 +1005,21 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                         | Comportamiento Esperado    |
+|:-----------------------------------------------|:---------------------------|
+| Verificar el ordenamiento ascendente por fecha | **Se cumple:** Código 200. |
 
-#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descendent
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                          | Comportamiento Esperado    |
+|:------------------------------------------------|:---------------------------|
+| Verificar el ordenamiento descendente por fecha | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path
+
+| Situaciones de entrada                 | Comportamiento Esperado                               |
+|:---------------------------------------|:------------------------------------------------------|
+| Verificar el parámetro order ingresado | **Se cumple:** Falla, el parámetro order es inválido. |
 
 </details>
 
@@ -1106,9 +1131,23 @@ La integración de este US - 008 se contempla en la integracion 003.
 
 #### INTEGRATION - US - 16 -  Delete Post
 
-| Situaciones de entrada                        | Comportamiento Esperado                                                        |
-|:----------------------------------------------|:-------------------------------------------------------------------------------|
-|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                       | Comportamiento Esperado    |
+|:---------------------------------------------|:---------------------------|
+| Eliminar un post con userId y postId válidos | **Se cumple:** Código 200. |
+
+#### INTEGRATION - US - 16 -  Delete Post Sad Path 1
+
+| Situaciones de entrada  | Comportamiento Esperado                               |
+|:------------------------|:------------------------------------------------------|
+| Verificar ID de usuario | **Se cumple:** Falla, el usuario ingresado no existe. |
+
+#### INTEGRATION - US - 16 -  Delete Post Sad Path 2
+
+| Situaciones de entrada | Comportamiento Esperado                            |
+|:-----------------------|:---------------------------------------------------|
+| Verificar ID de post   | **Se cumple:** Falla, el post ingresado no existe. |
+
+
 
 </details>
 
@@ -1187,6 +1226,26 @@ La integración de este US - 008 se contempla en la integracion 003.
 | Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
 |:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+<details>
+<summary>TB-0004</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### TB-0004 - User doesn't follow anyone
+
+| Referencia | Situaciones de entrada                     | Comportamiento Esperado                             |
+|:-----------|:-------------------------------------------|:----------------------------------------------------|
+| TB-0004    | Verificar que el usuario no sigue a nadie. | **Se cumple:** Devuelve el mensaje de la excepción. |
+
+#### TB-0004 - User doesn't have followers
+
+| Referencia | Situaciones de entrada                      | Comportamiento Esperado                         |
+|:-----------|:--------------------------------------------|:------------------------------------------------|
+| TB-0004    | Verificar que al usuario no lo sigue nadie. | Se cumple: Devuelve el mensaje de la excepción. |
 
 </details>
 
