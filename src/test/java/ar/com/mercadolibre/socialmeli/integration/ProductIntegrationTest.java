@@ -447,6 +447,24 @@ public class ProductIntegrationTest {
     }
 
     @Test
+    @DisplayName("INTEGRATION - US - 17 - Happy Path - Get promo posts history whitout promo")
+    public void getPromoPostHistoryH3() throws Exception {
+        //arrange
+        Integer userId = 2;
+        Boolean withPromo = false;
+
+        //act and assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/products/promo-post/{userId}/history", userId)
+                        .param("with_promo", String.valueOf(withPromo)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.posts.length()").value(1))
+                .andExpect(jsonPath("$.posts[0].post_id").value(1))
+                .andExpect(jsonPath("$.posts[0].product.product_name").value("Silla gamer"))
+                .andExpect(jsonPath("$.posts[0].has_promo").value(false));
+
+    } @Test
     @DisplayName("INTEGRATION - US - 17 - Sad Path - no have posts")
     public void getPromoPostHistoryS1() throws Exception {
         //arrange
