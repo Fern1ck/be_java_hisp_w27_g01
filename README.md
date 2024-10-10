@@ -826,19 +826,240 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 </details>
 
-### Requerimientos técnicos funcionales (Bonus).
+### Requerimientos técnicos funcionales de integración(Bonus).
 
 <details>
-<summary>TB-0001</summary>
+  <summary>INTEGRATION - US - 01</summary>
 
 #### Dev:
 - [@Stephanie Castillo](https://github.com/Stephaaniie)
 
 #### INTEGRATION - US - 01: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
 
-| Referencia            | Situaciones de entrada                                                 | Comportamiento Esperado                                                        |
-|:----------------------|:-----------------------------------------------------------------------|:-------------------------------------------------------------------------------|
-| INTEGRATION - US - 01 | Verificar el correcto funcionamiento de la acción seguir a un vendedor | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+| Situaciones de entrada                                                  | Comportamiento Esperado                                                        |
+|:------------------------------------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el correcto funcionamiento de la acción seguir a un vendedor | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 02</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 002 - Negative User ID
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 002 - Counts Zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 002 - Counts more than Zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 03</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### INTEGRATION - US - 003 - Gets list more than zero
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 003 - Gets list more than zero
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 003 - Negative User ID
+
+| Situaciones de entrada                       | Comportamiento Esperado                                                        |
+|:---------------------------------------------|:-------------------------------------------------------------------------------|
+| Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 04</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 04 - Find By Followed
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 05</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 05 -  Create Post
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 06</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 06 - happyPath
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 06 - sadPath - There aren't posts of minus two weeks
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 07</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### INTEGRATION - US - 07 - happyPath
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 07 - sadPath - UnfollowIdNotExist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 07 - sadPath - userIdNotExist
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 08</summary>
+
+#### Dev:
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+La integración de este US - 008 se contempla en la integracion 003.
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 09</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 09 - Get Recent Post From Followed Users - Order Descent
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 10</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### INTEGRATION - US - 10 - Success
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 11</summary>
+
+#### Dev:
+
+
+#### INTEGRATION - US - 11 - Success
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+<details>
+  <summary>INTEGRATION - US - 13</summary>
+
+#### Dev:
+
+
+#### INTEGRATION - US - 13 - Should search by query and user_id
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### NTEGRATION - US - 13 - Should search by query
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### INTEGRATION - US - 13 - Should not find anything
+
+| Situaciones de entrada                        | Comportamiento Esperado                                                        |
+|:----------------------------------------------|:-------------------------------------------------------------------------------|
+|  Verificar el usuario no tenga un ID negativo | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+</details>
+
+
+### Requerimientos técnicos funcionales unitarios (Bonus).
+
+<details>
+<summary>TB-0001</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
 
 #### TB-0001 - Follow a specific user by ID
 
