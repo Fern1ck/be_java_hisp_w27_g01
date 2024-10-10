@@ -705,6 +705,174 @@ La respuesta es una lista con objetos con las siguientes propiedades:
 
 </details>
 
+## Pruebas realizada en el proyecto
+
+#### Objetivo: Aplicar los contenidos dados hasta el momento durante el BOOTCAMP (Git, Java, Spring y Testing), haciendo principal hincapié en las validaciones y tipos de testing que pueden ser utilizados a partir de un enunciado propuesto, una especificación de requerimientos y documentación técnica.
+
+### Requerimientos técnicos funcionales
+
+<details>
+  <summary>T-0001</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### Requerimiento: US-0001: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
+
+
+| Referencia | Situaciones de entrada                               | Comportamiento Esperado                                                                                              |
+|:-----------|:-----------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0001     | Verificar que el usuario a seguir exista. (US-0001)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0002</summary>
+
+#### Dev:
+- [@Emilia Lascano](https://github.com/EmiLascano)
+
+#### Requerimiento US-0007: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor
+
+
+| Referencia | Situaciones de entrada                                      | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0002     | Verificar que el usuario a dejar de seguir exista. (US-0007)| **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0003</summary>
+
+#### Dev:
+- [@Fernando Baldrich](https://github.com/Fern1ck)
+
+#### Requerimiento US-0008: Ordenamiento alfabético ascendente y descendente.
+
+
+| Referencia | Situaciones de entrada                                             | Comportamiento Esperado                                                                                              |
+|:-----------|:-------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0003     | Verificar que el tipo de ordenamiento alfabético exista (US-0008)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+  <summary>T-0004</summary>
+
+#### Dev:
+- [@Delfina Glavas](https://github.com/delfi85)
+
+#### Requerimiento US-0008: Ordenamiento alfabético ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                                           | Comportamiento Esperado                                                                                        |
+|:-----------|:---------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------|
+| T-0004     | Verificar el correcto ordenamiento ascendente y descendente por nombre. (US-0008)| **Devuelve la lista ordenada según el criterio solicitado**                                                                          |
+
+</details>
+
+<details>
+<summary>T-0005</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                            | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0005     | Verificar que el tipo de ordenamiento por fecha exista (US-0009)  | **Se cumple:** Permite continuar con normalidad. **No se cumple:** Notifica la no existencia mediante una excepción. |
+
+</details>
+
+<details>
+<summary>T-0006</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                            | Comportamiento Esperado                                                                                           |
+|:-----------|:------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
+| T-0006     | Verificar que el tipo de ordenamiento por fecha exista (US-0009)  | Verificar el correcto ordenamiento ascendente y descendente por fecha. (US-0009)                                                       |
+
+</details>
+
+<details>
+<summary>T-0007</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0002: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor.
+
+| Referencia | Situaciones de entrada                                                                     | Comportamiento Esperado                                                                                              |
+|:-----------|:-------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| T-0007     | Verificar que la cantidad de seguidores de un determinado usuario sea correcta. (US-0002)  | Devuelve el cálculo correcto del total de la cantidad de seguidores que posee un usuario.  |
+
+</details>
+
+<details>
+<summary>T-0008</summary>
+
+#### Dev:
+- [@Matias Gregorat](https://github.com/81866-Gregorat-Matias)
+
+#### Requerimiento US-0009: Ordenamiento por fecha ascendente y descendente.
+
+| Referencia | Situaciones de entrada                                                                                                                                              | Comportamiento Esperado                                                                                                                                |
+|:-----------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| T-0008     | Verificar que la consulta de publicaciones realizadas en las últimas dos semanas de un determinado vendedor sean efectivamente de las últimas dos semanas. (US-0006)| Devuelve únicamente los datos de las publicaciones que tengan fecha de publicación dentro de las últimas dos semanas a partir del día de la fecha.     |
+
+</details>
+
+### Requerimientos técnicos funcionales (Bonus).
+
+<details>
+<summary>TB-0001</summary>
+
+#### Dev:
+- [@Stephanie Castillo](https://github.com/Stephaaniie)
+
+#### INTEGRATION - US - 01: Poder realizar la acción de “Follow” (seguir) a un determinado vendedor
+
+| Referencia            | Situaciones de entrada                                                 | Comportamiento Esperado                                                        |
+|:----------------------|:-----------------------------------------------------------------------|:-------------------------------------------------------------------------------|
+| INTEGRATION - US - 01 | Verificar el correcto funcionamiento de la acción seguir a un vendedor | **Se cumple:** Falla con usuarios inexistentes y si el usuario no es vendedor. |
+
+#### TB-0001 - Follow a specific user by ID
+
+| Referencia | Situaciones de entrada                | Comportamiento Esperado                                          |
+|:-----------|:--------------------------------------|:-----------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con ID existente. | **Se cumple:** El usuario realiza la funcionalidad sin problema. |
+
+#### TB-0001 - Follow someone they already follow
+
+| Referencia | Situaciones de entrada                | Comportamiento Esperado                                                                                               |
+|:-----------|:--------------------------------------|:----------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con que ya sigue. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ya sigue a la persona mediante una excepción. |
+
+#### TB-0001 - Follow a non existing user by ID
+
+| Referencia | Situaciones de entrada                 | Comportamiento Esperado                                                                                                                  |
+|:-----------|:---------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con que no existe. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que no existe el usuario a seguir mediante una excepción.            |
+
+#### TB-0001 - Usert with Zero ID and send exception BadRequestException invalid Ids.
+
+| Referencia | Situaciones de entrada        | Comportamiento Esperado                                                                                              |
+|:-----------|:------------------------------|:---------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario con ID 0. | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que el usuario no existe mediante una excepción. |
+
+#### TB-0001 - Followed list update.
+
+| Referencia | Situaciones de entrada | Comportamiento Esperado                                                                                                                                            |
+|:-----------|:-----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TB-0001    | Seguir a un usuario.   | Se cumple: Permite continuar con normalidad. No se cumple: Notifica que ocurrio un error al intentar actualizar los seguidores del usuario mediante una excepción. |
+
+</details>
+
+
 ## Información del proyecto
 
 <details>
