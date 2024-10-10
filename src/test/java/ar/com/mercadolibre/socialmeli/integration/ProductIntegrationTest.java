@@ -112,7 +112,6 @@ public class ProductIntegrationTest {
         Assertions.assertEquals(expectedDto, actualDto);
     }
 
-
     @Test
     @DisplayName("INTEGRATION - US - 06 - sadPath - There aren't posts of minus two weeks.")
     public void getRecentPostFromFollowedUsersS1() throws Exception {
@@ -133,9 +132,6 @@ public class ProductIntegrationTest {
         //assert
         Assertions.assertEquals(expectedJson, jsonResponse);
     }
-
-
-
 
     @Test
     @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users Order Ascendent")
@@ -176,7 +172,6 @@ public class ProductIntegrationTest {
     @Test
     @DisplayName("INTEGRATION - US - 09 - Get Recent Post From Followed Users - Sad Path")
     public void getRecentPostFromFollowedUsersDateSad() throws Exception{
-
 
         Integer userId = 2;
         String order = "assad";
@@ -248,7 +243,6 @@ public class ProductIntegrationTest {
     @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path")
     public void deletePostSad() throws Exception{
 
-
         Integer userId = 7;
         Integer postId = 2;
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
@@ -257,8 +251,20 @@ public class ProductIntegrationTest {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User ID: " + userId + " doesn´t exist."))
                 .andReturn();
+    }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 16 -  Delete Post Sad Path 2")
+    public void deletePostSad2() throws Exception{
 
+        Integer userId = 2;
+        Integer postId = 8;
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/products/post/{userId}/{postId}", userId, postId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Post ID: " + postId + " doesn´t exist."))
+                .andReturn();
     }
 
     @DisplayName("INTEGRATION - US - 015 - User Not Found")

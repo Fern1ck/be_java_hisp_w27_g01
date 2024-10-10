@@ -98,6 +98,34 @@ public class UserIntegrationTest {
                 .andReturn();
     }
 
+    @Test
+    @DisplayName("INTEGRATION - US - 04 - Find By Followed Sad Path 2")
+    public void findByFollowedSad2() throws Exception{
+
+        Integer userId = 7;
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", userId).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User ID: " + userId + " doesn't exist."))
+                .andReturn();
+    }
+
+
+    @Test
+    @DisplayName("INTEGRATION - US - 04 - Find By Followed Sad Path 3")
+    public void findByFollowedSad3() throws Exception{
+
+        Integer userId = 2;
+        String order = "assad";
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list", userId).param("order", order)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid order parameter: "+ order))
+                .andReturn();
+    }
+
+
     @DisplayName("INTEGRATION - US - 002 - Counts more than Zero")
     @Test
     void integrationTestGetFollowersCountsMoreThanZero() throws Exception {
